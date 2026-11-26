@@ -11,7 +11,7 @@
   const dialogBody = document.getElementById("dialog-body");
   const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audio: null };
 
-  const toArabicNumber = (value) => String(value).replace(/\\d/g, digit => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
+  const toArabicNumber = (value) => String(value).replace(/\d/g, digit => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
   const escapeHtml = (value) => String(value).replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[char]));
 
   function openDialog() {
