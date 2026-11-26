@@ -32,10 +32,32 @@ button { font: inherit; }
   padding: max(12px, env(safe-area-inset-top)) 24px max(26px, env(safe-area-inset-bottom));
   overflow: hidden;
 }
-.star-ornament { position: absolute; z-index: 0; width: clamp(76px, 22vw, 112px); height: auto; color: #c9789c; opacity: .22; pointer-events: none; }
-.star-ornament svg { display: block; width: 100%; height: auto; fill: none; stroke: currentColor; stroke-width: 1.15; stroke-linecap: round; stroke-linejoin: round; }
-.star-top-left { top: 10px; left: 8px; }
-.star-bottom-right { right: 8px; bottom: 10px; }
+.app-shell::before,
+.app-shell::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: clamp(150px, 42vw, 220px);
+  height: clamp(190px, 48vw, 250px);
+  background-image: url("islamic-pattern-4096.svg");
+  background-repeat: no-repeat;
+  background-size: 430px 430px;
+  opacity: .20;
+  filter: hue-rotate(285deg) saturate(.62) blur(1.25px);
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 8%, rgba(0,0,0,.78) 42%, transparent 76%);
+  mask-image: radial-gradient(ellipse at center, #000 8%, rgba(0,0,0,.78) 42%, transparent 76%);
+}
+.app-shell::before {
+  top: -28px;
+  left: -42px;
+  background-position: left top;
+}
+.app-shell::after {
+  right: -42px;
+  bottom: -24px;
+  background-position: right bottom;
+}
 .hero, .choice-area, .home-footer { position: relative; z-index: 1; }
 .topbar { width: 100%; display: flex; align-items: center; gap: 10px; min-height: 42px; }
 .brand-mark { width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid #efd1df; border-radius: 12px; background: rgba(255,255,255,.7); }
