@@ -206,6 +206,7 @@ h1 span { color: var(--pink-deep); }
 .dhikr-dialog h2 { flex: 0 0 auto; margin: 3px 0 14px; }
 .dialog-body { width: 100%; overflow-y: auto; overscroll-behavior: contain; padding: 0 2px 5px; }
 .dhikr-progress { display:flex; align-items:center; justify-content:space-between; gap:10px; margin: 0 0 12px; color:#9c7c8c; font-size:13px; font-weight:700; }
+.dhikr-progress { margin-inline: 12px; }
 .dhikr-count-label { color:#bd668e; }
 .dhikr-highlight {
   padding: clamp(20px, 4vw, 30px) clamp(16px, 4vw, 28px);
