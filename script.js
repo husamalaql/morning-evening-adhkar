@@ -6,6 +6,7 @@
   const settingsButton = document.getElementById("settings-button");
   const backdrop = document.getElementById("dialog-backdrop");
   const closeButton = document.getElementById("dialog-close");
+  const listButton = document.getElementById("dhikr-list-button");
   const title = document.getElementById("dialog-title");
   const symbol = document.getElementById("dialog-symbol");
   const dialogBody = document.getElementById("dialog-body");
@@ -41,6 +42,9 @@
   function render() {
     const item = state.items[state.index];
     if (!item) return;
+    listButton.hidden = false;
+    listButton.setAttribute("aria-label", "عرض قائمة الأذكار");
+    listButton.title = "عرض قائمة الأذكار";
     stopAudio();
     state.count = item.count > 1 ? 1 : 0;
     title.textContent = state.section === "morning" ? "أذكار الصباح" : "أذكار المساء";
@@ -79,6 +83,41 @@
     });
     document.getElementById("counter-button").addEventListener("click", handleCounter);
     setupAudio(item);
+  }
+
+  function renderDhikrList() {
+    stopAudio();
+    listButton.hidden = false;
+    listButton.setAttribute("aria-label", "العودة إلى الذكر");
+    listButton.title = "العودة إلى الذكر";
+    dialogBody.innerHTML = `
+      <div class="dhikr-list" aria-label="قائمة الأذكار">
+        ${state.items.map((item, index) => {
+          const fullText = String(item.text || "").trim();
+          const summary = item.kind === "quran"
+            ? item.title
+            : fullText.length <= 105
+              ? fullText
+              : fullText.slice(0, 105).trimEnd() + "…";
+          return `
+            <button class="dhikr-list-item ${index === state.index ? "is-current" : ""}" type="button" data-dhikr-index="${index}">
+              <span class="dhikr-list-item-top">
+                <strong>${escapeHtml(item.title || (item.kind === "quran" ? "سورة قرآنية" : "ذكر"))}</strong>
+                <small>${item.count > 1 ? formatRepeatCount(item.count) : "مرة"}</small>
+              </span>
+              <span class="dhikr-list-summary">${escapeHtml(summary)}</span>
+            </button>`;
+        }).join("")}
+      </div>
+    `;
+    dialogBody.querySelectorAll("[data-dhikr-index]").forEach(button => {
+      button.addEventListener("click", () => {
+        state.index = Number(button.dataset.dhikrIndex);
+        state.explanationOpen = false;
+        render();
+        dialogBody.scrollTop = 0;
+      });
+    });
   }
 
   function updateCounterButton() {
@@ -261,6 +300,7 @@
   sectionButtons.forEach(button => button.addEventListener("click", () => startSection(button.dataset.section)));
   settingsButton.addEventListener("click", () => {
     title.textContent = "الإعدادات";
+    listButton.hidden = true;
     symbol.className = "dialog-symbol settings-dialog-symbol";
     symbol.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>';
     dialogBody.innerHTML = `
@@ -280,7 +320,11 @@
     });
     openDialog();
   });
-  closeButton.addEventListener("click", closeDialog);
+  listButton.addEventListener("click", () => {
+    if (listButton.getAttribute("aria-label") === "العودة إلى الذكر") render();
+    else renderDhikrList();
+  });
+    closeButton.addEventListener("click", closeDialog);
   backdrop.addEventListener("click", event => { if (event.target === backdrop) closeDialog(); });
   document.addEventListener("keydown", event => { if (event.key === "Escape" && !backdrop.hidden) closeDialog(); });
 
