@@ -32,29 +32,10 @@ button { font: inherit; }
   padding: max(12px, env(safe-area-inset-top)) 24px max(26px, env(safe-area-inset-bottom));
   overflow: hidden;
 }
-.app-shell::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 7px;
-  pointer-events: none;
-  opacity: .34;
-  background-image: repeating-linear-gradient(45deg, transparent 0 19px, rgba(196, 119, 153, .12) 19px 20px, transparent 20px 39px), repeating-linear-gradient(-45deg, transparent 0 19px, rgba(196, 119, 153, .10) 19px 20px, transparent 20px 39px);
-  mask-image: radial-gradient(ellipse at center, #000 0%, transparent 75%);
-}
-.ambient {
-  position: absolute;
-  z-index: -1;
-  pointer-events: none;
-  border: 1px solid rgba(206, 132, 164, .13);
-  transform: rotate(45deg);
-}
-.ambient-one { width: 230px; height: 230px; top: 110px; right: -180px; border-radius: 34px; }
-.ambient-two { width: 180px; height: 180px; bottom: 70px; left: -145px; border-radius: 28px; }
-.corner-ornament { position: absolute; z-index: 0; width: clamp(112px, 34vw, 166px); height: auto; color: #c9789c; opacity: .32; pointer-events: none; }
-.corner-ornament svg { display: block; width: 100%; height: auto; fill: none; stroke: currentColor; stroke-width: 1.15; stroke-linecap: round; stroke-linejoin: round; }
-.corner-top-left { top: 0; left: 0; }
-.corner-bottom-right { right: 0; bottom: 0; }
+.star-ornament { position: absolute; z-index: 0; width: clamp(76px, 22vw, 112px); height: auto; color: #c9789c; opacity: .22; pointer-events: none; }
+.star-ornament svg { display: block; width: 100%; height: auto; fill: none; stroke: currentColor; stroke-width: 1.15; stroke-linecap: round; stroke-linejoin: round; }
+.star-top-left { top: 10px; left: 8px; }
+.star-bottom-right { right: 8px; bottom: 10px; }
 .hero, .choice-area, .home-footer { position: relative; z-index: 1; }
 .topbar { width: 100%; display: flex; align-items: center; gap: 10px; min-height: 42px; }
 .brand-mark { width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid #efd1df; border-radius: 12px; background: rgba(255,255,255,.7); }
