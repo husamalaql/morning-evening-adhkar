@@ -681,3 +681,14 @@ h1 span { color: var(--pink-deep); }
   .dhikr-list-item-top strong { font-size: 14px; }
   .dhikr-list-summary { font-size: 15px; }
 }
+
+
+/* Audio button remains visible when a recording is unavailable. */
+.audio-toggle-button.is-unavailable,
+.audio-toggle-button:disabled {
+  opacity: .32;
+  filter: grayscale(1);
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+}
