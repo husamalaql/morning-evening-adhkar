@@ -32,44 +32,19 @@ button { font: inherit; }
   padding: max(12px, env(safe-area-inset-top)) 24px max(26px, env(safe-area-inset-bottom));
   overflow: hidden;
 }
-.app-shell::before,
-.app-shell::after {
+.app-shell::before {
   content: "";
   position: absolute;
   z-index: 0;
   inset: 0;
   background-image: url("islamic-pattern-4096.svg");
+  background-size: 310px 310px;
   background-repeat: repeat;
+  opacity: .34;
+  filter: hue-rotate(285deg) saturate(.82);
   pointer-events: none;
-}
-.app-shell::before {
-  background-size: 340px 340px;
-  opacity: .30;
-  filter: hue-rotate(285deg) saturate(.78);
-  -webkit-mask-image:
-    linear-gradient(to bottom, #000 0%, transparent 30%, transparent 70%, #000 100%),
-    linear-gradient(to right, #000 0%, transparent 24%, transparent 76%, #000 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to bottom, #000 0%, transparent 30%, transparent 70%, #000 100%),
-    linear-gradient(to right, #000 0%, transparent 24%, transparent 76%, #000 100%);
-  mask-composite: intersect;
-}
-.app-shell::after {
-  background-size: 250px 250px;
-  opacity: .25;
-  filter: hue-rotate(285deg) saturate(.9);
-  -webkit-mask-image:
-    radial-gradient(ellipse at top left, #000 0%, transparent 34%),
-    radial-gradient(ellipse at top right, #000 0%, transparent 34%),
-    radial-gradient(ellipse at bottom left, #000 0%, transparent 34%),
-    radial-gradient(ellipse at bottom right, #000 0%, transparent 34%);
-  -webkit-mask-composite: source-over;
-  mask-image:
-    radial-gradient(ellipse at top left, #000 0%, transparent 34%),
-    radial-gradient(ellipse at top right, #000 0%, transparent 34%),
-    radial-gradient(ellipse at bottom left, #000 0%, transparent 34%),
-    radial-gradient(ellipse at bottom right, #000 0%, transparent 34%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 28%, rgba(0,0,0,.45) 62%, #000 100%);
+  mask-image: radial-gradient(ellipse at center, transparent 28%, rgba(0,0,0,.45) 62%, #000 100%);
 }
 .hero, .choice-area, .home-footer { position: relative; z-index: 1; }
 .topbar { width: 100%; display: flex; align-items: center; gap: 10px; min-height: 42px; }
