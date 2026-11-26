@@ -86,7 +86,7 @@
     if (!button || !item || item.count <= 1) return;
     button.textContent = toArabicNumber(state.count);
     button.classList.remove("is-complete");
-    button.style.setProperty("--fill", (Math.max(0, (state.count - 1) / item.count) * 100) + "%");
+    button.style.setProperty("--fill", (Math.max(0, state.count / item.count) * 100) + "%");
   }
 
   function handleCounter() {
