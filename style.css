@@ -32,6 +32,16 @@ button { font: inherit; }
   padding: max(24px, env(safe-area-inset-top)) 24px max(26px, env(safe-area-inset-bottom));
   overflow: hidden;
 }
+.app-shell::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 7px;
+  pointer-events: none;
+  opacity: .34;
+  background-image: repeating-linear-gradient(45deg, transparent 0 19px, rgba(196, 119, 153, .12) 19px 20px, transparent 20px 39px), repeating-linear-gradient(-45deg, transparent 0 19px, rgba(196, 119, 153, .10) 19px 20px, transparent 20px 39px);
+  mask-image: radial-gradient(ellipse at center, #000 0%, transparent 75%);
+}
 .ambient {
   position: absolute;
   z-index: -1;
@@ -46,7 +56,10 @@ button { font: inherit; }
 .brand-mark svg { width: 23px; fill: none; stroke: var(--pink-deep); stroke-width: 1.5; stroke-linejoin: round; }
 .brand-name { font-size: 15px; font-weight: 800; letter-spacing: -.3px; }
 .topbar-caption { margin-right: auto; color: #b18d9e; font-family: "Amiri", serif; font-size: 14px; }
-.hero { position: relative; text-align: center; width: 100%; margin-top: clamp(54px, 11vh, 92px); }
+.hero { position: relative; text-align: center; width: 100%; margin-top: clamp(54px, 11vh, 92px); padding: 20px 10px 22px; }
+.hero::before, .hero::after { content: "✧"; position: absolute; top: 50%; color: #d99ab5; font-family: "Amiri", serif; font-size: 23px; opacity: .8; transform: translateY(-50%); }
+.hero::before { right: 0; }
+.hero::after { left: 0; }
 .ornament { color: #d78eac; font-family: "Amiri", serif; }
 .ornament-top { font-size: 37px; line-height: 1; margin-bottom: 17px; opacity: .85; }
 .eyebrow { margin: 0 0 13px; color: var(--pink-deep); font-family: "Amiri", serif; font-size: 16px; letter-spacing: .2px; }
@@ -69,10 +82,12 @@ h1 span { color: var(--pink-deep); }
   padding: 17px 18px;
   text-align: right;
   color: var(--ink);
-  border: 1px solid #f0d5e1;
+  border: 1px solid #e9c5d5;
   border-radius: 22px;
   background: rgba(255,255,255,.83);
-  box-shadow: 0 8px 24px rgba(126, 73, 98, .055), inset 0 1px 0 rgba(255,255,255,.9);
+  box-shadow: 0 9px 26px rgba(126, 73, 98, .075), inset 0 1px 0 rgba(255,255,255,.9);
+  outline: 1px solid rgba(222, 172, 193, .24);
+  outline-offset: -5px;
   cursor: pointer;
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
   -webkit-tap-highlight-color: transparent;
