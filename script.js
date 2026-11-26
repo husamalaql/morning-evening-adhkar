@@ -9,7 +9,7 @@
   const title = document.getElementById("dialog-title");
   const symbol = document.getElementById("dialog-symbol");
   const dialogBody = document.getElementById("dialog-body");
-  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audio: null, explanationOpen: false };
+  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audio: null, explanationOpen: false, continueListening: true };
 
   const toArabicNumber = (value) => String(value).replace(/\d/g, digit => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
   const escapeHtml = (value) => String(value).replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[char]));
@@ -43,6 +43,7 @@
     stopAudio();
     state.count = item.count > 1 ? 1 : 0;
     title.textContent = state.section === "morning" ? "أذكار الصباح" : "أذكار المساء";
+    symbol.className = "dialog-symbol";
     symbol.textContent = state.section === "morning" ? "☀" : "☾";
     const countLabel = item.count > 1
       ? `<span class="dhikr-count-label">${toArabicNumber(item.count)}</span>`
@@ -52,7 +53,7 @@
       <div class="dhikr-progress"><span>الذكر ${toArabicNumber(state.index + 1)} من ${toArabicNumber(state.items.length)}</span>${countLabel}</div>
       <article class="dhikr-highlight" aria-live="polite">
         ${item.kind === "quran" ? `<h3>${escapeHtml(item.title)}</h3>` : ""}
-        <p class="dhikr-text">${escapeHtml(item.text)}</p>
+        <p class="dhikr-text">${escapeHtml(String(item.text).trim().replace(/[.。．]+\s*$/, ""))}</p>
       </article>
       <div class="dhikr-actions">
         <button class="explanation-button" id="explanation-button" type="button">الشرح</button>
@@ -158,11 +159,25 @@
         audioElement.src = state.audioSources[state.audioIndex];
       } else {
         if (state.count >= item.count) {
-          nextItem();
+          if (state.continueListening) nextItem();
+          else {
+            toggleButton.textContent = "▶";
+            toggleButton.setAttribute("aria-label", "تشغيل الصوت");
+            toggleButton.title = "تشغيل الصوت";
+          }
           return;
         }
         state.count += 1;
         updateCounterButton();
+        if (state.count >= item.count) {
+          if (state.continueListening) nextItem();
+          else {
+            toggleButton.textContent = "▶";
+            toggleButton.setAttribute("aria-label", "تشغيل الصوت");
+            toggleButton.title = "تشغيل الصوت";
+          }
+          return;
+        }
         state.audioIndex = 0;
         audioElement.src = state.audioSources[0];
       }
@@ -175,7 +190,7 @@
         toggleButton.textContent = "▶";
         toggleButton.setAttribute("aria-label", "تشغيل الصوت");
       }
-    });
+    });;
   }
 
   async function startSection(section) {
@@ -215,8 +230,23 @@
   sectionButtons.forEach(button => button.addEventListener("click", () => startSection(button.dataset.section)));
   settingsButton.addEventListener("click", () => {
     title.textContent = "الإعدادات";
-    symbol.textContent = "۞";
-    dialogBody.innerHTML = '<p class="settings-note">تخصيص الإعدادات سيضاف لاحقًا.</p>';
+    symbol.className = "dialog-symbol settings-dialog-symbol";
+    symbol.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>';
+    dialogBody.innerHTML = `
+      <section class="settings-card">
+        <div class="settings-copy">
+          <strong>مواصلة الاستماع</strong>
+          <span>عند التفعيل ينتقل الصوت تلقائيًا إلى الذكر التالي بعد إكمال التكرارات.</span>
+        </div>
+        <label class="settings-switch" for="continue-listening">
+          <input id="continue-listening" type="checkbox" ${state.continueListening ? "checked" : ""}>
+          <span class="settings-checkmark" aria-hidden="true"></span>
+        </label>
+      </section>
+      <p class="settings-note">عند إلغاء التفعيل، يكتمل الذكر الحالي بعدد تكراراته ثم يتوقف الصوت دون الانتقال.</p>`;
+    document.getElementById("continue-listening").addEventListener("change", event => {
+      state.continueListening = event.target.checked;
+    });
     openDialog();
   });
   closeButton.addEventListener("click", closeDialog);
