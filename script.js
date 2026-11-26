@@ -158,24 +158,22 @@
       if (state.audioIndex < state.audioSources.length) {
         audioElement.src = state.audioSources[state.audioIndex];
       } else {
-        if (state.count >= item.count) {
+        const finishCurrentDhikr = () => {
           if (state.continueListening) nextItem();
           else {
             toggleButton.textContent = "▶";
             toggleButton.setAttribute("aria-label", "تشغيل الصوت");
             toggleButton.title = "تشغيل الصوت";
           }
+        };
+        if (item.count > 1 && state.count >= item.count) {
+          finishCurrentDhikr();
           return;
         }
         state.count += 1;
         updateCounterButton();
-        if (state.count >= item.count) {
-          if (state.continueListening) nextItem();
-          else {
-            toggleButton.textContent = "▶";
-            toggleButton.setAttribute("aria-label", "تشغيل الصوت");
-            toggleButton.title = "تشغيل الصوت";
-          }
+        if (item.count <= 1 || state.count >= item.count) {
+          finishCurrentDhikr();
           return;
         }
         state.audioIndex = 0;
@@ -190,7 +188,7 @@
         toggleButton.textContent = "▶";
         toggleButton.setAttribute("aria-label", "تشغيل الصوت");
       }
-    });;
+    });;;
   }
 
   async function startSection(section) {
