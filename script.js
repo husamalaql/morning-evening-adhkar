@@ -12,6 +12,7 @@
   const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audio: null, explanationOpen: false, continueListening: true };
 
   const toArabicNumber = (value) => String(value).replace(/\d/g, digit => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
+  const formatRepeatCount = (value) => value === 2 ? "مرتان" : value === 1 ? "مرة" : `${toArabicNumber(value)} مرات`;
   const escapeHtml = (value) => String(value).replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[char]));
 
   function openDialog() {
@@ -46,7 +47,7 @@
     symbol.className = "dialog-symbol";
     symbol.textContent = state.section === "morning" ? "☀" : "☾";
     const countLabel = item.count > 1
-      ? `<span class="dhikr-count-label">${toArabicNumber(item.count)}</span>`
+      ? `<span class="dhikr-count-label">${formatRepeatCount(item.count)}</span>`
       : "";
     const hasAudio = Boolean(item.audio?.sources?.length || item.audio?.src);
     dialogBody.innerHTML = `
