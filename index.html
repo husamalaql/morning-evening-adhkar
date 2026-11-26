@@ -20,7 +20,6 @@
       <p class="hero-description">ابدأ يومك بذكر الله، واختمه بقلبٍ مطمئن.</p>
       <div class="decorative-rule" aria-hidden="true"><i></i><span>✦</span><i></i></div>
     </section>
-
     <section class="choice-area" aria-label="اختيار الأذكار">
       <div class="prayer-buttons">
         <button class="prayer-card morning-card" data-section="morning" type="button">
@@ -30,7 +29,6 @@
           <span class="card-copy"><strong>أذكار الصباح</strong><small>نورٌ لبداية يومك</small></span>
           <span class="card-arrow" aria-hidden="true">←</span>
         </button>
-
         <button class="prayer-card evening-card" data-section="evening" type="button">
           <span class="card-icon moon-icon" aria-hidden="true">
             <svg viewBox="0 0 64 64"><path d="M46 42A23 23 0 0 1 22 7a24 24 0 1 0 24 35Z"/><path d="m45 9 2.5 5.5L53 17l-5.5 2.5L45 25l-2.5-5.5L37 17l5.5-2.5Z"/></svg>
@@ -40,27 +38,22 @@
         </button>
       </div>
     </section>
-
     <footer class="home-footer">
       <span class="footer-flower" aria-hidden="true">❀</span>
       <p>اجعل لسانك رطبًا بذكر الله</p>
     </footer>
-
     <button class="review-fab" id="settings-button" type="button" aria-label="الإعدادات" title="الإعدادات">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/><path d="M8 4v4M15 10v4M10 16v4"/></svg>
     </button>
   </main>
-
   <div class="dialog-backdrop" id="dialog-backdrop" hidden>
-    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+    <section class="dialog dhikr-dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
       <button class="dialog-close" id="dialog-close" type="button" aria-label="إغلاق">×</button>
       <div class="dialog-symbol" id="dialog-symbol" aria-hidden="true">۞</div>
       <h2 id="dialog-title">أذكار الصباح</h2>
-      <p id="dialog-message">سيتم تجهيز الأذكار في الخطوة التالية.</p>
-      <button class="dialog-action" id="dialog-action" type="button">حسنًا</button>
+      <div class="dialog-body" id="dialog-body"></div>
     </section>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
