@@ -255,3 +255,137 @@ h1 span { color: var(--pink-deep); }
   .dhikr-actions { grid-template-columns:1fr 1fr 1.1fr; }
   .explanation-button,.counter-button { min-height:50px; padding-inline:8px; font-size:14px; }
 }
+
+
+/* Consistent centered reading window and responsive dhikr typography */
+.dialog-backdrop {
+  place-items: center;
+  align-items: center;
+  padding: 16px;
+}
+.dhikr-dialog {
+  height: min( min(680px, 78svh), 900px);
+  min-height: min(520px, 72svh);
+  max-height: 92svh;
+  margin: auto;
+}
+.dialog-body {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.dhikr-highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: clamp(210px, 31svh, 290px);
+  padding: clamp(22px, 4.5vw, 38px) clamp(18px, 4.5vw, 34px);
+  text-align: center;
+}
+.dhikr-highlight h3 {
+  align-self: stretch;
+  text-align: center;
+}
+.dhikr-text {
+  width: 100%;
+  margin: 0;
+  font-size: clamp(27px, 5.8vw, 38px);
+  line-height: 2;
+  text-align: center;
+}
+.dhikr-actions button,
+.dialog-close,
+.review-fab,
+.prayer-card {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.dhikr-actions button,
+.dialog-close,
+.dialog-action,
+.review-fab,
+.prayer-card {
+  transition: transform .16s ease, box-shadow .18s ease, background-color .18s ease, border-color .18s ease, filter .18s ease;
+}
+.dhikr-actions button:active,
+.dialog-action:active,
+.dialog-close:active {
+  transform: scale(.95);
+  filter: brightness(.97);
+}
+.dhikr-actions button:focus,
+.dialog-close:focus,
+.dialog-action:focus,
+.review-fab:focus,
+.prayer-card:focus {
+  outline: none;
+}
+.dhikr-actions button:focus-visible,
+.dialog-close:focus-visible,
+.dialog-action:focus-visible,
+.review-fab:focus-visible,
+.prayer-card:focus-visible {
+  outline: 2px solid rgba(185,93,134,.55);
+  outline-offset: 3px;
+  border-radius: 15px;
+}
+.dhikr-actions button:hover {
+  box-shadow: 0 5px 16px rgba(176,87,128,.14);
+}
+.prayer-card:active {
+  transform: scale(.975);
+  box-shadow: 0 4px 12px rgba(126,73,98,.1);
+}
+.review-fab:active {
+  transform: scale(.92);
+  box-shadow: 0 4px 12px rgba(176,87,128,.22);
+}
+.dialog-close:active {
+  background: rgba(215,125,162,.12);
+  border-radius: 50%;
+}
+@media (min-width: 600px) {
+  .dhikr-dialog {
+    width: min( min(760px, 88vw), 900px);
+    height: min( min(760px, 82svh), 900px);
+  }
+  .dhikr-text {
+    font-size: clamp(34px, 4.2vw, 44px);
+  }
+  .dhikr-highlight {
+    min-height: clamp(250px, 36svh, 340px);
+  }
+  .dhikr-actions button {
+    min-height: clamp(56px, 6vw, 66px);
+    font-size: clamp(17px, 1.8vw, 20px);
+  }
+}
+@media (max-width: 520px) {
+  .dialog-backdrop {
+    align-items: center;
+    padding: 12px;
+  }
+  .dhikr-dialog {
+    width: 100%;
+    height: min( min(680px, 82svh), 900px);
+    min-height: min(500px, 76svh);
+    max-height: 92svh;
+    border-radius: 24px;
+    padding: 25px 16px 18px;
+  }
+  .dhikr-highlight {
+    min-height: clamp(205px, 30svh, 260px);
+  }
+  .dhikr-text {
+    font-size: clamp(27px, 6.2vw, 34px);
+    line-height: 1.95;
+  }
+  .dhikr-actions {
+    gap: 8px;
+  }
+  .explanation-button,.counter-button,.audio-toggle-button {
+    min-height: 52px;
+    padding-inline: 7px;
+    font-size: clamp(14px, 3.6vw, 16px);
+  }
+}
