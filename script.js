@@ -90,6 +90,26 @@
     button.style.setProperty("--fill", (Math.max(0, state.count / item.count) * 100) + "%");
   }
 
+  async function restartCurrentAudio() {
+    const audioElement = state.audio;
+    if (!audioElement || audioElement.paused || !state.audioSources.length) return;
+    const toggleButton = document.getElementById("audio-toggle-button");
+    state.audioIndex = 0;
+    audioElement.pause();
+    audioElement.src = state.audioSources[0];
+    audioElement.load();
+    try {
+      await audioElement.play();
+      toggleButton?.classList.add("is-playing");
+      toggleButton?.setAttribute("aria-label", "إيقاف مؤقت");
+      if (toggleButton) toggleButton.title = "إيقاف مؤقت";
+    } catch (_) {
+      toggleButton?.classList.remove("is-playing");
+      toggleButton?.setAttribute("aria-label", "تشغيل الصوت");
+      if (toggleButton) toggleButton.title = "تشغيل الصوت";
+    }
+  }
+
   function handleCounter() {
     const item = state.items[state.index];
     if (item.count <= 1 || state.count >= item.count) {
@@ -98,6 +118,7 @@
     }
     state.count += 1;
     updateCounterButton();
+    restartCurrentAudio();
   }
 
   function nextItem() {
