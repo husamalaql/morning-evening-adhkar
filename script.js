@@ -94,7 +94,7 @@
   function handleCounter() {
     const item = state.items[state.index];
     const button = document.getElementById("counter-button");
-    if (item.count <= 1 || state.count >= item.count) {
+    if (item.count <= 1) {
       nextItem();
       return;
     }
