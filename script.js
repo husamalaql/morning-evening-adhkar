@@ -164,7 +164,7 @@
         }
         state.count += 1;
         updateCounterButton();
-        if (item.count <= 1 || state.count >= item.count) {
+        if (item.count <= 1) {
           finishCurrentDhikr();
           return;
         }
