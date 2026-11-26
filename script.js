@@ -57,7 +57,7 @@
       <div class="dhikr-actions">
         <button class="explanation-button" id="explanation-button" type="button">الشرح</button>
         ${hasAudio ? '<button class="audio-toggle-button" id="audio-toggle-button" type="button" aria-label="تشغيل الصوت" title="تشغيل الصوت">▶</button>' : ""}
-        <button class="counter-button" id="counter-button" type="button">${item.count > 1 ? toArabicNumber(0) : "التالي"}</button>
+        <button class="counter-button" id="counter-button" type="button">${item.count > 1 ? toArabicNumber(state.count) : "التالي"}</button>
         ${hasAudio ? '<audio id="dhikr-audio" preload="none" hidden></audio>' : ""}
       </div>
       <section class="explanation-panel" id="explanation-panel" ${state.explanationOpen ? "" : "hidden"}>
