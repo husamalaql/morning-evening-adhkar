@@ -267,7 +267,7 @@
       <section class="settings-card">
         <div class="settings-copy">
           <strong>مواصلة الاستماع</strong>
-          <span>عند التفعيل ينتقل الصوت تلقائيًا إلى الذكر التالي بعد إكمال التكرارات.</span>
+          <span>يستمر بقراءة كل الاذكار بدون توقف عند كل ذكر</span>
         </div>
         <label class="settings-switch" for="continue-listening">
           <input id="continue-listening" type="checkbox" ${state.continueListening ? "checked" : ""}>
