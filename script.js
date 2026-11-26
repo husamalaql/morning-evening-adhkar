@@ -2,7 +2,7 @@
   "use strict";
 
   const sectionButtons = document.querySelectorAll("[data-section]");
-  const reviewButton = document.getElementById("review-button");
+  const settingsButton = document.getElementById("settings-button");
   const backdrop = document.getElementById("dialog-backdrop");
   const closeButton = document.getElementById("dialog-close");
   const actionButton = document.getElementById("dialog-action");
@@ -56,11 +56,11 @@
     });
   });
 
-  reviewButton.addEventListener("click", () => {
+  settingsButton.addEventListener("click", () => {
     openDialog(
-      "المراجعة",
-      "ستجد هنا مراجعة الأذكار التي قرأتها ومتابعة وِردك اليومي.",
-      "۞"
+      "الإعدادات",
+      "ستتوفر هنا إعدادات التطبيق وتخصيص تجربة القراءة في الخطوات القادمة.",
+      "⚙"
     );
   });
 
