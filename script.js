@@ -41,7 +41,7 @@
     const item = state.items[state.index];
     if (!item) return;
     stopAudio();
-    state.count = 0;
+    state.count = item.count > 1 ? 1 : 0;
     title.textContent = state.section === "morning" ? "أذكار الصباح" : "أذكار المساء";
     symbol.textContent = state.section === "morning" ? "☀" : "☾";
     const countLabel = item.count > 1
@@ -157,12 +157,12 @@
       if (state.audioIndex < state.audioSources.length) {
         audioElement.src = state.audioSources[state.audioIndex];
       } else {
-        state.count += 1;
-        updateCounterButton();
         if (state.count >= item.count) {
           nextItem();
           return;
         }
+        state.count += 1;
+        updateCounterButton();
         state.audioIndex = 0;
         audioElement.src = state.audioSources[0];
       }
