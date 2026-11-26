@@ -135,13 +135,13 @@
         }
       } else {
         audioElement.pause();
-        toggleButton.textContent = "▶";
+        toggleButton.classList.remove("is-playing");
         toggleButton.setAttribute("aria-label", "تشغيل الصوت");
         toggleButton.title = "تشغيل الصوت";
       }
     });
     audioElement.addEventListener("pause", () => {
-      toggleButton.textContent = "▶";
+      toggleButton.classList.remove("is-playing");
       toggleButton.setAttribute("aria-label", "تشغيل الصوت");
       toggleButton.title = "تشغيل الصوت";
     });
@@ -153,7 +153,7 @@
         const finishCurrentDhikr = () => {
           if (state.continueListening) nextItem();
           else {
-            toggleButton.textContent = "▶";
+            toggleButton.classList.remove("is-playing");
             toggleButton.setAttribute("aria-label", "تشغيل الصوت");
             toggleButton.title = "تشغيل الصوت";
           }
@@ -173,11 +173,11 @@
       }
       try {
         await audioElement.play();
-        toggleButton.textContent = "Ⅱ";
+        toggleButton.classList.add("is-playing");
         toggleButton.setAttribute("aria-label", "إيقاف مؤقت");
         toggleButton.title = "إيقاف مؤقت";
       } catch (_) {
-        toggleButton.textContent = "▶";
+        toggleButton.classList.remove("is-playing");
         toggleButton.setAttribute("aria-label", "تشغيل الصوت");
       }
     });;;
