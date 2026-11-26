@@ -29,7 +29,7 @@ button { font: inherit; }
   min-height: 100svh;
   width: min(100%, 560px);
   margin: 0 auto;
-  padding: max(24px, env(safe-area-inset-top)) 24px max(26px, env(safe-area-inset-bottom));
+  padding: max(12px, env(safe-area-inset-top)) 24px max(26px, env(safe-area-inset-bottom));
   overflow: hidden;
 }
 .app-shell::before {
@@ -51,12 +51,17 @@ button { font: inherit; }
 }
 .ambient-one { width: 230px; height: 230px; top: 110px; right: -180px; border-radius: 34px; }
 .ambient-two { width: 180px; height: 180px; bottom: 70px; left: -145px; border-radius: 28px; }
+.corner-ornament { position: absolute; z-index: 0; width: clamp(112px, 34vw, 166px); height: auto; color: #c9789c; opacity: .32; pointer-events: none; }
+.corner-ornament svg { display: block; width: 100%; height: auto; fill: none; stroke: currentColor; stroke-width: 1.15; stroke-linecap: round; stroke-linejoin: round; }
+.corner-top-left { top: 0; left: 0; }
+.corner-bottom-right { right: 0; bottom: 0; }
+.hero, .choice-area, .home-footer { position: relative; z-index: 1; }
 .topbar { width: 100%; display: flex; align-items: center; gap: 10px; min-height: 42px; }
 .brand-mark { width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid #efd1df; border-radius: 12px; background: rgba(255,255,255,.7); }
 .brand-mark svg { width: 23px; fill: none; stroke: var(--pink-deep); stroke-width: 1.5; stroke-linejoin: round; }
 .brand-name { font-size: 15px; font-weight: 800; letter-spacing: -.3px; }
 .topbar-caption { margin-right: auto; color: #b18d9e; font-family: "Amiri", serif; font-size: 14px; }
-.hero { position: relative; text-align: center; width: 100%; margin-top: clamp(54px, 11vh, 92px); padding: 20px 10px 22px; }
+.hero { position: relative; text-align: center; width: 100%; margin-top: 8px; padding: 3px 10px 5px; }
 .hero::before, .hero::after { content: "✧"; position: absolute; top: 50%; color: #d99ab5; font-family: "Amiri", serif; font-size: 23px; opacity: .8; transform: translateY(-50%); }
 .hero::before { right: 0; }
 .hero::after { left: 0; }
@@ -69,8 +74,7 @@ h1 span { color: var(--pink-deep); }
 .decorative-rule { display: flex; align-items: center; justify-content: center; gap: 11px; width: 150px; margin: 25px auto 0; color: #d38aaa; font-size: 12px; }
 .decorative-rule i { width: 48px; height: 1px; background: linear-gradient(90deg, transparent, #e5b6ca); }
 .decorative-rule i:last-child { transform: rotate(180deg); }
-.choice-area { width: 100%; max-width: 410px; margin-top: clamp(43px, 8vh, 68px); }
-.section-hint { margin: 0 0 15px; text-align: center; color: #a88998; font-size: 13px; font-weight: 600; }
+.choice-area { width: 100%; max-width: 410px; margin-top: 10px; }
 .prayer-buttons { display: grid; gap: 14px; }
 .prayer-card {
   position: relative;
@@ -137,8 +141,8 @@ h1 span { color: var(--pink-deep); }
 .dialog p { margin: 0 0 22px; color: var(--muted); font-size: 14px; line-height: 1.8; }
 .dialog-action { min-width: 112px; padding: 11px 22px; color: white; border: 0; border-radius: 13px; background: #c66f96; font-weight: 700; cursor: pointer; }
 @media (max-height: 700px) {
-  .hero { margin-top: 35px; }
-  .choice-area { margin-top: 30px; }
+  .hero { margin-top: 4px; }
+  .choice-area { margin-top: 6px; }
   .prayer-card { min-height: 88px; }
   .card-icon { width: 54px; height: 54px; flex-basis: 54px; }
   .home-footer { padding-top: 22px; }
