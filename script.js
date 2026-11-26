@@ -121,11 +121,30 @@
     restartCurrentAudio();
   }
 
-  function nextItem() {
+  async function playCurrentAudio() {
+    const audioElement = state.audio;
+    const toggleButton = document.getElementById("audio-toggle-button");
+    if (!audioElement || !toggleButton) return;
+    try {
+      state.audioIndex = 0;
+      audioElement.currentTime = 0;
+      await audioElement.play();
+      toggleButton.classList.add("is-playing");
+      toggleButton.setAttribute("aria-label", "إيقاف مؤقت");
+      toggleButton.title = "إيقاف مؤقت";
+    } catch (_) {
+      toggleButton.classList.remove("is-playing");
+      toggleButton.setAttribute("aria-label", "تشغيل الصوت");
+      toggleButton.title = "تشغيل الصوت";
+    }
+  }
+
+  function nextItem(continueAudio = false) {
     if (state.index < state.items.length - 1) {
       state.index += 1;
       render();
       dialogBody.scrollTop = 0;
+      if (continueAudio) playCurrentAudio();
     } else {
       stopAudio();
       dialogBody.innerHTML = `
@@ -173,7 +192,7 @@
         audioElement.src = state.audioSources[state.audioIndex];
       } else {
         const finishCurrentDhikr = () => {
-          if (state.continueListening) nextItem();
+          if (state.continueListening) nextItem(true);
           else {
             toggleButton.classList.remove("is-playing");
             toggleButton.setAttribute("aria-label", "تشغيل الصوت");
