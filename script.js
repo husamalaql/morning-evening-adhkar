@@ -56,7 +56,7 @@
     dialogBody.innerHTML = `
       <div class="dhikr-progress"><span>الذكر ${toArabicNumber(state.index + 1)} من ${toArabicNumber(state.items.length)}</span>${countLabel}</div>
       <article class="dhikr-highlight" aria-live="polite">
-        <h3>${escapeHtml(item.title)}</h3>
+        ${item.kind === "quran" ? `<h3>${escapeHtml(item.title)}</h3>` : ""}
         <p class="dhikr-text">${escapeHtml(item.text)}</p>
       </article>
       <div class="dhikr-actions">
