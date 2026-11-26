@@ -47,12 +47,7 @@
     const countLabel = item.count > 1
       ? `<span class="dhikr-count-label">التكرار: ${toArabicNumber(item.count)} مرات</span>`
       : '<span class="dhikr-count-label">مرة واحدة</span>';
-    const audio = item.audio?.sources?.length || item.audio?.src
-      ? `<section class="audio-panel"><div class="audio-heading"><span>الاستماع إلى الذكر</span><small>${escapeHtml(item.audio.label || "تسجيل صوتي")}</small></div><audio id="dhikr-audio" controls preload="none"></audio><p class="audio-note">يمكنك الاستماع ثم قراءة الذكر بنفسك.</p></section>`
-      : "";
-    const source = item.sourceUrl
-      ? `<a class="source-link" href="${escapeHtml(item.sourceUrl)}" target="_blank" rel="noopener">المصدر والتخريج</a>`
-      : "";
+    const hasAudio = Boolean(item.audio?.sources?.length || item.audio?.src);
     dialogBody.innerHTML = `
       <div class="dhikr-progress"><span>الذكر ${toArabicNumber(state.index + 1)} من ${toArabicNumber(state.items.length)}</span>${countLabel}</div>
       <article class="dhikr-highlight" aria-live="polite">
@@ -60,18 +55,15 @@
         <p class="dhikr-text">${escapeHtml(item.text)}</p>
       </article>
       <div class="dhikr-actions">
-        <button class="explanation-button" id="explanation-button" type="button">شرح الذكر وتخريجه</button>
+        <button class="explanation-button" id="explanation-button" type="button">الشرح</button>
+        ${hasAudio ? '<button class="audio-toggle-button" id="audio-toggle-button" type="button" aria-label="تشغيل الصوت" title="تشغيل الصوت">▶</button>' : ""}
         <button class="counter-button" id="counter-button" type="button">${item.count > 1 ? `العدد ٠ / ${toArabicNumber(item.count)}` : "التالي"}</button>
+        ${hasAudio ? '<audio id="dhikr-audio" preload="none" hidden></audio>' : ""}
       </div>
       <section class="explanation-panel" id="explanation-panel" hidden>
         <h4>المعنى والشرح</h4>
         <p>${escapeHtml(item.explanation)}</p>
-        ${item.virtue ? `<h4>الفضل والتنبيه</h4><p>${escapeHtml(item.virtue)}</p>` : ""}
-        <h4>المصدر والتخريج</h4><p>${escapeHtml(item.source || "")}</p>
-        ${source}
       </section>
-      ${audio}
-      <p class="dhikr-footnote">بعد إكمال العدد اضغط «التالي» للانتقال إلى الذكر الذي يليه.</p>
     `;
 
     document.getElementById("explanation-button").addEventListener("click", () => {
@@ -117,15 +109,45 @@
 
   function setupAudio(item) {
     const audioElement = document.getElementById("dhikr-audio");
-    if (!audioElement || !item.audio) return;
+    const toggleButton = document.getElementById("audio-toggle-button");
+    if (!audioElement || !toggleButton || !item.audio) return;
     state.audio = audioElement;
     state.audioSources = item.audio.type === "playlist" ? item.audio.sources : [item.audio.src];
     audioElement.src = state.audioSources[0];
+    toggleButton.addEventListener("click", async () => {
+      if (audioElement.paused) {
+        try {
+          await audioElement.play();
+          toggleButton.textContent = "Ⅱ";
+          toggleButton.setAttribute("aria-label", "إيقاف مؤقت");
+          toggleButton.title = "إيقاف مؤقت";
+        } catch (_) {
+          toggleButton.textContent = "▶";
+          toggleButton.setAttribute("aria-label", "تعذر تشغيل الصوت");
+        }
+      } else {
+        audioElement.pause();
+        toggleButton.textContent = "▶";
+        toggleButton.setAttribute("aria-label", "تشغيل الصوت");
+        toggleButton.title = "تشغيل الصوت";
+      }
+    });
+    audioElement.addEventListener("pause", () => {
+      toggleButton.textContent = "▶";
+      toggleButton.setAttribute("aria-label", "تشغيل الصوت");
+      toggleButton.title = "تشغيل الصوت";
+    });
     audioElement.addEventListener("ended", () => {
       state.audioIndex += 1;
       if (state.audioIndex < state.audioSources.length) {
         audioElement.src = state.audioSources[state.audioIndex];
-        audioElement.play().catch(() => {});
+        audioElement.play().then(() => {
+          toggleButton.textContent = "Ⅱ";
+          toggleButton.setAttribute("aria-label", "إيقاف مؤقت");
+        }).catch(() => {});
+      } else {
+        toggleButton.textContent = "▶";
+        toggleButton.setAttribute("aria-label", "تشغيل الصوت");
       }
     });
   }
