@@ -86,11 +86,11 @@
   function handleCounter() {
     const item = state.items[state.index];
     const button = document.getElementById("counter-button");
-    if (item.count <= 1) {
+    if (item.count <= 1 || state.count >= item.count) {
       nextItem();
       return;
     }
-    if (state.count < item.count) state.count += 1;
+    state.count += 1;
     if (state.count >= item.count) {
       button.textContent = state.index === state.items.length - 1 ? "إنهاء الورد" : "التالي";
       button.classList.add("is-complete");
