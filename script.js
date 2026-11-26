@@ -9,7 +9,7 @@
   const title = document.getElementById("dialog-title");
   const symbol = document.getElementById("dialog-symbol");
   const dialogBody = document.getElementById("dialog-body");
-  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audio: null };
+  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audio: null, explanationOpen: false };
 
   const toArabicNumber = (value) => String(value).replace(/\d/g, digit => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
   const escapeHtml = (value) => String(value).replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[char]));
@@ -45,8 +45,8 @@
     title.textContent = state.section === "morning" ? "أذكار الصباح" : "أذكار المساء";
     symbol.textContent = state.section === "morning" ? "☀" : "☾";
     const countLabel = item.count > 1
-      ? `<span class="dhikr-count-label">التكرار: ${toArabicNumber(item.count)} مرات</span>`
-      : '<span class="dhikr-count-label">مرة واحدة</span>';
+      ? `<span class="dhikr-count-label">${toArabicNumber(item.count)}</span>`
+      : "";
     const hasAudio = Boolean(item.audio?.sources?.length || item.audio?.src);
     dialogBody.innerHTML = `
       <div class="dhikr-progress"><span>الذكر ${toArabicNumber(state.index + 1)} من ${toArabicNumber(state.items.length)}</span>${countLabel}</div>
@@ -57,22 +57,37 @@
       <div class="dhikr-actions">
         <button class="explanation-button" id="explanation-button" type="button">الشرح</button>
         ${hasAudio ? '<button class="audio-toggle-button" id="audio-toggle-button" type="button" aria-label="تشغيل الصوت" title="تشغيل الصوت">▶</button>' : ""}
-        <button class="counter-button" id="counter-button" type="button">${item.count > 1 ? `العدد ٠ / ${toArabicNumber(item.count)}` : "التالي"}</button>
+        <button class="counter-button" id="counter-button" type="button">${item.count > 1 ? toArabicNumber(0) : "التالي"}</button>
         ${hasAudio ? '<audio id="dhikr-audio" preload="none" hidden></audio>' : ""}
       </div>
-      <section class="explanation-panel" id="explanation-panel" hidden>
+      <section class="explanation-panel" id="explanation-panel" ${state.explanationOpen ? "" : "hidden"}>
         <h4>المعنى والشرح</h4>
         <p>${escapeHtml(item.explanation)}</p>
+        ${item.source ? `<h4>التخريج</h4><p>${escapeHtml(item.source)}</p>` : ""}
+        ${item.virtue ? `<h4>الفضل</h4><p>${escapeHtml(item.virtue)}</p>` : ""}
+        ${item.hadithGrade ? `<h4>درجة الحديث</h4><p>${escapeHtml(item.hadithGrade)}</p>` : ""}
       </section>
     `;
 
     document.getElementById("explanation-button").addEventListener("click", () => {
       const panel = document.getElementById("explanation-panel");
-      panel.hidden = !panel.hidden;
-      document.getElementById("explanation-button").classList.toggle("is-open", !panel.hidden);
+      state.explanationOpen = panel.hidden;
+      panel.hidden = !state.explanationOpen;
+      document.getElementById("explanation-button").classList.toggle("is-open", state.explanationOpen);
     });
     document.getElementById("counter-button").addEventListener("click", handleCounter);
     setupAudio(item);
+  }
+
+  function updateCounterButton() {
+    const item = state.items[state.index];
+    const button = document.getElementById("counter-button");
+    if (!button || !item || item.count <= 1) return;
+    button.textContent = toArabicNumber(state.count);
+    if (state.count >= item.count) {
+      button.textContent = state.index === state.items.length - 1 ? "إنهاء الورد" : "التالي";
+      button.classList.add("is-complete");
+    }
   }
 
   function handleCounter() {
@@ -87,7 +102,7 @@
       button.textContent = state.index === state.items.length - 1 ? "إنهاء الورد" : "التالي";
       button.classList.add("is-complete");
     } else {
-      button.textContent = `العدد ${toArabicNumber(state.count)} / ${toArabicNumber(item.count)}`;
+      button.textContent = toArabicNumber(state.count);
     }
   }
 
@@ -137,15 +152,26 @@
       toggleButton.setAttribute("aria-label", "تشغيل الصوت");
       toggleButton.title = "تشغيل الصوت";
     });
-    audioElement.addEventListener("ended", () => {
+    audioElement.addEventListener("ended", async () => {
       state.audioIndex += 1;
       if (state.audioIndex < state.audioSources.length) {
         audioElement.src = state.audioSources[state.audioIndex];
-        audioElement.play().then(() => {
-          toggleButton.textContent = "Ⅱ";
-          toggleButton.setAttribute("aria-label", "إيقاف مؤقت");
-        }).catch(() => {});
       } else {
+        state.count += 1;
+        updateCounterButton();
+        if (state.count >= item.count) {
+          nextItem();
+          return;
+        }
+        state.audioIndex = 0;
+        audioElement.src = state.audioSources[0];
+      }
+      try {
+        await audioElement.play();
+        toggleButton.textContent = "Ⅱ";
+        toggleButton.setAttribute("aria-label", "إيقاف مؤقت");
+        toggleButton.title = "إيقاف مؤقت";
+      } catch (_) {
         toggleButton.textContent = "▶";
         toggleButton.setAttribute("aria-label", "تشغيل الصوت");
       }
@@ -171,6 +197,7 @@
     const lookup = new Map(state.data.adhkar.map(item => [item.id, item]));
     state.items = ids.map(id => lookup.get(id)).filter(Boolean);
     state.index = 0;
+    state.explanationOpen = false;
     render();
     openDialog();
   }
