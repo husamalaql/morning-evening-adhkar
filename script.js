@@ -57,7 +57,7 @@
       </article>
       <div class="dhikr-actions">
         <button class="explanation-button" id="explanation-button" type="button">الشرح</button>
-        ${hasAudio ? '<button class="audio-toggle-button" id="audio-toggle-button" type="button" aria-label="تشغيل الصوت" title="تشغيل الصوت">▶</button>' : ""}
+        ${hasAudio ? '<button class="audio-toggle-button" id="audio-toggle-button" type="button" aria-label="تشغيل الصوت" title="تشغيل الصوت"><svg class="speaker-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6M18.5 6.5a8.5 8.5 0 0 1 0 11"/></svg><span class="audio-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>' : ""}
         <button class="counter-button" id="counter-button" type="button">${item.count > 1 ? toArabicNumber(state.count) : "التالي"}</button>
         ${hasAudio ? '<audio id="dhikr-audio" preload="none" hidden></audio>' : ""}
       </div>
@@ -85,26 +85,18 @@
     const button = document.getElementById("counter-button");
     if (!button || !item || item.count <= 1) return;
     button.textContent = toArabicNumber(state.count);
-    if (state.count >= item.count) {
-      button.textContent = state.index === state.items.length - 1 ? "إنهاء الورد" : "التالي";
-      button.classList.add("is-complete");
-    }
+    button.classList.remove("is-complete");
+    button.style.setProperty("--fill", (Math.max(0, (state.count - 1) / item.count) * 100) + "%");
   }
 
   function handleCounter() {
     const item = state.items[state.index];
-    const button = document.getElementById("counter-button");
-    if (item.count <= 1) {
+    if (item.count <= 1 || state.count >= item.count) {
       nextItem();
       return;
     }
     state.count += 1;
-    if (state.count >= item.count) {
-      button.textContent = state.index === state.items.length - 1 ? "إنهاء الورد" : "التالي";
-      button.classList.add("is-complete");
-    } else {
-      button.textContent = toArabicNumber(state.count);
-    }
+    updateCounterButton();
   }
 
   function nextItem() {
@@ -134,11 +126,11 @@
       if (audioElement.paused) {
         try {
           await audioElement.play();
-          toggleButton.textContent = "Ⅱ";
+          toggleButton.classList.add("is-playing");
           toggleButton.setAttribute("aria-label", "إيقاف مؤقت");
           toggleButton.title = "إيقاف مؤقت";
         } catch (_) {
-          toggleButton.textContent = "▶";
+          toggleButton.classList.remove("is-playing");
           toggleButton.setAttribute("aria-label", "تعذر تشغيل الصوت");
         }
       } else {
@@ -241,7 +233,7 @@
           <span class="settings-checkmark" aria-hidden="true"></span>
         </label>
       </section>
-      <p class="settings-note">عند إلغاء التفعيل، يكتمل الذكر الحالي بعدد تكراراته ثم يتوقف الصوت دون الانتقال.</p>`;
+`;
     document.getElementById("continue-listening").addEventListener("change", event => {
       state.continueListening = event.target.checked;
     });
