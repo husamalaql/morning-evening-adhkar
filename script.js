@@ -27,9 +27,7 @@
     });
 
     if (hint) {
-      hint.textContent = period === "morning"
-        ? "حان وقت وِرد الصباح"
-        : "حان وقت وِرد المساء";
+      hint.textContent = "اختر وِردك";
     }
   }
 
