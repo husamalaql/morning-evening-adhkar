@@ -62,7 +62,7 @@
       </article>
       <div class="dhikr-actions">
         <button class="explanation-button" id="explanation-button" type="button">الشرح</button>
-        ${hasAudio ? '<button class="audio-toggle-button" id="audio-toggle-button" type="button" aria-label="تشغيل الصوت" title="تشغيل الصوت"><svg class="speaker-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6M18.5 6.5a8.5 8.5 0 0 1 0 11"/></svg><span class="audio-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>' : ""}
+        <button class="audio-toggle-button${hasAudio ? "" : " is-unavailable"}" id="audio-toggle-button" type="button" aria-label="${hasAudio ? "تشغيل الصوت" : "لا يتوفر تسجيل صوتي لهذا الذكر"}" title="${hasAudio ? "تشغيل الصوت" : "لا يتوفر تسجيل صوتي لهذا الذكر"}" ${hasAudio ? "" : "disabled"}><svg class="speaker-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6M18.5 6.5a8.5 8.5 0 0 1 0 11"/></svg><span class="audio-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
         <button class="counter-button" id="counter-button" type="button">${item.count > 1 ? toArabicNumber(state.count) : "التالي"}</button>
         ${hasAudio ? '<audio id="dhikr-audio" preload="none" hidden></audio>' : ""}
       </div>
