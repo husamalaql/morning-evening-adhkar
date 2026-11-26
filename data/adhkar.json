@@ -70,7 +70,8 @@
           "https://everyayah.com/data/Alafasy_128kbps/002286.mp3"
         ],
         "label": "تلاوة آخر آيتين من البقرة – مشاري العفاسي"
-      }
+      },
+      "hadithGrade": "صحيح (متفق عليه)"
     },
     {
       "id": "ikhlas",
@@ -95,7 +96,8 @@
           "https://everyayah.com/data/Alafasy_128kbps/112004.mp3"
         ],
         "label": "سورة الإخلاص – مشاري العفاسي"
-      }
+      },
+      "hadithGrade": "حسن صحيح"
     },
     {
       "id": "falaq",
@@ -121,7 +123,8 @@
           "https://everyayah.com/data/Alafasy_128kbps/113005.mp3"
         ],
         "label": "سورة الفلق – مشاري العفاسي"
-      }
+      },
+      "hadithGrade": "حسن صحيح"
     },
     {
       "id": "nas",
@@ -148,7 +151,8 @@
           "https://everyayah.com/data/Alafasy_128kbps/114006.mp3"
         ],
         "label": "سورة الناس – مشاري العفاسي"
-      }
+      },
+      "hadithGrade": "حسن صحيح"
     },
     {
       "id": "bismillah-protection",
@@ -168,7 +172,8 @@
         "type": "file",
         "src": "https://www.hisnmuslim.com/audio/ar/86.mp3",
         "label": "تسجيل الذكر – حصن المسلم"
-      }
+      },
+      "hadithGrade": "حسن صحيح"
     },
     {
       "id": "raditu-billah",
@@ -207,7 +212,8 @@
         "type": "file",
         "src": "https://www.hisnmuslim.com/audio/ar/97.mp3",
         "label": "تسجيل الذكر – حصن المسلم"
-      }
+      },
+      "hadithGrade": "صحيح"
     },
     {
       "id": "hasbi-allah",
@@ -246,7 +252,8 @@
         "type": "file",
         "src": "https://www.hisnmuslim.com/audio/ar/77.mp3",
         "label": "تسجيل الذكر – حصن المسلم"
-      }
+      },
+      "hadithGrade": "صحيح"
     },
     {
       "id": "ma-asbaha-min-nima",
