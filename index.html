@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fff8fb">
+  <meta name="description" content="أذكار الصباح والمساء">
+  <title>أذكار الصباح والمساء</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app-shell">
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" role="img">
+          <path d="M24 4 29 17 42 24 29 29 24 44 19 29 6 24 19 17Z"/>
+          <circle cx="24" cy="24" r="5"/>
+        </svg>
+      </div>
+      <span class="brand-name">وِردُ اليوم</span>
+      <span class="topbar-caption">طمأنينةٌ تَسكن القلب</span>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div class="ornament ornament-top" aria-hidden="true">۞</div>
+      <p class="eyebrow">بِذِكْرِ اللهِ تَطْمَئِنُّ الْقُلُوب</p>
+      <h1 id="page-title">أذكار الصباح<br><span>والمساء</span></h1>
+      <p class="hero-description">ابدأ يومك بذكر الله، واختمه بقلبٍ مطمئن.</p>
+      <div class="decorative-rule" aria-hidden="true"><i></i><span>✦</span><i></i></div>
+    </section>
+
+    <section class="choice-area" aria-label="اختيار الأذكار">
+      <p class="section-hint">اختر وِردك</p>
+      <div class="prayer-buttons">
+        <button class="prayer-card morning-card" data-section="morning" type="button">
+          <span class="card-icon sun-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="10"/><path d="M32 5v9M32 50v9M5 32h9M50 32h9M13 13l7 7M44 44l7 7M51 13l-7 7M20 44l-7 7"/></svg>
+          </span>
+          <span class="card-copy"><strong>أذكار الصباح</strong><small>نورٌ لبداية يومك</small></span>
+          <span class="card-arrow" aria-hidden="true">←</span>
+        </button>
+
+        <button class="prayer-card evening-card" data-section="evening" type="button">
+          <span class="card-icon moon-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M46 42A23 23 0 0 1 22 7a24 24 0 1 0 24 35Z"/><path d="m45 9 2.5 5.5L53 17l-5.5 2.5L45 25l-2.5-5.5L37 17l5.5-2.5Z"/></svg>
+          </span>
+          <span class="card-copy"><strong>أذكار المساء</strong><small>سكينةٌ لختام يومك</small></span>
+          <span class="card-arrow" aria-hidden="true">←</span>
+        </button>
+      </div>
+    </section>
+
+    <footer class="home-footer">
+      <span class="footer-flower" aria-hidden="true">❀</span>
+      <p>اجعل لسانك رطبًا بذكر الله</p>
+    </footer>
+
+    <button class="review-fab" id="review-button" type="button" aria-label="المراجعة" title="المراجعة">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M4 17.5A2.5 2.5 0 0 1 6.5 15H20M8 7h8M8 10h6"/></svg>
+    </button>
+  </main>
+
+  <div class="dialog-backdrop" id="dialog-backdrop" hidden>
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title">
+      <button class="dialog-close" id="dialog-close" type="button" aria-label="إغلاق">×</button>
+      <div class="dialog-symbol" id="dialog-symbol" aria-hidden="true">۞</div>
+      <h2 id="dialog-title">أذكار الصباح</h2>
+      <p id="dialog-message">سيتم تجهيز الأذكار في الخطوة التالية.</p>
+      <button class="dialog-action" id="dialog-action" type="button">حسنًا</button>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
