@@ -17,6 +17,58 @@
   const formatRepeatCount = (value) => value === 2 ? "مرتان" : value === 1 ? "مرة" : `${toArabicNumber(value)} مرات`;
   const escapeHtml = (value) => String(value).replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[char]));
 
+  function showApkUpdatePrompt(update) {
+    if (document.getElementById("apk-update-backdrop")) return;
+    const layer = document.createElement("div");
+    layer.className = "share-dialog-backdrop";
+    layer.id = "apk-update-backdrop";
+    layer.innerHTML =
+      '<section class="share-dialog apk-update-dialog" role="dialog" aria-modal="true" aria-labelledby="apk-update-title">' +
+        '<div class="share-message-fields apk-update-content">' +
+          '<h3 id="apk-update-title">يتوفر تحديث جديد للتطبيق</h3>' +
+          '<p class="apk-update-version">الإصدار ' + escapeHtml(update.version) + '</p>' +
+          '<p>هذا التحديث يتطلب تنزيل ملف APK وتثبيته للحفاظ على عمل التطبيق بأحدث إصدار.</p>' +
+          (update.notes ? '<p>' + escapeHtml(update.notes) + '</p>' : '') +
+          '<p class="apk-update-status" id="apk-update-status">اضغط على «تحديث الآن» للمتابعة.</p>' +
+        '</div>' +
+        '<div class="share-dialog-actions">' +
+          '<button class="share-action-button" id="apk-update-install" type="button">تحديث الآن</button>' +
+          '<button class="share-cancel-button" id="apk-update-later" type="button">لاحقاً</button>' +
+        '</div>' +
+      '</section>';
+    document.body.appendChild(layer);
+    const installButton = document.getElementById("apk-update-install");
+    const status = document.getElementById("apk-update-status");
+    installButton.addEventListener("click", async () => {
+      if (typeof window.downloadAndInstallAdhkarApkUpdate !== "function") {
+        status.textContent = "ميزة تثبيت التحديث غير متاحة في هذه النسخة. افتح صفحة التنزيل وثبّت APK يدوياً.";
+        return;
+      }
+      installButton.disabled = true;
+      installButton.textContent = "جارٍ تنزيل التحديث...";
+      status.textContent = "يتم تنزيل ملف التحديث المناسب لجهازك. لا تغلق التطبيق.";
+      try {
+        const result = await window.downloadAndInstallAdhkarApkUpdate();
+        if (result.status === "permission-required") {
+          status.textContent = "فعّل السماح بتثبيت التطبيقات من هذا المصدر في إعدادات الهاتف، ثم ارجع واضغط متابعة التثبيت.";
+          installButton.textContent = "متابعة التثبيت";
+          installButton.disabled = false;
+          return;
+        }
+        status.textContent = "تم فتح مثبت أندرويد. أكّد التثبيت من نافذة النظام.";
+        installButton.textContent = "إعادة فتح المثبت";
+        installButton.disabled = false;
+      } catch (error) {
+        console.error("APK update installation failed:", error);
+        status.textContent = "تعذر تنزيل التحديث أو فتح المثبت. تحقق من اتصال الإنترنت ثم أعد المحاولة.";
+        installButton.textContent = "إعادة المحاولة";
+        installButton.disabled = false;
+      }
+    });
+    document.getElementById("apk-update-later").addEventListener("click", () => layer.remove());
+  }
+  window.showAdhkarApkUpdatePrompt = showApkUpdatePrompt;
+
   function openDialog() {
     backdrop.hidden = false;
     document.body.style.overflow = "hidden";
