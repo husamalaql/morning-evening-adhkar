@@ -5,18 +5,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'index.html'
-      - 'script.js'
-      - 'style.css'
-      - 'data/**'
-      - 'assets/**'
-      - 'src/**'
       - 'native/**'
       - 'apk-update-manifest.json'
-      - 'scripts/**'
-      - 'package.json'
       - 'capacitor.config.json'
-      - '.github/workflows/android.yml'
 
 permissions:
   contents: write
