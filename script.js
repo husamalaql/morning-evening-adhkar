@@ -364,12 +364,7 @@
       <p class="app-version" id="app-version">الإصدار ${document.querySelector('meta[name="app-version"]')?.content || "1.0.2"}</p>
     `;
     document.getElementById("share-app-button").addEventListener("click", shareApp);
-    document.getElementById("contact-developer-button").addEventListener("click", () => {
-      const confirmed = window.confirm("هل تريد الانتقال إلى واتساب للتواصل وإرسال ملاحظتك؟");
-      if (!confirmed) return;
-      const message = "السلام عليكم، لدي مراجعة أو ملاحظة بخصوص تطبيق الأذكار، وأرغب في التواصل معكم.";
-      window.open("https://wa.me/967777273449?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
-    });
+    document.getElementById("contact-developer-button").addEventListener("click", openContactConfirmation);
     document.getElementById("continue-listening").addEventListener("change", event => { state.continueListening = event.target.checked; });
     const notificationToggle = document.getElementById("adhkar-notifications");
     const timesPanel = document.getElementById("notification-times");
@@ -448,6 +443,40 @@
     morningInput.addEventListener("change", saveNotificationSettings); eveningInput.addEventListener("change", saveNotificationSettings);
     openDialog();
   });
+  function openContactConfirmation() {
+    const message = "السلام عليكم، لدي مراجعة أو ملاحظة بخصوص تطبيق الأذكار، وأرغب في التواصل معكم.";
+    const backdrop = document.createElement("div");
+    backdrop.className = "share-dialog-backdrop";
+    backdrop.id = "contact-confirm-backdrop";
+    backdrop.innerHTML = `
+      <section class="share-dialog contact-share-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-dialog-title">
+        <div class="share-message-fields">
+          <input id="contact-dialog-title" type="text" value="التواصل عبر واتساب" readonly aria-label="عنوان الرسالة">
+          <textarea id="contact-dialog-message" rows="3" readonly aria-label="نص الرسالة">هل تريد الانتقال إلى واتساب لإرسال مراجعتك أو ملاحظتك حول التطبيق؟</textarea>
+        </div>
+        <div class="share-dialog-actions">
+          <button class="share-action-button" id="contact-whatsapp-continue" type="button">متابعة إلى واتساب</button>
+          <button class="share-cancel-button" id="contact-dialog-cancel" type="button">إلغاء</button>
+        </div>
+      </section>`;
+    document.body.appendChild(backdrop);
+    const close = () => backdrop.remove();
+    backdrop.addEventListener("click", event => { if (event.target === backdrop) close(); });
+    backdrop.querySelector("#contact-dialog-cancel").addEventListener("click", close);
+    backdrop.querySelector("#contact-whatsapp-continue").addEventListener("click", () => {
+      close();
+      window.open("https://wa.me/967777273449?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
+    });
+    const handleEscape = event => {
+      if (event.key === "Escape" && document.getElementById("contact-confirm-backdrop")) {
+        close();
+        document.removeEventListener("keydown", handleEscape);
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    backdrop.querySelector("#contact-whatsapp-continue").focus();
+  }
+
   async function shareApp() {
     const titleText = "أذكار الصباح والمساء";
     const messageText = [
@@ -459,25 +488,28 @@
       "رابط موقع الأذكار:",
       "https://adhkar-almuslim.netlify.app/"
     ].join("\n");
-    const payload = { title: titleText, text: messageText, dialogTitle: "مشاركة تطبيق الأذكار" };
+    const fileName = "adhkar-app-links.txt";
     try {
       if (typeof window.shareAdhkarContent === "function") {
-        await window.shareAdhkarContent(payload);
-      } else if (typeof navigator.share === "function") {
-        await navigator.share(payload);
-      } else if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(messageText);
-      } else {
-        window.open("https://wa.me/?text=" + encodeURIComponent(messageText), "_blank", "noopener,noreferrer");
+        await window.shareAdhkarContent({ title: titleText, text: messageText, fileName, dialogTitle: "مشاركة تطبيق الأذكار" });
+        return;
       }
+      const file = new File(["\\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
+      if (typeof navigator.share === "function" && (!navigator.canShare || navigator.canShare({ files: [file] }))) {
+        await navigator.share({ title: titleText, files: [file] });
+        return;
+      }
+      const blobUrl = URL.createObjectURL(file);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
     } catch (error) {
       if (error?.name !== "AbortError" && error?.message !== "Share canceled") {
-        try {
-          if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(messageText);
-          else window.open("https://wa.me/?text=" + encodeURIComponent(messageText), "_blank", "noopener,noreferrer");
-        } catch (_) {
-          window.open("https://wa.me/?text=" + encodeURIComponent(messageText), "_blank", "noopener,noreferrer");
-        }
+        console.error("App file sharing failed:", error);
       }
     }
   }
