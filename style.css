@@ -760,3 +760,35 @@ h1 span { color: var(--pink-deep); }
 .contact-confirm-yes svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .contact-confirm-actions button:active{transform:scale(.96);filter:brightness(.96)}
 @media(max-width:380px){.contact-confirm-dialog{padding:27px 16px 19px}.contact-confirm-actions{gap:10px}}
+
+
+/* Match notification controls to the dhikr buttons' pressed feedback. */
+.notification-settings-card .settings-switch,
+.notification-settings-card .settings-checkmark,
+.notification-times input {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.notification-settings-card .settings-switch,
+.notification-settings-card .settings-checkmark {
+  transition: transform .16s ease, filter .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease;
+}
+.notification-settings-card .settings-switch:active,
+.notification-settings-card .settings-switch:active .settings-checkmark {
+  transform: scale(.95);
+  filter: brightness(.97);
+}
+.notification-settings-card .settings-switch:focus,
+.notification-settings-card .settings-switch input:focus,
+.notification-times input:focus {
+  outline: none;
+}
+.notification-settings-card .settings-switch input:focus-visible + .settings-checkmark,
+.notification-times input:focus-visible {
+  outline: 2px solid rgba(185,93,134,.55);
+  outline-offset: 3px;
+}
+.notification-times input:active {
+  border-color: #d58cab;
+  background-color: #fff7fa;
+}
