@@ -19,7 +19,10 @@ void (async () => {
   window.getAdhkarNativeAppInfo = () => App.getInfo();
   await import('../script.js');
   await App.addListener('backButton', () => {
-    const nestedDialog = document.getElementById('contact-confirm-backdrop')
+    const apkDialog = document.getElementById('apk-update-backdrop');
+    if (apkDialog?.dataset.downloading === 'true') return;
+    const nestedDialog = apkDialog
+      || document.getElementById('contact-confirm-backdrop')
       || document.getElementById('share-confirm-backdrop');
 
     if (nestedDialog) {
