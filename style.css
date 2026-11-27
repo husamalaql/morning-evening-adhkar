@@ -1258,7 +1258,7 @@ h1 span { color: var(--pink-deep); }
 }
 .apk-update-install { color: #fff; background: linear-gradient(145deg,#dc91b0,#bd668e); }
 .apk-update-later { color: #89536d; background: #f9edf2; }
-.apk-update-dialog.is-downloading .apk-update-content {
+.apk-update-backdrop.is-downloading .apk-update-content {
   min-height: 126px; display: grid; place-items: center; border-radius: 0;
 }
 .apk-download-progress {
