@@ -147,14 +147,14 @@ jobs:
               s = s.replace(marker, splits + marker, 1)
           s = s.replace("minifyEnabled false", "minifyEnabled true")
           if "shrinkResources true" not in s and "minifyEnabled true" in s:
-              s = s.replace("minifyEnabled true", "minifyEnabled true\\n            shrinkResources true", 1)
+              s = s.replace("minifyEnabled true", "minifyEnabled true\n            shrinkResources true", 1)
           release_marker = "        release {"
           if release_marker not in s:
               raise SystemExit("Could not find release buildType")
           import re
-          s, count = re.subn(r"signingConfig signingConfigs\\.debug", "signingConfig signingConfigs.release", s, count=1)
+          s, count = re.subn(r"signingConfig signingConfigs\.debug", "signingConfig signingConfigs.release", s, count=1)
           if count == 0:
-              s = s.replace(release_marker, release_marker + "\\n            signingConfig signingConfigs.release", 1)
+              s = s.replace(release_marker, release_marker + "\n            signingConfig signingConfigs.release", 1)
           p.write_text(s)
           PY
 
