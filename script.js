@@ -70,7 +70,7 @@
       <section class="explanation-area" id="explanation-area" ${state.explanationEnabled ? "" : "hidden"}>
         <div class="explanation-scroll" id="explanation-scroll" tabindex="0">
           <div class="explanation-panel">
-            <button class="explanation-heading" id="explanation-heading" type="button" aria-expanded="${state.explanationOpen}">المعنى والشرح <span aria-hidden="true">${state.explanationOpen ? "⌄" : "‹"}</span></button>
+            <div class="explanation-heading">المعنى والشرح</div>
             <div class="explanation-content" ${state.explanationOpen ? "" : "hidden"}>
               <p>${escapeHtml(item.explanation)}</p>
               ${item.source ? `<h4>التخريج</h4><p>${escapeHtml(item.source)}</p>` : ""}
@@ -82,14 +82,6 @@
       </section>
     `;
 
-    const explanationContent = document.querySelector("#explanation-area .explanation-content");
-    const explanationHeading = document.getElementById("explanation-heading");
-    explanationHeading.addEventListener("click", () => {
-      state.explanationOpen = !state.explanationOpen;
-      explanationContent.hidden = !state.explanationOpen;
-      explanationHeading.setAttribute("aria-expanded", String(state.explanationOpen));
-      explanationHeading.querySelector("span").textContent = state.explanationOpen ? "⌄" : "‹";
-    });
     document.getElementById("counter-button").addEventListener("click", handleCounter);
     setupAudio(item);
   }
