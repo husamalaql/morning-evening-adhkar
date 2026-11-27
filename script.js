@@ -492,7 +492,7 @@
           <input id="share-confirm-title" type="text" value="مشاركة تطبيق الأذكار" readonly aria-label="عنوان الرسالة">
           <textarea rows="4" readonly aria-label="نص التأكيد">هل تريد مشاركة التطبيق مع أصدقائك؟
 فالدال على الخير كفاعله.
-سيتم تجهيز رابط الموقع ورابط تحميل التطبيق في رسالة نصية وملف نصي لتتمكن من مشاركتهما عبر التطبيقات المتاحة.</textarea>
+سيتم مشاركة ملف نصي فيه رابط موقع الأذكار ورابط تحميل التطبيق</textarea>
         </div>
         <div class="share-dialog-actions">
           <button class="share-action-button" id="share-confirm-yes" type="button">مشاركة التطبيق</button>
@@ -524,14 +524,14 @@
       "أهلاً! أشاركك تطبيق أذكار الصباح والمساء.",
       "فالدال على الخير كفاعله.",
       "",
-      "رابط تنزيل التطبيق (APK):",
-      "https://github.com/husamalaql/morning-evening-adhkar/actions/workflows/android.yml",
-      "",
       "رابط موقع الأذكار:",
-      "https://adhkar-almuslim.netlify.app/"
-    ].join("\n");
+      "https://adhkar-almuslim.netlify.app/",
+      "",
+      "رابط تحميل التطبيق (APK):",
+      "https://github.com/husamalaql/morning-evening-adhkar/actions/workflows/android.yml"
+    ].join("\\n");
     const fileName = "adhkar-app-links.txt";
-    const file = new File(["\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
+    const file = new File(["\\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
     const downloadFile = () => {
       const blobUrl = URL.createObjectURL(file);
       const link = document.createElement("a");
@@ -548,17 +548,21 @@
         return;
       }
       if (typeof navigator.share === "function" && (!navigator.canShare || navigator.canShare({ files: [file] }))) {
-        await navigator.share({ title: titleText, text: messageText, files: [file] });
+        await navigator.share({ title: titleText, files: [file] });
         return;
       }
+      if (isAndroidApp) throw new Error("خدمة مشاركة الملفات غير متاحة في التطبيق حالياً.");
       if (typeof navigator.share === "function") {
         await navigator.share({ title: titleText, text: messageText });
         return;
       }
       downloadFile();
     } catch (error) {
-      if (error?.name !== "AbortError" && error?.message !== "Share canceled") {
-        console.error("App file sharing failed:", error);
+      if (error?.name === "AbortError" || error?.message === "Share canceled") return;
+      console.error("App file sharing failed:", error);
+      if (isAndroidApp) {
+        alert("تعذرت مشاركة الملف. تحقق من تحديث التطبيق ثم حاول مرة أخرى.");
+      } else {
         downloadFile();
       }
     }
