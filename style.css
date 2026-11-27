@@ -704,3 +704,6 @@ h1 span { color: var(--pink-deep); }
 .settings-contact { display:flex; align-items:center; gap:11px; margin-top:14px; padding:14px 15px; color:#8f4c6d; border:1px solid #e7bfd0; border-radius:16px; background:#fff0f6; text-decoration:none; font-size:14px; font-weight:800; }
 .contact-icon { display:grid; place-items:center; width:34px; height:34px; flex:0 0 34px; color:white; border-radius:11px; background:#25a86a; font-size:20px; }
 .contact-arrow { margin-right:auto; color:#c17b9a; font-size:20px; }
+
+/* Compact settings layout */
+.settings-card{margin:5px 0!important;padding:10px 13px!important}.settings-card+.settings-card{margin-top:5px!important}.notification-times{margin:3px 0 8px!important;gap:8px!important}.notification-times label{gap:3px!important;line-height:1.35!important}.notification-times input{margin-top:0!important;padding:7px 8px!important;min-height:38px}.settings-contact{margin-top:7px!important}
