@@ -3,6 +3,7 @@ import { initializeNotifications } from './notifications.js';
 import { Share } from '@capacitor/share';
 import { App } from '@capacitor/app';
 import { initializeApkUpdates } from './apk-updater.js';
+import { initializeLiveUpdates } from './live-update.js';
 
 void (async () => {
   window.resolveAdhkarAudioSources = resolveAudioSources;
@@ -38,5 +39,6 @@ void (async () => {
     void App.exitApp();
   });
   await initializeApkUpdates();
+  await initializeLiveUpdates();
   await initializeNotifications();
 })();

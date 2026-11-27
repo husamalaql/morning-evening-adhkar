@@ -8,6 +8,10 @@ on:
       - 'native/**'
       - 'apk-update-manifest.json'
       - 'capacitor.config.json'
+      - 'src/main.js'
+      - 'src/live-update.js'
+      - 'src/apk-updater.js'
+      - 'package-lock.json'
 
 permissions:
   contents: write

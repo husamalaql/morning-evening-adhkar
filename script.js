@@ -473,7 +473,7 @@
       updateButton.disabled = true;
       updateButton.textContent = "جارٍ البحث عن التحديث...";
       try {
-        // APK-only test release: never check, download, or apply OTA updates.
+        // APK has priority. OTA is checked only when the installed native shell is current.
         if (typeof window.checkAdhkarApkUpdate !== "function") {
           throw new Error("APK update checker is unavailable");
         }
@@ -481,6 +481,15 @@
         if (apkResult.status === "available") {
           window.showAdhkarApkUpdatePrompt?.(apkResult);
           updateButton.textContent = "يتوفر تحديث يتطلب التثبيت";
+          return;
+        }
+        if (typeof window.checkAdhkarUpdate !== "function") {
+          throw new Error("Live update checker is unavailable");
+        }
+        const liveResult = await window.checkAdhkarUpdate();
+        if (liveResult.status === "pending") {
+          updateButton.textContent = "جارٍ تطبيق تحديث الواجهة...";
+          await window.applyAdhkarUpdate?.();
           return;
         }
         updateButton.textContent = "لا يوجد تحديث جديد";
