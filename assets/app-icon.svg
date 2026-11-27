@@ -1,50 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1024" height="1024" viewBox="0 0 1024 1024">
 <defs>
-  <linearGradient id="pink" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ff4f9a"/><stop offset="1" stop-color="#ed287d"/></linearGradient>
-  <linearGradient id="inner" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffb5d3"/><stop offset="1" stop-color="#ff8fbd"/></linearGradient>
-  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0bd"/><stop offset=".48" stop-color="#d89a37"/><stop offset="1" stop-color="#fff0bd"/></linearGradient>
-  <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur stdDeviation="12"/></filter>
-  <g id="star" fill="none" stroke="url(#gold)" stroke-width="13" stroke-linejoin="round">
-    <path d="M0-72 19-25 66-47 44 0 66 47 19 25 0 72-19 25-66 47-44 0-66-47-19-25Z"/>
-    <path d="M0-48 48 0 0 48-48 0Z" stroke-width="8"/>
-    <circle r="8" fill="#fff1bd" stroke="none"/>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffafd"/><stop offset=".54" stop-color="#fff7fa"/><stop offset="1" stop-color="#fffafc"/></linearGradient>
+ <radialGradient id="glow" cx="50%" cy="8%" r="75%"><stop stop-color="#f6d2e1" stop-opacity=".48"/><stop offset="1" stop-color="#f6d2e1" stop-opacity="0"/></radialGradient>
+ <clipPath id="tile"><rect width="600" height="600"/></clipPath>
+ <g id="tile-art" clip-path="url(#tile)"><path d="M-25.00,-25.00 L25.00,-25.00 L25.00,25.00 L-25.00,25.00Z M51.50,-25.00 L104.34,-25.00 L129.62,0.00 L104.34,25.00 L51.50,25.00Z M49.25,49.25 L49.25,114.90 L19.15,145.00 L48.65,174.50 L100.75,174.50 L100.75,99.50 L174.50,99.50 L174.50,48.65 L145.00,19.15 L114.90,49.25Z M125.00,125.00 L175.00,125.00 L175.00,175.00 L125.00,175.00Z M25.00,51.50 L25.00,104.34 L-0.00,129.62 L-25.00,104.34 L-25.00,51.50Z M-49.25,49.25 L-114.90,49.25 L-145.00,19.15 L-174.50,48.65 L-174.50,100.75 L-99.50,100.75 L-99.50,174.50 L-48.65,174.50 L-19.15,145.00 L-49.25,114.90Z M-49.25,-49.25 L-49.25,-114.90 L-19.15,-145.00 L-48.65,-174.50 L-100.75,-174.50 L-100.75,-99.50 L-174.50,-99.50 L-174.50,-48.65 L-145.00,-19.15 L-114.90,-49.25Z M49.25,-49.25 L114.90,-49.25 L145.00,-19.15 L174.50,-48.65 L174.50,-100.75 L99.50,-100.75 L99.50,-174.50 L48.65,-174.50 L19.15,-145.00 L49.25,-114.90Z M275.00,275.00 L325.00,275.00 L325.00,325.00 L275.00,325.00Z M351.50,275.00 L404.34,275.00 L429.62,300.00 L404.34,325.00 L351.50,325.00Z M349.25,349.25 L349.25,414.90 L319.15,445.00 L348.65,474.50 L400.75,474.50 L400.75,399.50 L474.50,399.50 L474.50,348.65 L445.00,319.15 L414.90,349.25Z M425.00,425.00 L475.00,425.00 L475.00,475.00 L425.00,475.00Z M325.00,351.50 L325.00,404.34 L300.00,429.62 L275.00,404.34 L275.00,351.50Z M250.75,349.25 L185.10,349.25 L155.00,319.15 L125.50,348.65 L125.50,400.75 L200.50,400.75 L200.50,474.50 L251.35,474.50 L280.85,445.00 L250.75,414.90Z M175.00,425.00 L175.00,475.00 L125.00,475.00 L125.00,425.00Z M248.50,325.00 L195.66,325.00 L170.38,300.00 L195.66,275.00 L248.50,275.00Z M250.75,250.75 L250.75,185.10 L280.85,155.00 L251.35,125.50 L199.25,125.50 L199.25,200.50 L125.50,200.50 L125.50,251.35 L155.00,280.85 L185.10,250.75Z M175.00,175.00 L125.00,175.00 L125.00,125.00 L175.00,125.00Z M275.00,248.50 L275.00,195.66 L300.00,170.38 L325.00,195.66 L325.00,248.50Z M349.25,250.75 L414.90,250.75 L445.00,280.85 L474.50,251.35 L474.50,199.25 L399.50,199.25 L399.50,125.50 L348.65,125.50 L319.15,155.00 L349.25,185.10Z M425.00,175.00 L425.00,125.00 L475.00,125.00 L475.00,175.00Z M300.00,-133.26 L333.81,-100.75 L400.75,-100.75 L400.75,-33.81 L433.26,0.00 L400.75,33.81 L400.75,100.75 L333.81,100.75 L300.00,133.26 L266.19,100.75 L199.25,100.75 L199.25,33.81 L166.74,-0.00 L199.25,-33.81 L199.25,-100.75 L266.19,-100.75Z M0.00,166.74 L33.81,199.25 L100.75,199.25 L100.75,266.19 L133.26,300.00 L100.75,333.81 L100.75,400.75 L33.81,400.75 L-0.00,433.26 L-33.81,400.75 L-100.75,400.75 L-100.75,333.81 L-133.26,300.00 L-100.75,266.19 L-100.75,199.25 L-33.81,199.25Z M-25.00,575.00 L25.00,575.00 L25.00,625.00 L-25.00,625.00Z M51.50,575.00 L104.34,575.00 L129.62,600.00 L104.34,625.00 L51.50,625.00Z M49.25,649.25 L49.25,714.90 L19.15,745.00 L48.65,774.50 L100.75,774.50 L100.75,699.50 L174.50,699.50 L174.50,648.65 L145.00,619.15 L114.90,649.25Z M-49.25,649.25 L-114.90,649.25 L-145.00,619.15 L-174.50,648.65 L-174.50,700.75 L-99.50,700.75 L-99.50,774.50 L-48.65,774.50 L-19.15,745.00 L-49.25,714.90Z M-49.25,550.75 L-49.25,485.10 L-19.15,455.00 L-48.65,425.50 L-100.75,425.50 L-100.75,500.50 L-174.50,500.50 L-174.50,551.35 L-145.00,580.85 L-114.90,550.75Z M-25.00,548.50 L-25.00,495.66 L0.00,470.38 L25.00,495.66 L25.00,548.50Z M49.25,550.75 L114.90,550.75 L145.00,580.85 L174.50,551.35 L174.50,499.25 L99.50,499.25 L99.50,425.50 L48.65,425.50 L19.15,455.00 L49.25,485.10Z M125.00,475.00 L125.00,425.00 L175.00,425.00 L175.00,475.00Z M300.00,466.74 L333.81,499.25 L400.75,499.25 L400.75,566.19 L433.26,600.00 L400.75,633.81 L400.75,700.75 L333.81,700.75 L300.00,733.26 L266.19,700.75 L199.25,700.75 L199.25,633.81 L166.74,600.00 L199.25,566.19 L199.25,499.25 L266.19,499.25Z M575.00,-25.00 L625.00,-25.00 L625.00,25.00 L575.00,25.00Z M649.25,49.25 L649.25,114.90 L619.15,145.00 L648.65,174.50 L700.75,174.50 L700.75,99.50 L774.50,99.50 L774.50,48.65 L745.00,19.15 L714.90,49.25Z M625.00,51.50 L625.00,104.34 L600.00,129.62 L575.00,104.34 L575.00,51.50Z M550.75,49.25 L485.10,49.25 L455.00,19.15 L425.50,48.65 L425.50,100.75 L500.50,100.75 L500.50,174.50 L551.35,174.50 L580.85,145.00 L550.75,114.90Z M475.00,125.00 L475.00,175.00 L425.00,175.00 L425.00,125.00Z M548.50,25.00 L495.66,25.00 L470.38,-0.00 L495.66,-25.00 L548.50,-25.00Z M550.75,-49.25 L550.75,-114.90 L580.85,-145.00 L551.35,-174.50 L499.25,-174.50 L499.25,-99.50 L425.50,-99.50 L425.50,-48.65 L455.00,-19.15 L485.10,-49.25Z M649.25,-49.25 L714.90,-49.25 L745.00,-19.15 L774.50,-48.65 L774.50,-100.75 L699.50,-100.75 L699.50,-174.50 L648.65,-174.50 L619.15,-145.00 L649.25,-114.90Z M600.00,166.74 L633.81,199.25 L700.75,199.25 L700.75,266.19 L733.26,300.00 L700.75,333.81 L700.75,400.75 L633.81,400.75 L600.00,433.26 L566.19,400.75 L499.25,400.75 L499.25,333.81 L466.74,300.00 L499.25,266.19 L499.25,199.25 L566.19,199.25Z M575.00,575.00 L625.00,575.00 L625.00,625.00 L575.00,625.00Z M649.25,649.25 L649.25,714.90 L619.15,745.00 L648.65,774.50 L700.75,774.50 L700.75,699.50 L774.50,699.50 L774.50,648.65 L745.00,619.15 L714.90,649.25Z M550.75,649.25 L485.10,649.25 L455.00,619.15 L425.50,648.65 L425.50,700.75 L500.50,700.75 L500.50,774.50 L551.35,774.50 L580.85,745.00 L550.75,714.90Z M548.50,625.00 L495.66,625.00 L470.38,600.00 L495.66,575.00 L548.50,575.00Z M550.75,550.75 L550.75,485.10 L580.85,455.00 L551.35,425.50 L499.25,425.50 L499.25,500.50 L425.50,500.50 L425.50,551.35 L455.00,580.85 L485.10,550.75Z M475.00,475.00 L425.00,475.00 L425.00,425.00 L475.00,425.00Z M575.00,548.50 L575.00,495.66 L600.00,470.38 L625.00,495.66 L625.00,548.50Z M649.25,550.75 L714.90,550.75 L745.00,580.85 L774.50,551.35 L774.50,499.25 L699.50,499.25 L699.50,425.50 L648.65,425.50 L619.15,455.00 L649.25,485.10Z" fill="none" stroke="#7A4A28" stroke-width="7.5" stroke-linejoin="miter" stroke-miterlimit="10"/></g>
+ <pattern id="ornament" width="310" height="310" patternUnits="userSpaceOnUse" viewBox="0 0 2400 2400" preserveAspectRatio="none">
+  <g transform="scale(1)">
+   <use href="#tile-art" xlink:href="#tile-art" x="0" y="0"/><use href="#tile-art" xlink:href="#tile-art" x="0" y="600"/><use href="#tile-art" xlink:href="#tile-art" x="0" y="1200"/><use href="#tile-art" xlink:href="#tile-art" x="0" y="1800"/>
+   <use href="#tile-art" xlink:href="#tile-art" x="600" y="0"/><use href="#tile-art" xlink:href="#tile-art" x="600" y="600"/><use href="#tile-art" xlink:href="#tile-art" x="600" y="1200"/><use href="#tile-art" xlink:href="#tile-art" x="600" y="1800"/>
+   <use href="#tile-art" xlink:href="#tile-art" x="1200" y="0"/><use href="#tile-art" xlink:href="#tile-art" x="1200" y="600"/><use href="#tile-art" xlink:href="#tile-art" x="1200" y="1200"/><use href="#tile-art" xlink:href="#tile-art" x="1200" y="1800"/>
+   <use href="#tile-art" xlink:href="#tile-art" x="1800" y="0"/><use href="#tile-art" xlink:href="#tile-art" x="1800" y="600"/><use href="#tile-art" xlink:href="#tile-art" x="1800" y="1200"/><use href="#tile-art" xlink:href="#tile-art" x="1800" y="1800"/>
   </g>
-  <g id="smallstar" fill="none" stroke="url(#gold)" stroke-width="9">
-    <path d="M0-38 11-11 38 0 11 11 0 38-11 11-38 0-11-11Z"/>
-  </g>
+ </pattern>
+ <radialGradient id="fade"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".48" stop-color="#000" stop-opacity=".02"/><stop offset="1" stop-color="#000" stop-opacity=".24"/></radialGradient>
 </defs>
-<rect width="1024" height="1024" rx="220" fill="url(#pink)"/>
-<rect x="35" y="35" width="954" height="954" rx="190" fill="none" stroke="url(#gold)" stroke-width="18"/>
-<rect x="58" y="58" width="908" height="908" rx="172" fill="none" stroke="#ffe8f2" stroke-width="5" opacity=".95"/>
-<!-- delicate eight-point ornamental border -->
-<g opacity=".98">
-  <use href="#star" x="160" y="160"/>
-  <use href="#star" x="864" y="160"/>
-  <use href="#star" x="160" y="864"/>
-  <use href="#star" x="864" y="864"/>
-  <use href="#smallstar" x="510" y="112"/>
-  <use href="#smallstar" x="510" y="912"/>
-  <use href="#smallstar" x="112" y="510"/>
-  <use href="#smallstar" x="912" y="510"/>
-  <path d="M245 105H405M619 105H779M245 919H405M619 919H779M105 245V405M105 619V779M919 245V405M919 619V779" stroke="url(#gold)" stroke-width="10" stroke-linecap="round"/>
-  <path d="M235 235l52 52m450-52 52 52m-502 450 52-52m450 52-52-52" stroke="#ffe7ad" stroke-width="7" opacity=".8"/>
-</g>
-<!-- central pink container / mihrab plaque -->
-<path d="M175 790V390Q175 330 235 300L512 145 789 300Q849 330 849 390V790Q849 850 789 850H235Q175 850 175 790Z" fill="#a91655" opacity=".25" filter="url(#shadow)"/>
-<path d="M190 790V390Q190 340 242 312L512 160 782 312Q834 340 834 390V790Q834 834 790 834H234Q190 834 190 790Z" fill="url(#inner)" stroke="url(#gold)" stroke-width="24"/>
-<path d="M218 778V397Q218 360 256 339L512 194 768 339Q806 360 806 397V778Q806 806 778 806H246Q218 806 218 778Z" fill="none" stroke="#fff0f7" stroke-width="7"/>
-<!-- small geometric corner motifs inside the plaque -->
-<g fill="none" stroke="url(#gold)" stroke-width="9" opacity=".95">
-  <path d="M255 410l35-35 35 35-35 35zM734 410l35-35 35 35-35 35zM255 735l35-35 35 35-35 35zM734 735l35-35 35 35-35 35z"/>
-  <path d="M290 375v70m-35-35h70M769 375v70m-35-35h70M290 700v70m-35-35h70M769 700v70m-35-35h70" stroke-width="6"/>
-</g>
-<!-- Arabic title -->
-<text x="512" y="525" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Naskh Arabic, Noto Sans Arabic, Arial, sans-serif" font-size="126" font-weight="700" fill="#8d174c" stroke="#fff0f7" stroke-width="5" paint-order="stroke">أذكار</text>
-<path d="M330 565H694" stroke="url(#gold)" stroke-width="9" stroke-linecap="round"/>
-<path d="M512 548l17 17-17 17-17-17z" fill="#fff0bd" stroke="#c58a32" stroke-width="5"/>
-<text x="512" y="670" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Naskh Arabic, Noto Sans Arabic, Arial, sans-serif" font-size="76" font-weight="700" fill="#8d174c" stroke="#fff0f7" stroke-width="4" paint-order="stroke">الصباح والمساء</text>
-<g fill="none" stroke="url(#gold)" stroke-width="8" stroke-linejoin="round">
-  <path d="M410 720l-24 24 24 24 24-24zM614 720l-24 24 24 24 24-24z"/>
-  <path d="M512 735l22 22-22 22-22-22z"/>
-</g>
+<rect width="1024" height="1024" fill="url(#bg)"/>
+<rect width="1024" height="1024" fill="url(#glow)"/>
+<rect width="1024" height="1024" fill="url(#ornament)" opacity=".10"/>
+<rect width="1024" height="1024" fill="url(#fade)" opacity=".5"/>
+<text x="512" y="455" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Naskh Arabic, Noto Sans Arabic, Arial, sans-serif" font-size="104" font-weight="700" fill="#684657">أذكار الصباح</text>
+<text x="512" y="590" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Naskh Arabic, Noto Sans Arabic, Arial, sans-serif" font-size="104" font-weight="700" fill="#d77da2">والمساء</text>
 </svg>
