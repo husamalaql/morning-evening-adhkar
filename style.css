@@ -1157,3 +1157,28 @@ h1 span { color: var(--pink-deep); }
 .apk-update-dialog .share-dialog-actions .share-cancel-button {
   border-radius: 0 0 0 16px;
 }
+
+
+/* Minimal centered APK download progress */
+.apk-download-progress {
+  width: min(230px, 72%);
+  height: 9px;
+  margin: 30px auto;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e9e3e6;
+  box-shadow: inset 0 1px 2px rgba(70,40,55,.12);
+}
+.apk-download-progress > div {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #25a65a, #43c875);
+  transition: width .18s ease;
+}
+.apk-update-dialog #apk-update-actions[hidden] { display: none !important; }
+.apk-update-dialog .apk-update-content:has(.apk-download-progress) {
+  min-height: 110px;
+  display: grid;
+  place-items: center;
+}
