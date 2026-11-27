@@ -16,6 +16,7 @@ void (async () => {
       dialogTitle: options.dialogTitle || 'مشاركة تطبيق الأذكار'
     });
   };
+  window.getAdhkarNativeAppInfo = () => App.getInfo();
   await import('../script.js');
   await App.addListener('backButton', () => {
     const nestedDialog = document.getElementById('contact-confirm-backdrop')
