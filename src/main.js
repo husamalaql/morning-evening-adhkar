@@ -9,12 +9,13 @@ void (async () => {
   window.shareAdhkarContent = async (options) => {
     const file = await Filesystem.writeFile({
       path: options.fileName || 'adhkar-app-links.txt',
-      data: options.text || '',
+      data: '\uFEFF' + (options.text || ''),
       directory: Directory.Cache,
       encoding: Encoding.UTF8
     });
     return Share.share({
       title: options.title || 'أذكار الصباح والمساء',
+      text: options.text || '',
       files: [file.uri],
       dialogTitle: options.dialogTitle || 'مشاركة تطبيق الأذكار'
     });
