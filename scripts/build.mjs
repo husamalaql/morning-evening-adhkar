@@ -3,6 +3,7 @@ import { build } from 'esbuild';
 import sharp from 'sharp';
 import { fileURLToPath } from 'node:url';
 
+// Keep the OTA publisher's bundle output deterministic across releases.
 const root = new URL('../', import.meta.url);
 const out = new URL('../www/', import.meta.url);
 
