@@ -529,9 +529,9 @@
       "",
       "رابط تحميل التطبيق (APK):",
       "https://github.com/husamalaql/morning-evening-adhkar/actions/workflows/android.yml"
-    ].join("\\n");
+    ].join("\n");
     const fileName = "adhkar-app-links.txt";
-    const file = new File(["\\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
+    const file = new File(["\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
     const downloadFile = () => {
       const blobUrl = URL.createObjectURL(file);
       const link = document.createElement("a");
