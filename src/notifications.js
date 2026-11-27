@@ -56,8 +56,28 @@ export async function initializeNotifications() {
   });
   window.configureAdhkarNotifications = configureAdhkarNotifications;
   window.markAdhkarCompleted = markAdhkarCompleted;
-  if (localStorage.getItem('adhkar-notifications-enabled') === 'true') {
-    try { await refreshScheduledNotifications(); } catch (_) {}
+
+  // Ask for notification permission once on the first Android app launch.
+  // Scheduling starts automatically after permission is granted.
+  try {
+    let permission = await LocalNotifications.checkPermissions();
+    const alreadyEnabled = localStorage.getItem('adhkar-notifications-enabled') === 'true';
+    const permissionAsked = localStorage.getItem('adhkar-notification-permission-requested') === 'true';
+
+    if (permission.display !== 'granted' && !permissionAsked) {
+      localStorage.setItem('adhkar-notification-permission-requested', 'true');
+      permission = await LocalNotifications.requestPermissions();
+    }
+
+    if (permission.display === 'granted') {
+      localStorage.setItem('adhkar-notifications-enabled', 'true');
+      await refreshScheduledNotifications();
+    } else if (alreadyEnabled) {
+      // Keep the user's preference; Android may require enabling permission in system settings.
+      await LocalNotifications.cancel({ notifications: [{ id: IDS.morning }, { id: IDS.evening }] });
+    }
+  } catch (_) {
+    // Do not interrupt app startup if Android notification permission is unavailable.
   }
 }
 
