@@ -10,7 +10,7 @@
   const title = document.getElementById("dialog-title");
   const symbol = document.getElementById("dialog-symbol");
   const dialogBody = document.getElementById("dialog-body");
-  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audio: null, explanationOpen: false, continueListening: true };
+  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audioSourcesReady: false, audio: null, explanationOpen: false, continueListening: true };
 
   const toArabicNumber = (value) => String(value).replace(/\d/g, digit => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
   const formatRepeatCount = (value) => value === 2 ? "مرتان" : value === 1 ? "مرة" : `${toArabicNumber(value)} مرات`;
@@ -30,6 +30,7 @@
     }
     state.audio = null;
     state.audioSources = [];
+    state.audioSourcesReady = false;
     state.audioIndex = 0;
   }
 
@@ -129,10 +130,35 @@
     button.style.setProperty("--fill", (Math.max(0, state.count / item.count) * 100) + "%");
   }
 
+  async function ensureAudioSources() {
+    if (state.audioSourcesReady) return true;
+    const audioElement = state.audio;
+    const toggleButton = document.getElementById("audio-toggle-button");
+    try {
+      if (typeof window.resolveAdhkarAudioSources === "function") {
+        state.audioSources = await window.resolveAdhkarAudioSources(state.audioSources);
+      }
+      state.audioSourcesReady = true;
+      if (audioElement && state.audioSources.length) {
+        audioElement.src = state.audioSources[state.audioIndex] || state.audioSources[0];
+        audioElement.load();
+      }
+      return true;
+    } catch (error) {
+      if (toggleButton) {
+        toggleButton.classList.remove("is-playing");
+        toggleButton.setAttribute("aria-label", "تعذر تحميل التسجيل");
+        toggleButton.title = error?.message || "تعذر تحميل التسجيل الصوتي";
+      }
+      return false;
+    }
+  }
+
   async function restartCurrentAudio() {
     const audioElement = state.audio;
     if (!audioElement || audioElement.paused || !state.audioSources.length) return;
     const toggleButton = document.getElementById("audio-toggle-button");
+    if (!(await ensureAudioSources())) return;
     state.audioIndex = 0;
     audioElement.pause();
     audioElement.src = state.audioSources[0];
@@ -165,7 +191,10 @@
     const toggleButton = document.getElementById("audio-toggle-button");
     if (!audioElement || !toggleButton) return;
     try {
+      if (!(await ensureAudioSources())) return;
       state.audioIndex = 0;
+      audioElement.src = state.audioSources[0];
+      audioElement.load();
       audioElement.currentTime = 0;
       await audioElement.play();
       toggleButton.classList.add("is-playing");
@@ -201,10 +230,10 @@
     if (!audioElement || !toggleButton || !item.audio) return;
     state.audio = audioElement;
     state.audioSources = item.audio.type === "playlist" ? item.audio.sources : [item.audio.src];
-    audioElement.src = state.audioSources[0];
     toggleButton.addEventListener("click", async () => {
       if (audioElement.paused) {
         try {
+          if (!(await ensureAudioSources())) return;
           await audioElement.play();
           toggleButton.classList.add("is-playing");
           toggleButton.setAttribute("aria-label", "إيقاف مؤقت");
