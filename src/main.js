@@ -2,21 +2,15 @@ import { resolveAudioSources } from './audio-cache.js';
 import { initializeNotifications } from './notifications.js';
 import { initializeLiveUpdates } from './live-update.js';
 import { Share } from '@capacitor/share';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 void (async () => {
   window.resolveAdhkarAudioSources = resolveAudioSources;
   window.shareAdhkarContent = async (options) => {
-    const file = await Filesystem.writeFile({
-      path: options.fileName || 'adhkar-app-links.txt',
-      data: '\uFEFF' + (options.text || ''),
-      directory: Directory.Cache,
-      encoding: Encoding.UTF8
-    });
-    if (!file?.uri) throw new Error('تعذر إنشاء ملف المشاركة.');
+    const text = options.text || '';
+    if (!text.trim()) throw new Error('لا يوجد محتوى لمشاركته.');
     return Share.share({
       title: options.title || 'أذكار الصباح والمساء',
-      files: [file.uri],
+      text,
       dialogTitle: options.dialogTitle || 'مشاركة تطبيق الأذكار'
     });
   };
