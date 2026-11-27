@@ -6,7 +6,6 @@
   const sectionButtons = document.querySelectorAll("[data-section]");
   const settingsButton = document.getElementById("settings-button");
   const backdrop = document.getElementById("dialog-backdrop");
-  const shareBackdrop = document.getElementById("share-dialog-backdrop");
   const closeButton = document.getElementById("dialog-close");
   const listButton = document.getElementById("dhikr-list-button");
   const title = document.getElementById("dialog-title");
@@ -364,7 +363,7 @@
       <button class="settings-contact" id="contact-developer-button" type="button"><span class="contact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.5Z"/><path d="M8.7 8.1c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 1.9.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .3-.2 1.1-.7 1.5-.5.5-1.2.7-1.9.6-1-.1-2.2-.7-3.4-1.7-1-.9-1.8-2.1-2.1-3-.3-.9 0-1.7.4-2.2Z"/></svg></span><span>للمراجعة تواصل معنا عبر الواتس</span><span class="contact-arrow">←</span></button>
       <p class="app-version" id="app-version">الإصدار ${document.querySelector('meta[name="app-version"]')?.content || "1.0.2"}</p>
     `;
-    document.getElementById("share-app-button").addEventListener("click", openShareDialog);
+    document.getElementById("share-app-button").addEventListener("click", shareApp);
     document.getElementById("contact-developer-button").addEventListener("click", () => {
       const message = "السلام عليكم، لدي مراجعة أو ملاحظة بخصوص تطبيق الأذكار، وأرغب في التواصل معكم.";
       window.open("https://wa.me/967777273449?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
@@ -447,66 +446,39 @@
     morningInput.addEventListener("change", saveNotificationSettings); eveningInput.addEventListener("change", saveNotificationSettings);
     openDialog();
   });
-  function openShareDialog() {
-    if (!shareBackdrop) return;
-    document.getElementById("share-message-title").value = "أذكار الصباح والمساء";
-    document.getElementById("share-message-text").value = "تطبيق أذكار الصباح والمساء، أذكار يومية بتصميم مريح وإمكانية الاستماع للصوتيات.\n\nرابط الموقع: https://adhkar-almuslim.netlify.app/";
-    shareBackdrop.hidden = false;
-    document.body.style.overflow = "hidden";
-    document.getElementById("share-action-button").focus();
-  }
-  function closeShareDialog() {
-    if (!shareBackdrop) return;
-    shareBackdrop.hidden = true;
-    if (backdrop.hidden) document.body.style.overflow = "";
-  }
-  document.getElementById("share-cancel-button").addEventListener("click", closeShareDialog);
-  shareBackdrop.addEventListener("click", event => {
-    if (event.target === shareBackdrop) closeShareDialog();
-  });
-  document.getElementById("share-action-button").addEventListener("click", async () => {
-    const button = document.getElementById("share-action-button");
-    const titleText = document.getElementById("share-message-title").value.trim() || "أذكار الصباح والمساء";
-    const messageText = document.getElementById("share-message-text").value.trim();
-    const payload = {
-      title: titleText,
-      text: messageText,
-      dialogTitle: "مشاركة التطبيق"
-    };
-    button.disabled = true;
-    const originalLabel = button.textContent;
-    button.textContent = "جارٍ فتح خيارات المشاركة...";
+  async function shareApp() {
+    const titleText = "أذكار الصباح والمساء";
+    const messageText = [
+      "تطبيق أذكار الصباح والمساء",
+      "",
+      "رابط تنزيل التطبيق (APK) من GitHub:",
+      "https://github.com/husamalaql/morning-evening-adhkar/actions/workflows/android.yml",
+      "",
+      "رابط موقع الأذكار:",
+      "https://adhkar-almuslim.netlify.app/"
+    ].join("\n");
+    const payload = { title: titleText, text: messageText, dialogTitle: "مشاركة تطبيق الأذكار" };
     try {
       if (typeof window.shareAdhkarContent === "function") {
         await window.shareAdhkarContent(payload);
-      } else if (navigator.share) {
+      } else if (typeof navigator.share === "function") {
         await navigator.share(payload);
       } else if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText([titleText, messageText].filter(Boolean).join("\n"));
-        button.textContent = "تم نسخ الرسالة";
-        button.disabled = false;
-        return;
+        await navigator.clipboard.writeText(messageText);
       } else {
-        throw new Error("المشاركة غير مدعومة على هذا الجهاز");
+        window.open("https://wa.me/?text=" + encodeURIComponent(messageText), "_blank", "noopener,noreferrer");
       }
-      closeShareDialog();
     } catch (error) {
       if (error?.name !== "AbortError" && error?.message !== "Share canceled") {
-        button.textContent = "تعذرت المشاركة، حاول مجدداً";
-        button.disabled = false;
-        return;
-      }
-      closeShareDialog();
-    } finally {
-      if (!shareBackdrop.hidden) {
-        button.disabled = false;
-        if (button.textContent === "جارٍ فتح خيارات المشاركة...") button.textContent = originalLabel;
+        try {
+          if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(messageText);
+          else window.open("https://wa.me/?text=" + encodeURIComponent(messageText), "_blank", "noopener,noreferrer");
+        } catch (_) {
+          window.open("https://wa.me/?text=" + encodeURIComponent(messageText), "_blank", "noopener,noreferrer");
+        }
       }
     }
-  });
-  document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && shareBackdrop && !shareBackdrop.hidden) closeShareDialog();
-  });
+  }
   listButton.addEventListener("click", () => {
     if (listButton.getAttribute("aria-label") === "العودة إلى الذكر") render();
     else renderDhikrList();
