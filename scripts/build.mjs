@@ -17,7 +17,7 @@ for (const path of ['index.html', 'style.css', 'data', 'assets', 'islamic-patter
   }
 }
 
-await sharp(fileURLToPath(new URL('../assets/app-icon.svg', import.meta.url))).resize(1024, 1024).png().toFile(fileURLToPath(new URL('../assets/icon.png', import.meta.url)));
+await sharp(fileURLToPath(new URL('../assets/app-icon.svg', import.meta.url))).resize(1024, 1024).png({ palette: true, quality: 80, effort: 10 }).toFile(fileURLToPath(new URL('../assets/icon.png', import.meta.url)));
 
 let html = await readFile(new URL('index.html', out), 'utf8');
 html = html
