@@ -89,16 +89,45 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Configure release APK variants
+      - name: Restore private Android release signing key
+        shell: bash
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          set -euo pipefail
+          test -n "$ANDROID_KEYSTORE_BASE64" || { echo "Missing ANDROID_KEYSTORE_BASE64 repository secret"; exit 1; }
+          mkdir -p android/app
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/adhkar-release.jks
+          test -s android/app/adhkar-release.jks
+
+      - name: Configure release APK variants and signing
         working-directory: android
         shell: bash
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
+          set -euo pipefail
+          test -n "$ANDROID_KEYSTORE_PASSWORD" || { echo "Missing ANDROID_KEYSTORE_PASSWORD repository secret"; exit 1; }
+          test -n "$ANDROID_KEY_ALIAS" || { echo "Missing ANDROID_KEY_ALIAS repository secret"; exit 1; }
+          test -n "$ANDROID_KEY_PASSWORD" || { echo "Missing ANDROID_KEY_PASSWORD repository secret"; exit 1; }
           python3 - <<'PY'
           from pathlib import Path
           p = Path("app/build.gradle")
           s = p.read_text()
           marker = "    buildTypes {"
-          block = """    splits {
+          signing = """    signingConfigs {
+              release {
+                  storeFile file("adhkar-release.jks")
+                  storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                  keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                  keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+              }
+          }
+
+          """
+          splits = """    splits {
               abi {
                   enable true
                   reset()
@@ -108,19 +137,24 @@ jobs:
           }
 
           """
-          # Enable R8 code shrinking and Android resource shrinking for the release build.
-          s = s.replace("minifyEnabled false", "minifyEnabled true")
-          if "shrinkResources true" not in s and "minifyEnabled true" in s:
-              s = s.replace("minifyEnabled true", "minifyEnabled true\n            shrinkResources true", 1)
+          if "signingConfigs {" not in s:
+              if marker not in s:
+                  raise SystemExit("Could not find buildTypes block in app/build.gradle")
+              s = s.replace(marker, signing + marker, 1)
           if "splits {" not in s:
               if marker not in s:
                   raise SystemExit("Could not find buildTypes block in app/build.gradle")
-              s = s.replace(marker, block + marker, 1)
+              s = s.replace(marker, splits + marker, 1)
+          s = s.replace("minifyEnabled false", "minifyEnabled true")
+          if "shrinkResources true" not in s and "minifyEnabled true" in s:
+              s = s.replace("minifyEnabled true", "minifyEnabled true\\n            shrinkResources true", 1)
           release_marker = "        release {"
-          if "signingConfig signingConfigs.debug" not in s:
-              if release_marker not in s:
-                  raise SystemExit("Could not find release buildType")
-              s = s.replace(release_marker, release_marker + "\n            // Signed for direct installation; use a private release key for Play Store publishing.\n            signingConfig signingConfigs.debug", 1)
+          if release_marker not in s:
+              raise SystemExit("Could not find release buildType")
+          import re
+          s, count = re.subn(r"signingConfig signingConfigs\\.debug", "signingConfig signingConfigs.release", s, count=1)
+          if count == 0:
+              s = s.replace(release_marker, release_marker + "\\n            signingConfig signingConfigs.release", 1)
           p.write_text(s)
           PY
 
