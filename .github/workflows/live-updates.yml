@@ -49,8 +49,10 @@ jobs:
           cd ..
           CHECKSUM=$(sha256sum adhkar-live-update.zip | cut -d " " -f 1)
           cat > update-manifest.json <<EOF
+          VERSION=$(node -p "require('./package.json').version")
           {
             "bundleId": "${GITHUB_SHA}",
+            "version": "${VERSION}",
             "url": "https://github.com/husamalaql/morning-evening-adhkar/releases/download/live-updates/adhkar-live-update.zip",
             "checksum": "${CHECKSUM}"
           }
