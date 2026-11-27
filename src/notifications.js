@@ -14,8 +14,7 @@ function parseTime(value) {
 }
 
 function getTime(section) {
-  const key = section === 'morning' ? 'adhkar-morning-time' : 'adhkar-evening-time';
-  return localStorage.getItem(key) || DEFAULT_TIMES[section];
+  return DEFAULT_TIMES[section];
 }
 
 function nextOccurrence(section) {
@@ -82,17 +81,15 @@ export async function initializeNotifications() {
   }
 }
 
-export async function configureAdhkarNotifications(enabled, morningTime, eveningTime) {
+export async function configureAdhkarNotifications(enabled) {
   if (!Capacitor.isNativePlatform()) throw new Error('Android only');
   await LocalNotifications.cancel({ notifications: [{ id: IDS.morning }, { id: IDS.evening }] });
   if (!enabled) return;
   let permission = await LocalNotifications.checkPermissions();
   if (permission.display !== 'granted') permission = await LocalNotifications.requestPermissions();
   if (permission.display !== 'granted') throw new Error('Notification permission denied');
-  parseTime(morningTime);
-  parseTime(eveningTime);
-  localStorage.setItem('adhkar-morning-time', morningTime);
-  localStorage.setItem('adhkar-evening-time', eveningTime);
+  localStorage.setItem('adhkar-morning-time', DEFAULT_TIMES.morning);
+  localStorage.setItem('adhkar-evening-time', DEFAULT_TIMES.evening);
   await refreshScheduledNotifications();
 }
 
