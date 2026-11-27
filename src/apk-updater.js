@@ -49,7 +49,15 @@ export async function checkApkUpdate({ silent = true } = {}) {
 export async function downloadAndInstallApkUpdate() {
   if (!isAndroidApp()) throw new Error('تحديث APK متاح على أندرويد فقط');
   const manifest = activeManifest || await getManifest(true);
-  const { abi } = await ApkInstaller.getDeviceAbi();
+  let abi;
+  try {
+    ({ abi } = await ApkInstaller.getDeviceAbi());
+  } catch (_) {
+    return {
+      status: 'manual-install-required',
+      url: 'https://github.com/husamalaql/morning-evening-adhkar/releases/tag/v' + manifest.version
+    };
+  }
   const apkUrl = manifest.apk[abi] || manifest.apk['arm64-v8a'];
   if (!apkUrl) throw new Error('لا توجد نسخة APK مناسبة لهذا الجهاز');
 
