@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#fff8fb">
   <meta name="description" content="أذكار الصباح والمساء">
-  <meta name="app-version" content="1.0.4">
+  <meta name="app-version" content="1.0.5">
   <title>أذكار الصباح والمساء</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,6 +56,18 @@
       <div class="dialog-symbol" id="dialog-symbol" aria-hidden="true">۞</div>
       <h2 id="dialog-title">أذكار الصباح</h2>
       <div class="dialog-body" id="dialog-body"></div>
+    </section>
+  </div>
+  <div class="contact-confirm-backdrop" id="contact-confirm-backdrop" hidden>
+    <section class="contact-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-confirm-title">
+      <button class="contact-confirm-close" id="contact-confirm-close" type="button" aria-label="إغلاق">×</button>
+      <div class="contact-confirm-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.5Z"/><path d="M8.7 8.1c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 1.9.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .3-.2 1.1-.7 1.5-.5.5-1.2.7-1.9.6-1-.1-2.2-.7-3.4-1.7-1-.9-1.8-2.1-2.1-3-.3-.9 0-1.7.4-2.2Z"/></svg></div>
+      <h2 id="contact-confirm-title">التواصل مع المطور</h2>
+      <div class="contact-confirm-message">هل تريد التواصل مع المطور عبر واتساب؟</div>
+      <div class="contact-confirm-actions">
+        <button class="contact-confirm-yes" id="contact-confirm-continue" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.5Z"/><path d="M8.7 8.1c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 1.9.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .3-.2 1.1-.7 1.5-.5.5-1.2.7-1.9.6-1-.1-2.2-.7-3.4-1.7-1-.9-1.8-2.1-2.1-3-.3-.9 0-1.7.4-2.2Z"/></svg><span>نعم، تواصل</span></button>
+        <button class="contact-confirm-no" id="contact-cancel" type="button">إلغاء</button>
+      </div>
     </section>
   </div>
   <script src="script.js"></script>
