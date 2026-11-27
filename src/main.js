@@ -5,6 +5,6 @@ import { initializeLiveUpdates } from './live-update.js';
 void (async () => {
   window.resolveAdhkarAudioSources = resolveAudioSources;
   await import('../script.js');
-  await initializeNotifications();
   await initializeLiveUpdates();
+  await initializeNotifications();
 })();
