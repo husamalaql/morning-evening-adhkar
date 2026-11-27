@@ -67,11 +67,11 @@
         <button class="counter-button" id="counter-button" type="button">${item.count > 1 ? toArabicNumber(state.count) : "التالي"}</button>
         ${hasAudio ? '<audio id="dhikr-audio" preload="none" hidden></audio>' : ""}
       </div>
-      <section class="explanation-area" id="explanation-area" ${state.explanationOpen ? "" : "hidden"}>
+      <section class="explanation-area" id="explanation-area" ${state.explanationEnabled ? "" : "hidden"}>
         <div class="explanation-scroll" id="explanation-scroll" tabindex="0">
           <div class="explanation-panel">
-            <button class="explanation-heading" id="explanation-heading" type="button" aria-expanded="true">المعنى والشرح <span aria-hidden="true">⌄</span></button>
-            <div class="explanation-content">
+            <button class="explanation-heading" id="explanation-heading" type="button" aria-expanded="${state.explanationOpen}">المعنى والشرح <span aria-hidden="true">${state.explanationOpen ? "⌄" : "‹"}</span></button>
+            <div class="explanation-content" ${state.explanationOpen ? "" : "hidden"}>
               <p>${escapeHtml(item.explanation)}</p>
               ${item.source ? `<h4>التخريج</h4><p>${escapeHtml(item.source)}</p>` : ""}
               ${item.virtue ? `<h4>الفضل</h4><p>${escapeHtml(item.virtue)}</p>` : ""}
@@ -82,11 +82,11 @@
       </section>
     `;
 
-    const explanationArea = document.getElementById("explanation-area");
+    const explanationContent = document.querySelector("#explanation-area .explanation-content");
     const explanationHeading = document.getElementById("explanation-heading");
     explanationHeading.addEventListener("click", () => {
       state.explanationOpen = !state.explanationOpen;
-      explanationArea.hidden = !state.explanationOpen;
+      explanationContent.hidden = !state.explanationOpen;
       explanationHeading.setAttribute("aria-expanded", String(state.explanationOpen));
       explanationHeading.querySelector("span").textContent = state.explanationOpen ? "⌄" : "‹";
     });
