@@ -17,7 +17,7 @@ on:
       - '.github/workflows/android.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   android:
@@ -66,9 +66,11 @@ jobs:
           XML
 
       - name: Set Android app version from package.json
+        id: app_version
         shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           VERSION_CODE=$(node -e "const [major,minor,patch]=process.argv[1].split('.').map(Number); console.log(major*10000+minor*100+patch)" "$VERSION")
           python3 - "$VERSION" "$VERSION_CODE" <<'PY'
           import re, sys
@@ -166,9 +168,15 @@ jobs:
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: ./gradlew assembleRelease --no-daemon
 
-      - name: Upload release APK variants
-        uses: actions/upload-artifact@v4
+      - name: Publish individual APK files
+        uses: softprops/action-gh-release@v2
         with:
-          name: adhkar-release-apks
-          if-no-files-found: error
-          path: android/app/build/outputs/apk/release/*.apk
+          tag_name: v${{ steps.app_version.outputs.version }}
+          name: أذكار الصباح والمساء v${{ steps.app_version.outputs.version }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            android/app/build/outputs/apk/release/app-armeabi-v7a-release.apk
+            android/app/build/outputs/apk/release/app-arm64-v8a-release.apk
+            android/app/build/outputs/apk/release/app-x86-release.apk
+            android/app/build/outputs/apk/release/app-x86_64-release.apk
