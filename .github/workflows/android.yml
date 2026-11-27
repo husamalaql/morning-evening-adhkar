@@ -57,8 +57,10 @@ jobs:
           version, version_code = sys.argv[1], sys.argv[2]
           path = Path("android/app/build.gradle")
           content = path.read_text()
-          content = re.sub(r'versionCode\s+\d+', f'versionCode {version_code}', content, count=1)
-          content = re.sub(r'versionName\s+"[^"]+"', f'versionName "{version}"', content, count=1)
+          content, code_count = re.subn(r'versionCode\s+\d+', f'versionCode {version_code}', content, count=1)
+          content, name_count = re.subn(r'versionName\s+["\'][^"\']+["\']', f'versionName "{version}"', content, count=1)
+          if code_count != 1 or name_count != 1:
+              raise SystemExit(f"Could not set Android version (versionCode matches: {code_count}, versionName matches: {name_count})")
           path.write_text(content)
           PY
 
