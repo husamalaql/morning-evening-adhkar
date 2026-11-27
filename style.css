@@ -1327,3 +1327,15 @@ h1 span { color: var(--pink-deep); }
   outline: 2px solid rgba(57, 136, 223, .7);
   outline-offset: 2px;
 }
+
+
+/* Keep share/contact icons as bare line icons with no colored tile. */
+#share-app-button .share-icon,
+#contact-developer-button .contact-icon {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+#share-app-button .share-icon { color: #286bb4 !important; }
+#contact-developer-button .contact-icon { color: #18834b !important; }
