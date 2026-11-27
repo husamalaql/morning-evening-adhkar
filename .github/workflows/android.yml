@@ -1,4 +1,4 @@
-name: Build Android APK and AAB
+name: Build Android APK and AAB (Capacitor 8)
 
 on:
   workflow_dispatch:
