@@ -10,7 +10,7 @@
   const title = document.getElementById("dialog-title");
   const symbol = document.getElementById("dialog-symbol");
   const dialogBody = document.getElementById("dialog-body");
-  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audioSourcesReady: false, audio: null, explanationOpen: false, continueListening: true };
+  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audioSourcesReady: false, audio: null, explanationOpen: false, continueListening: true, notificationsEnabled: localStorage.getItem('adhkar-notifications-enabled') === 'true', morningTime: localStorage.getItem('adhkar-morning-time') || '07:00', eveningTime: localStorage.getItem('adhkar-evening-time') || '17:00' };
 
   const toArabicNumber = (value) => String(value).replace(/\d/g, digit => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
   const formatRepeatCount = (value) => value === 2 ? "مرتان" : value === 1 ? "مرة" : `${toArabicNumber(value)} مرات`;
@@ -326,6 +326,7 @@
     });
   }
 
+  window.openAdhkarSection = startSection;
   sectionButtons.forEach(button => button.addEventListener("click", () => startSection(button.dataset.section)));
   settingsButton.addEventListener("click", () => {
     title.textContent = "الإعدادات";
@@ -334,19 +335,38 @@
     symbol.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>';
     dialogBody.innerHTML = `
       <section class="settings-card">
-        <div class="settings-copy">
-          <strong>مواصلة الاستماع</strong>
-          <span>يستمر بقراءة كل الاذكار بدون توقف عند كل ذكر</span>
-        </div>
-        <label class="settings-switch" for="continue-listening">
-          <input id="continue-listening" type="checkbox" ${state.continueListening ? "checked" : ""}>
-          <span class="settings-checkmark" aria-hidden="true"></span>
-        </label>
+        <div class="settings-copy"><strong>مواصلة الاستماع</strong><span>يستمر بقراءة الأذكار تلقائياً دون توقف بين الأذكار</span></div>
+        <label class="settings-switch" for="continue-listening"><input id="continue-listening" type="checkbox" ${state.continueListening ? "checked" : ""}><span class="settings-checkmark" aria-hidden="true"></span></label>
       </section>
-`;
-    document.getElementById("continue-listening").addEventListener("change", event => {
-      state.continueListening = event.target.checked;
+      <section class="settings-card">
+        <div class="settings-copy"><strong>الإشعار بوقت الأذكار</strong><span>تذكير يومي يفتح أذكار الصباح أو المساء عند النقر عليه</span></div>
+        <label class="settings-switch" for="adhkar-notifications"><input id="adhkar-notifications" type="checkbox" ${state.notificationsEnabled ? "checked" : ""}><span class="settings-checkmark" aria-hidden="true"></span></label>
+      </section>
+      <div class="notification-times" id="notification-times" ${state.notificationsEnabled ? "" : "hidden"}>
+        <label>وقت أذكار الصباح<input id="morning-time" type="time" value="${state.morningTime}"></label>
+        <label>وقت أذكار المساء<input id="evening-time" type="time" value="${state.eveningTime}"></label>
+      </div>
+      <a class="settings-contact" href="https://wa.me/967777273449?text=%D9%84%D8%AF%D9%8A%20%D9%85%D8%B1%D8%A7%D8%AC%D8%B9%D8%A9%20%D8%A3%D9%88%20%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A9%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20%D8%A7%D9%84%D8%A3%D8%B0%D9%83%D8%A7%D8%B1" target="_blank" rel="noopener"><span class="contact-icon">◉</span><span>تواصل معنا للمراجعة والملاحظات</span><span class="contact-arrow">←</span></a>
+    `;
+    document.getElementById("continue-listening").addEventListener("change", event => { state.continueListening = event.target.checked; });
+    const notificationToggle = document.getElementById("adhkar-notifications");
+    const timesPanel = document.getElementById("notification-times");
+    const morningInput = document.getElementById("morning-time");
+    const eveningInput = document.getElementById("evening-time");
+    async function saveNotificationSettings() {
+      state.morningTime = morningInput.value || "07:00"; state.eveningTime = eveningInput.value || "17:00";
+      localStorage.setItem("adhkar-morning-time", state.morningTime); localStorage.setItem("adhkar-evening-time", state.eveningTime);
+      if (state.notificationsEnabled) await window.configureAdhkarNotifications(true, state.morningTime, state.eveningTime);
+    }
+    notificationToggle.addEventListener("change", async event => {
+      const enabled = event.target.checked;
+      if (enabled && typeof window.configureAdhkarNotifications !== "function") { event.target.checked = false; alert("الإشعارات متاحة في تطبيق أندرويد فقط."); return; }
+      try {
+        await window.configureAdhkarNotifications(enabled, state.morningTime, state.eveningTime);
+        state.notificationsEnabled = enabled; localStorage.setItem("adhkar-notifications-enabled", String(enabled)); timesPanel.hidden = !enabled;
+      } catch (_) { event.target.checked = false; state.notificationsEnabled = false; localStorage.setItem("adhkar-notifications-enabled", "false"); alert("لم يتم تفعيل الإشعارات. تحقق من السماح للتطبيق بإرسال الإشعارات من إعدادات الهاتف."); }
     });
+    morningInput.addEventListener("change", saveNotificationSettings); eveningInput.addEventListener("change", saveNotificationSettings);
     openDialog();
   });
   listButton.addEventListener("click", () => {
