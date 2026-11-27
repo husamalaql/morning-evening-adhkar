@@ -48,8 +48,8 @@ jobs:
           zip -r ../adhkar-live-update.zip .
           cd ..
           CHECKSUM=$(sha256sum adhkar-live-update.zip | cut -d " " -f 1)
-          cat > update-manifest.json <<EOF
           VERSION=$(node -p "require('./package.json').version")
+          cat > update-manifest.json <<EOF
           {
             "bundleId": "${GITHUB_SHA}",
             "version": "${VERSION}",
