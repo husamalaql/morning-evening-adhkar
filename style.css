@@ -1215,3 +1215,15 @@ h1 span { color: var(--pink-deep); }
 .apk-update-dialog .share-dialog-actions .share-cancel-button {
   border-radius: 0;
 }
+
+
+/* APK prompt: rounded outside lower corners like the other message windows. */
+.apk-update-dialog .apk-update-content {
+  border-radius: 16px 16px 0 0;
+}
+.apk-update-dialog .share-dialog-actions .share-action-button {
+  border-radius: 0 0 16px 0;
+}
+.apk-update-dialog .share-dialog-actions .share-cancel-button {
+  border-radius: 0 0 0 16px;
+}
