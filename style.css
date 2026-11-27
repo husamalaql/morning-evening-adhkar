@@ -1120,3 +1120,7 @@ h1 span { color: var(--pink-deep); }
   filter: brightness(.97);
   box-shadow: 0 3px 10px rgba(126,73,98,.08);
 }
+
+.dhikr-dialog .explanation-content[hidden] {
+  display: none !important;
+}
