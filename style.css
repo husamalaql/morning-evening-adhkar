@@ -1021,3 +1021,24 @@ h1 span { color: var(--pink-deep); }
   width: 0 !important;
   height: 0 !important;
 }
+
+
+/* Read-only contact confirmation uses the same compact message composer as sharing. */
+.contact-share-dialog .share-message-fields input[readonly],
+.contact-share-dialog .share-message-fields textarea[readonly] {
+  cursor: default;
+  user-select: text;
+}
+.contact-share-dialog .share-message-fields textarea[readonly] {
+  min-height: 96px;
+  resize: none;
+}
+.contact-share-dialog .share-dialog-actions .share-action-button {
+  flex: 1.35;
+}
+@media (max-width: 380px) {
+  .contact-share-dialog .share-dialog-actions button {
+    padding-inline: 8px;
+    font-size: 13px;
+  }
+}
