@@ -71,6 +71,10 @@ jobs:
           }
 
           """
+          # Enable R8 code shrinking and Android resource shrinking for the release build.
+          s = s.replace("minifyEnabled false", "minifyEnabled true")
+          if "shrinkResources true" not in s and "minifyEnabled true" in s:
+              s = s.replace("minifyEnabled true", "minifyEnabled true\n            shrinkResources true", 1)
           if "splits {" not in s:
               if marker not in s:
                   raise SystemExit("Could not find buildTypes block in app/build.gradle")
