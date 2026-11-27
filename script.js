@@ -485,6 +485,14 @@
 
     openDialog();
   });
+
+  function fitDialogTextareas(container) {
+    container.querySelectorAll(".share-message-fields textarea").forEach(textarea => {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    });
+  }
+
   function openContactConfirmation() {
     const message = "السلام عليكم، لدي مراجعة أو ملاحظة بخصوص تطبيق الأذكار، وأرغب في التواصل معكم.";
     const backdrop = document.createElement("div");
@@ -502,6 +510,7 @@
         </div>
       </section>`;
     document.body.appendChild(backdrop);
+    fitDialogTextareas(backdrop);
     let handleEscape;
     const close = () => {
       backdrop.remove();
@@ -541,6 +550,7 @@
         </div>
       </section>`;
     document.body.appendChild(backdrop);
+    fitDialogTextareas(backdrop);
     let handleEscape;
     const close = () => {
       backdrop.remove();
