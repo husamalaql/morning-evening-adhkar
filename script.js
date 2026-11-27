@@ -460,14 +460,18 @@
         </div>
       </section>`;
     document.body.appendChild(backdrop);
-    const close = () => backdrop.remove();
+    let handleEscape;
+    const close = () => {
+      backdrop.remove();
+      document.removeEventListener("keydown", handleEscape);
+    };
     backdrop.addEventListener("click", event => { if (event.target === backdrop) close(); });
     backdrop.querySelector("#contact-dialog-cancel").addEventListener("click", close);
     backdrop.querySelector("#contact-whatsapp-continue").addEventListener("click", () => {
       close();
       window.open("https://wa.me/967777273449?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
     });
-    const handleEscape = event => {
+    handleEscape = event => {
       if (event.key === "Escape" && document.getElementById("contact-confirm-backdrop")) {
         close();
         document.removeEventListener("keydown", handleEscape);
@@ -489,16 +493,8 @@
       "https://adhkar-almuslim.netlify.app/"
     ].join("\n");
     const fileName = "adhkar-app-links.txt";
-    try {
-      if (typeof window.shareAdhkarContent === "function") {
-        await window.shareAdhkarContent({ title: titleText, text: messageText, fileName, dialogTitle: "مشاركة تطبيق الأذكار" });
-        return;
-      }
-      const file = new File(["\\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
-      if (typeof navigator.share === "function" && (!navigator.canShare || navigator.canShare({ files: [file] }))) {
-        await navigator.share({ title: titleText, files: [file] });
-        return;
-      }
+    const file = new File(["\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
+    const downloadFile = () => {
       const blobUrl = URL.createObjectURL(file);
       const link = document.createElement("a");
       link.href = blobUrl;
@@ -507,9 +503,21 @@
       link.click();
       link.remove();
       setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+    };
+    try {
+      if (typeof window.shareAdhkarContent === "function") {
+        await window.shareAdhkarContent({ title: titleText, text: messageText, fileName, dialogTitle: "مشاركة تطبيق الأذكار" });
+        return;
+      }
+      if (typeof navigator.share === "function" && (!navigator.canShare || navigator.canShare({ files: [file] }))) {
+        await navigator.share({ title: titleText, files: [file] });
+        return;
+      }
+      downloadFile();
     } catch (error) {
       if (error?.name !== "AbortError" && error?.message !== "Share canceled") {
         console.error("App file sharing failed:", error);
+        downloadFile();
       }
     }
   }
