@@ -1293,3 +1293,37 @@ h1 span { color: var(--pink-deep); }
   outline: 2px solid rgba(37, 211, 102, .75);
   outline-offset: 2px;
 }
+
+
+/* Share card and confirmation action use a consistent blue theme; review/contact uses WhatsApp green. */
+#share-app-button {
+  background: linear-gradient(145deg, #eef6ff, #f7fbff) !important;
+  border-color: #b9d5f5 !important;
+  color: #245b96 !important;
+}
+#share-app-button .share-icon {
+  background: linear-gradient(145deg, #3988df, #2364b2) !important;
+  color: #fff !important;
+}
+#share-app-button .contact-arrow { color: #5688bd !important; }
+
+#contact-developer-button {
+  background: linear-gradient(145deg, #edfff4, #f5fff8) !important;
+  border-color: #a9e3bf !important;
+  color: #187344 !important;
+}
+#contact-developer-button .contact-icon {
+  background: linear-gradient(145deg, #25d366, #128c4a) !important;
+  color: #fff !important;
+}
+#contact-developer-button .contact-arrow { color: #27945a !important; }
+
+#share-confirm-yes,
+.share-confirm-dialog .share-dialog-actions .share-action-button {
+  background: linear-gradient(145deg, #3988df, #2364b2) !important;
+  color: #fff !important;
+}
+#share-confirm-yes:focus-visible {
+  outline: 2px solid rgba(57, 136, 223, .7);
+  outline-offset: 2px;
+}
