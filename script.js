@@ -69,18 +69,18 @@
         <button class="counter-button" id="counter-button" type="button">${item.count > 1 ? toArabicNumber(state.count) : "التالي"}</button>
         ${hasAudio ? '<audio id="dhikr-audio" preload="none" hidden></audio>' : ""}
       </div>
-      <section class="explanation-panel" id="explanation-panel" ${state.explanationOpen ? "" : "hidden"}>
-        <h4>المعنى والشرح</h4>
-        <button class="explanation-scroll-arrow explanation-scroll-up" id="explanation-scroll-up" type="button" aria-label="التمرير إلى الأعلى" hidden>⌃</button>
+      <section class="explanation-area" id="explanation-area" ${state.explanationOpen ? "" : "hidden"}>
         <div class="explanation-scroll" id="explanation-scroll" tabindex="0">
-          <div class="explanation-content">
-            <p>${escapeHtml(item.explanation)}</p>
-            ${item.source ? `<h4>التخريج</h4><p>${escapeHtml(item.source)}</p>` : ""}
-            ${item.virtue ? `<h4>الفضل</h4><p>${escapeHtml(item.virtue)}</p>` : ""}
-            ${item.hadithGrade ? `<h4>درجة الحديث</h4><p>${escapeHtml(item.hadithGrade)}</p>` : ""}
+          <div class="explanation-panel">
+            <h4>المعنى والشرح</h4>
+            <div class="explanation-content">
+              <p>${escapeHtml(item.explanation)}</p>
+              ${item.source ? `<h4>التخريج</h4><p>${escapeHtml(item.source)}</p>` : ""}
+              ${item.virtue ? `<h4>الفضل</h4><p>${escapeHtml(item.virtue)}</p>` : ""}
+              ${item.hadithGrade ? `<h4>درجة الحديث</h4><p>${escapeHtml(item.hadithGrade)}</p>` : ""}
+            </div>
           </div>
         </div>
-        <button class="explanation-scroll-arrow explanation-scroll-down" id="explanation-scroll-down" type="button" aria-label="التمرير إلى الأسفل" hidden>⌄</button>
       </section>
     `;
 
@@ -89,27 +89,10 @@
       state.explanationOpen = panel.hidden;
       panel.hidden = !state.explanationOpen;
       document.getElementById("explanation-button").classList.toggle("is-open", state.explanationOpen);
-      if (state.explanationOpen) setupExplanationScroll();
+      
     });
     document.getElementById("counter-button").addEventListener("click", handleCounter);
     setupAudio(item);
-  }
-
-  function setupExplanationScroll() {
-    const scroller = document.getElementById("explanation-scroll");
-    const upButton = document.getElementById("explanation-scroll-up");
-    const downButton = document.getElementById("explanation-scroll-down");
-    if (!scroller || !upButton || !downButton) return;
-    const updateArrows = () => {
-      const maxScroll = scroller.scrollHeight - scroller.clientHeight;
-      const canScroll = maxScroll > 2;
-      upButton.hidden = !canScroll || scroller.scrollTop <= 2;
-      downButton.hidden = !canScroll || scroller.scrollTop >= maxScroll - 2;
-    };
-    scroller.addEventListener("scroll", updateArrows, { passive: true });
-    upButton.addEventListener("click", () => scroller.scrollBy({ top: -Math.max(90, scroller.clientHeight * .72), behavior: "smooth" }));
-    downButton.addEventListener("click", () => scroller.scrollBy({ top: Math.max(90, scroller.clientHeight * .72), behavior: "smooth" }));
-    requestAnimationFrame(updateArrows);
   }
 
   function renderDhikrList() {
@@ -468,7 +451,7 @@
   function openShareDialog() {
     if (!shareBackdrop) return;
     document.getElementById("share-message-title").value = "أذكار الصباح والمساء";
-    document.getElementById("share-message-text").value = "تطبيق أذكار الصباح والمساء، أذكار يومية بتصميم مريح وإمكانية الاستماع للصوتيات.";
+    document.getElementById("share-message-text").value = "تطبيق أذكار الصباح والمساء، أذكار يومية بتصميم مريح وإمكانية الاستماع للصوتيات.\\n\\nرابط الموقع: https://adhkar-almuslim.netlify.app/";
     shareBackdrop.hidden = false;
     document.body.style.overflow = "hidden";
     document.getElementById("share-action-button").focus();
@@ -489,7 +472,6 @@
     const payload = {
       title: titleText,
       text: messageText,
-      url: "https://adhkar-almuslim.netlify.app/",
       dialogTitle: "مشاركة التطبيق"
     };
     button.disabled = true;
@@ -501,7 +483,7 @@
       } else if (navigator.share) {
         await navigator.share(payload);
       } else if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText([titleText, messageText, payload.url].filter(Boolean).join("\\n"));
+        await navigator.clipboard.writeText([titleText, messageText].filter(Boolean).join("\\n"));
         button.textContent = "تم نسخ الرسالة";
         button.disabled = false;
         return;
