@@ -11,7 +11,7 @@
   const title = document.getElementById("dialog-title");
   const symbol = document.getElementById("dialog-symbol");
   const dialogBody = document.getElementById("dialog-body");
-  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audioSourcesReady: false, audio: null, explanationOpen: false, continueListening: true, notificationsEnabled: localStorage.getItem('adhkar-notifications-enabled') === 'true', morningTime: localStorage.getItem('adhkar-morning-time') || '07:00', eveningTime: localStorage.getItem('adhkar-evening-time') || '17:00' };
+  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audioSourcesReady: false, audio: null, explanationOpen: false, explanationEnabled: localStorage.getItem("adhkar-explanation-enabled") !== "false", continueListening: true, notificationsEnabled: localStorage.getItem('adhkar-notifications-enabled') === 'true', morningTime: localStorage.getItem('adhkar-morning-time') || '07:00', eveningTime: localStorage.getItem('adhkar-evening-time') || '17:00' };
 
   const toArabicNumber = (value) => String(value).replace(/\d/g, digit => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
   const formatRepeatCount = (value) => value === 2 ? "مرتان" : value === 1 ? "مرة" : `${toArabicNumber(value)} مرات`;
@@ -63,7 +63,6 @@
         <p class="dhikr-text">${escapeHtml(String(item.text).trim().replace(/[.。．]+\s*$/, ""))}</p>
       </article>
       <div class="dhikr-actions">
-        <button class="explanation-button" id="explanation-button" type="button">الشرح</button>
         <button class="audio-toggle-button${hasAudio ? "" : " is-unavailable"}" id="audio-toggle-button" type="button" aria-label="${hasAudio ? "تشغيل الصوت" : "لا يتوفر تسجيل صوتي لهذا الذكر"}" title="${hasAudio ? "تشغيل الصوت" : "لا يتوفر تسجيل صوتي لهذا الذكر"}" ${hasAudio ? "" : "disabled"}><svg class="speaker-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path d="M16 9a5 5 0 0 1 0 6M18.5 6.5a8.5 8.5 0 0 1 0 11"/></svg><span class="audio-bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
         <button class="counter-button" id="counter-button" type="button">${item.count > 1 ? toArabicNumber(state.count) : "التالي"}</button>
         ${hasAudio ? '<audio id="dhikr-audio" preload="none" hidden></audio>' : ""}
@@ -71,7 +70,7 @@
       <section class="explanation-area" id="explanation-area" ${state.explanationOpen ? "" : "hidden"}>
         <div class="explanation-scroll" id="explanation-scroll" tabindex="0">
           <div class="explanation-panel">
-            <h4>المعنى والشرح</h4>
+            <button class="explanation-heading" id="explanation-heading" type="button" aria-expanded="true">المعنى والشرح <span aria-hidden="true">⌄</span></button>
             <div class="explanation-content">
               <p>${escapeHtml(item.explanation)}</p>
               ${item.source ? `<h4>التخريج</h4><p>${escapeHtml(item.source)}</p>` : ""}
@@ -83,11 +82,13 @@
       </section>
     `;
 
-    document.getElementById("explanation-button").addEventListener("click", () => {
-      const panel = document.getElementById("explanation-area");
-      state.explanationOpen = panel.hidden;
-      panel.hidden = !state.explanationOpen;
-      document.getElementById("explanation-button").classList.toggle("is-open", state.explanationOpen);
+    const explanationArea = document.getElementById("explanation-area");
+    const explanationHeading = document.getElementById("explanation-heading");
+    explanationHeading.addEventListener("click", () => {
+      state.explanationOpen = !state.explanationOpen;
+      explanationArea.hidden = !state.explanationOpen;
+      explanationHeading.setAttribute("aria-expanded", String(state.explanationOpen));
+      explanationHeading.querySelector("span").textContent = state.explanationOpen ? "⌄" : "‹";
     });
     document.getElementById("counter-button").addEventListener("click", handleCounter);
     setupAudio(item);
@@ -321,7 +322,7 @@
     const lookup = new Map(state.data.adhkar.map(item => [item.id, item]));
     state.items = ids.map(id => lookup.get(id)).filter(Boolean);
     state.index = 0;
-    state.explanationOpen = false;
+    state.explanationOpen = state.explanationEnabled;
     render();
     openDialog();
   }
@@ -358,12 +359,20 @@
           <label>وقت أذكار المساء<input id="evening-time" type="time" value="${state.eveningTime}"></label>
         </div>
       </section>
+      <section class="settings-card explanation-setting-card">
+        <div class="settings-copy"><strong>إظهار شرح الأذكار</strong><span>عرض معنى الذكر وشرحه أثناء القراءة</span></div>
+        <label class="settings-switch" for="show-adhkar-explanation"><input id="show-adhkar-explanation" type="checkbox" ${state.explanationEnabled ? "checked" : ""}><span class="settings-checkmark" aria-hidden="true"></span></label>
+      </section>
       <button class="settings-update-button" id="adhkar-update-button" type="button" ${isAndroidApp ? "" : 'hidden style="display:none!important"'}>التحقق من وجود تحديث</button>
       <button class="settings-share" id="share-app-button" type="button"><span class="share-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.6 6.6-4.2M8.7 13.4l6.6 4.2"/></svg></span><span>مشاركة التطبيق</span><span class="contact-arrow">←</span></button>
       <button class="settings-contact" id="contact-developer-button" type="button"><span class="contact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.5Z"/><path d="M8.7 8.1c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 1.9.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .3-.2 1.1-.7 1.5-.5.5-1.2.7-1.9.6-1-.1-2.2-.7-3.4-1.7-1-.9-1.8-2.1-2.1-3-.3-.9 0-1.7.4-2.2Z"/></svg></span><span>للمراجعة تواصل معنا عبر الواتس</span><span class="contact-arrow">←</span></button>
       <p class="app-version" id="app-version">الإصدار ${document.querySelector('meta[name="app-version"]')?.content || "1.0.2"}</p>
     `;
-    document.getElementById("share-app-button").addEventListener("click", shareApp);
+    document.getElementById("share-app-button").addEventListener("click", openShareConfirmation);
+    document.getElementById("show-adhkar-explanation").addEventListener("change", event => {
+      state.explanationEnabled = event.target.checked;
+      localStorage.setItem("adhkar-explanation-enabled", String(state.explanationEnabled));
+    });
     document.getElementById("contact-developer-button").addEventListener("click", openContactConfirmation);
     document.getElementById("continue-listening").addEventListener("change", event => { state.continueListening = event.target.checked; });
     const notificationToggle = document.getElementById("adhkar-notifications");
@@ -481,19 +490,56 @@
     backdrop.querySelector("#contact-whatsapp-continue").focus();
   }
 
+  function openShareConfirmation() {
+    const backdrop = document.createElement("div");
+    backdrop.className = "share-dialog-backdrop";
+    backdrop.id = "share-confirm-backdrop";
+    backdrop.innerHTML = `
+      <section class="share-dialog share-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="share-confirm-title">
+        <div class="share-message-fields">
+          <input id="share-confirm-title" type="text" value="مشاركة تطبيق الأذكار" readonly aria-label="عنوان الرسالة">
+          <textarea rows="4" readonly aria-label="نص التأكيد">هل تريد مشاركة التطبيق مع أصدقائك؟
+فالدال على الخير كفاعله.
+سيتم تجهيز رابط الموقع ورابط تحميل التطبيق في رسالة نصية وملف نصي لتتمكن من مشاركتهما عبر التطبيقات المتاحة.</textarea>
+        </div>
+        <div class="share-dialog-actions">
+          <button class="share-action-button" id="share-confirm-yes" type="button">مشاركة التطبيق</button>
+          <button class="share-cancel-button" id="share-confirm-no" type="button">إلغاء</button>
+        </div>
+      </section>`;
+    document.body.appendChild(backdrop);
+    let handleEscape;
+    const close = () => {
+      backdrop.remove();
+      document.removeEventListener("keydown", handleEscape);
+    };
+    backdrop.addEventListener("click", event => { if (event.target === backdrop) close(); });
+    backdrop.querySelector("#share-confirm-no").addEventListener("click", close);
+    backdrop.querySelector("#share-confirm-yes").addEventListener("click", () => {
+      close();
+      void shareApp();
+    });
+    handleEscape = event => {
+      if (event.key === "Escape" && document.getElementById("share-confirm-backdrop")) close();
+    };
+    document.addEventListener("keydown", handleEscape);
+    backdrop.querySelector("#share-confirm-yes").focus();
+  }
+
   async function shareApp() {
     const titleText = "أذكار الصباح والمساء";
     const messageText = [
-      "تطبيق أذكار الصباح والمساء",
+      "أهلاً! أشاركك تطبيق أذكار الصباح والمساء.",
+      "فالدال على الخير كفاعله.",
       "",
-      "رابط تنزيل التطبيق (APK) من GitHub:",
+      "رابط تنزيل التطبيق (APK):",
       "https://github.com/husamalaql/morning-evening-adhkar/actions/workflows/android.yml",
       "",
       "رابط موقع الأذكار:",
       "https://adhkar-almuslim.netlify.app/"
-    ].join("\n");
+    ].join("\\n");
     const fileName = "adhkar-app-links.txt";
-    const file = new File(["\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
+    const file = new File(["\\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
     const downloadFile = () => {
       const blobUrl = URL.createObjectURL(file);
       const link = document.createElement("a");
@@ -510,7 +556,11 @@
         return;
       }
       if (typeof navigator.share === "function" && (!navigator.canShare || navigator.canShare({ files: [file] }))) {
-        await navigator.share({ title: titleText, files: [file] });
+        await navigator.share({ title: titleText, text: messageText, files: [file] });
+        return;
+      }
+      if (typeof navigator.share === "function") {
+        await navigator.share({ title: titleText, text: messageText });
         return;
       }
       downloadFile();
