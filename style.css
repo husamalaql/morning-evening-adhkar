@@ -1279,3 +1279,13 @@ h1 span { color: var(--pink-deep); }
 .share-dialog .share-message-fields input { border-bottom:1px solid #eed9e2; }
 .share-dialog .share-dialog-actions button:first-child { background:linear-gradient(145deg,#dc91b0,#bd668e); color:#fff; }
 .share-dialog .share-dialog-actions button:last-child { background:#f9edf2; color:#89536d; }
+
+
+/* WhatsApp continuation button uses WhatsApp green, without changing share buttons. */
+.contact-share-dialog .share-dialog-actions .share-action-button {
+  background: linear-gradient(145deg, #25d366, #128c4a);
+  color: #fff;
+}
+.contact-share-dialog .share-dialog-actions .share-action-button:focus-visible {
+  outline-color: rgba(37, 211, 102, .65);
+}
