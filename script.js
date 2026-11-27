@@ -529,6 +529,10 @@
         </div>
       </section>`;
     document.body.appendChild(backdrop);
+    const whatsappButton = backdrop.querySelector("#contact-whatsapp-continue");
+    whatsappButton?.style.setProperty("background", "linear-gradient(145deg, #25d366, #128c4a)", "important");
+    whatsappButton?.style.setProperty("background-color", "#25d366", "important");
+    whatsappButton?.style.setProperty("color", "#ffffff", "important");
     fitDialogTextareas(backdrop);
     let handleEscape;
     const close = () => {
