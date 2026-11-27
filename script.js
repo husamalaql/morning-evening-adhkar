@@ -215,6 +215,9 @@
       if (continueAudio) playCurrentAudio();
     } else {
       stopAudio();
+      const completedDate = new Date().toLocaleDateString("en-CA");
+      localStorage.setItem("adhkar-completed-" + state.section, completedDate);
+      if (typeof window.markAdhkarCompleted === "function") void window.markAdhkarCompleted(state.section, completedDate);
       dialogBody.innerHTML = `
         <div class="completion-mark">✓</div>
         <h3 class="completion-title">أتممت أذكار ${state.section === "morning" ? "الصباح" : "المساء"}</h3>
