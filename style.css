@@ -726,3 +726,8 @@ h1 span { color: var(--pink-deep); }
 .notification-settings-card{display:block!important}
 .notification-settings-header{display:flex;align-items:center;justify-content:space-between;gap:14px}
 .notification-settings-card .notification-times{margin:10px 0 0!important;padding-top:10px;border-top:1px solid rgba(224,170,194,.35)}
+
+
+/* Place the primary next/count action on the right for right-hand use. */
+.dhikr-actions { direction: ltr; }
+.dhikr-actions > button { direction: rtl; }
