@@ -85,11 +85,10 @@
     `;
 
     document.getElementById("explanation-button").addEventListener("click", () => {
-      const panel = document.getElementById("explanation-panel");
+      const panel = document.getElementById("explanation-area");
       state.explanationOpen = panel.hidden;
       panel.hidden = !state.explanationOpen;
       document.getElementById("explanation-button").classList.toggle("is-open", state.explanationOpen);
-      
     });
     document.getElementById("counter-button").addEventListener("click", handleCounter);
     setupAudio(item);
@@ -451,7 +450,7 @@
   function openShareDialog() {
     if (!shareBackdrop) return;
     document.getElementById("share-message-title").value = "أذكار الصباح والمساء";
-    document.getElementById("share-message-text").value = "تطبيق أذكار الصباح والمساء، أذكار يومية بتصميم مريح وإمكانية الاستماع للصوتيات.\\n\\nرابط الموقع: https://adhkar-almuslim.netlify.app/";
+    document.getElementById("share-message-text").value = "تطبيق أذكار الصباح والمساء، أذكار يومية بتصميم مريح وإمكانية الاستماع للصوتيات.\n\nرابط الموقع: https://adhkar-almuslim.netlify.app/";
     shareBackdrop.hidden = false;
     document.body.style.overflow = "hidden";
     document.getElementById("share-action-button").focus();
@@ -483,7 +482,7 @@
       } else if (navigator.share) {
         await navigator.share(payload);
       } else if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText([titleText, messageText].filter(Boolean).join("\\n"));
+        await navigator.clipboard.writeText([titleText, messageText].filter(Boolean).join("\n"));
         button.textContent = "تم نسخ الرسالة";
         button.disabled = false;
         return;
