@@ -868,19 +868,20 @@ h1 span { color: var(--pink-deep); }
 .share-dialog {
   width:min(100%,390px);
   padding:0;
-  border:0;
-  border-radius:0;
-  background:transparent;
-  box-shadow:none;
+  overflow:hidden;
+  border:1px solid #e6bfd0;
+  border-radius:20px;
+  background:#fffafd;
+  box-shadow:0 18px 55px rgba(71,40,56,.22);
   animation:appear .2s ease-out;
   direction:rtl;
 }
 .share-message-fields {
   overflow:hidden;
-  border:1px solid #e6bfd0;
-  border-radius:14px 14px 0 0;
+  border:0;
+  border-radius:0;
   background:#fffafd;
-  text-align:right;
+  text-align:center;
 }
 .share-message-fields input,
 .share-message-fields textarea {
@@ -907,21 +908,22 @@ h1 span { color: var(--pink-deep); }
 .share-message-fields textarea:focus { background:#fff7fa; }
 .share-dialog-actions {
   display:flex;
-  gap:4px;
-  margin-top:4px;
+  gap:0;
+  margin:0;
+  border-top:1px solid #efdce4;
 }
 .share-dialog-actions button {
   flex:1;
-  min-height:49px;
-  padding:10px 14px;
+  min-height:52px;
+  padding:11px 12px;
   border:0;
   border-radius:0;
   font:800 15px "Tajawal",sans-serif;
   cursor:pointer;
-  transition:transform .16s ease,filter .16s ease;
+  transition:transform .16s ease,filter .18s ease;
 }
-.share-action-button { color:#fff;background:#249b5b; }
-.share-cancel-button { color:#875b70;background:#f3e5ec; }
+.share-action-button { color:#fff;background:linear-gradient(145deg,#dc91b0,#bd668e); }
+.share-cancel-button { color:#89536d;background:#f9edf2; }
 .share-dialog-actions button:active { transform:scale(.98);filter:brightness(.96); }
 .share-dialog-actions button:disabled { opacity:.7;cursor:wait; }
 .share-dialog-actions button:focus-visible {
@@ -1269,3 +1271,11 @@ h1 span { color: var(--pink-deep); }
   width: 0; height: 100%; border-radius: inherit;
   background: linear-gradient(90deg,#25a65a,#43c875); transition: width .18s ease;
 }
+
+
+/* Match share and contact confirmations to the APK update dialog frame. */
+.share-dialog .share-message-fields input { padding:21px 19px 10px; }
+.share-dialog .share-message-fields textarea { padding:10px 19px 21px; }
+.share-dialog .share-message-fields input { border-bottom:1px solid #eed9e2; }
+.share-dialog .share-dialog-actions button:first-child { background:linear-gradient(145deg,#dc91b0,#bd668e); color:#fff; }
+.share-dialog .share-dialog-actions button:last-child { background:#f9edf2; color:#89536d; }
