@@ -721,3 +721,8 @@ h1 span { color: var(--pink-deep); }
 .settings-update-button[data-state="current"]{color:#64856e;border-color:#c5ddcb;background:linear-gradient(145deg,#f0faf2,#fbfffc)}
 
 .app-version{margin:5px 2px 0;color:#aa929e;font-size:11px;font-weight:400;text-align:center;letter-spacing:.15px}
+
+/* Keep notification schedule controls inside their parent settings card. */
+.notification-settings-card{display:block!important}
+.notification-settings-header{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.notification-settings-card .notification-times{margin:10px 0 0!important;padding-top:10px;border-top:1px solid rgba(224,170,194,.35)}
