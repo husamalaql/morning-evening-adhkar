@@ -13,7 +13,7 @@ async function getManifest(force = false) {
   const response = await fetch(MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' });
   if (!response.ok) throw new Error('تعذر الاتصال بخادم التحديثات');
   const manifest = await response.json();
-  if (!manifest.bundleId || !manifest.url) throw new Error('ملف التحديث غير صالح');
+  if (!manifest.bundleId || !manifest.url || !manifest.checksum) throw new Error('ملف التحديث غير صالح');
   manifestCache = manifest;
   return manifest;
 }
@@ -45,7 +45,7 @@ export async function checkForUpdate() {
   const manifest = await getManifest(true);
   const current = await LiveUpdate.getCurrentBundle();
   if (current.bundleId === manifest.bundleId) return { status: 'current' };
-  await LiveUpdate.downloadBundle({ url: manifest.url, bundleId: manifest.bundleId });
+  await LiveUpdate.downloadBundle({ url: manifest.url, bundleId: manifest.bundleId, checksum: manifest.checksum });
   await LiveUpdate.setNextBundle({ bundleId: manifest.bundleId });
   return { status: 'pending', bundleId: manifest.bundleId };
 }
