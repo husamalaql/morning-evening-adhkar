@@ -645,7 +645,17 @@
   });
     closeButton.addEventListener("click", closeDialog);
   backdrop.addEventListener("click", event => { if (event.target === backdrop) closeDialog(); });
-  document.addEventListener("keydown", event => { if (event.key === "Escape" && !backdrop.hidden) closeDialog(); });
+  document.addEventListener("keydown", event => {
+    if (event.key !== "Escape") return;
+    const apkDialog = document.getElementById("apk-update-backdrop");
+    if (apkDialog) {
+      if (apkDialog.dataset.downloading === "true") return;
+      apkDialog.remove();
+      delete window.updateAdhkarApkDownloadProgress;
+      return;
+    }
+    if (!backdrop.hidden) closeDialog();
+  });
 
   updatePeriodSuggestion();
   window.setInterval(updatePeriodSuggestion, 60000);
