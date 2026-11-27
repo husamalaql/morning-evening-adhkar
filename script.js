@@ -46,12 +46,15 @@
       if (bar) bar.style.width = Math.max(0, Math.min(100, percent)) + "%";
     };
     installButton.addEventListener("click", async () => {
+      content.innerHTML = '<div class="apk-download-progress" role="progressbar" aria-label="تقدم تنزيل التحديث"><div id="apk-download-progress-fill"></div></div>';
+      actions.hidden = true;
       installButton.disabled = true;
       try {
         const result = await window.downloadAndInstallAdhkarApkUpdate();
         if (result.status === "permission-required") {
           content.innerHTML = originalContent;
           document.getElementById("apk-update-status").textContent = "اسمح للتطبيق بتثبيت التطبيقات من هذا المصدر، ثم اضغط متابعة التثبيت.";
+          actions.hidden = false;
           installButton.textContent = "متابعة التثبيت";
           installButton.disabled = false;
           return;
@@ -59,6 +62,7 @@
         if (result.status === "manual-install-required") {
           content.innerHTML = originalContent;
           document.getElementById("apk-update-status").innerHTML = '<a href="' + escapeHtml(result.url) + '" target="_blank" rel="noopener">فتح صفحة تنزيل ملف APK</a>';
+          actions.hidden = false;
           installButton.textContent = "فتح التنزيل";
           installButton.disabled = false;
           return;
@@ -72,16 +76,11 @@
         console.error("APK update installation failed:", error);
         content.innerHTML = originalContent;
         document.getElementById("apk-update-status").textContent = "تعذر تنزيل التحديث. تحقق من اتصال الإنترنت ثم أعد المحاولة.";
+        actions.hidden = false;
         installButton.textContent = "إعادة المحاولة";
         installButton.disabled = false;
-        actions.hidden = false;
       }
     });
-    installButton.addEventListener("click", () => {
-      if (installButton.disabled) return;
-      content.innerHTML = '<div class="apk-download-progress" role="progressbar" aria-label="تقدم تنزيل التحديث"><div id="apk-download-progress-fill"></div></div>';
-      actions.hidden = true;
-    }, { once: true });
     document.getElementById("apk-update-later").addEventListener("click", () => {
       layer.remove();
       delete window.updateAdhkarApkDownloadProgress;
