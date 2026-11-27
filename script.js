@@ -426,13 +426,13 @@
       <button class="settings-share" id="share-app-button" type="button"><span class="share-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.6 6.6-4.2M8.7 13.4l6.6 4.2"/></svg></span><span>مشاركة التطبيق</span><span class="contact-arrow">←</span></button>
       <button class="settings-contact" id="contact-developer-button" type="button"><span class="contact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.5Z"/><path d="M8.7 8.1c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 1.9.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .3-.2 1.1-.7 1.5-.5.5-1.2.7-1.9.6-1-.1-2.2-.7-3.4-1.7-1-.9-1.8-2.1-2.1-3-.3-.9 0-1.7.4-2.2Z"/></svg></span><span>للمراجعة تواصل معنا عبر الواتس</span><span class="contact-arrow">←</span></button>
       <p class="app-version" id="app-version">الإصدار ${document.querySelector('meta[name="app-version"]')?.content || "1.0.2"}</p>
+    `;
     if (isAndroidApp && typeof window.getAdhkarNativeAppInfo === "function") {
       window.getAdhkarNativeAppInfo().then(info => {
         const versionLabel = document.getElementById("app-version");
         if (versionLabel && info?.version) versionLabel.textContent = "الإصدار " + info.version;
       }).catch(error => console.error("Could not read installed APK version:", error));
     }
-    `;
     document.getElementById("share-app-button").addEventListener("click", openShareConfirmation);
     document.getElementById("show-adhkar-explanation").addEventListener("change", event => {
       state.explanationEnabled = event.target.checked;
