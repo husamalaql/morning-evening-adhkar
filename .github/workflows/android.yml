@@ -64,10 +64,10 @@ jobs:
           content = manifest.read_text()
           permission = '    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />'
           if permission not in content:
-              content = content.replace("<application", permission + "\\n    <application", 1)
+              content = content.replace("<application", permission + "\n    <application", 1)
           provider = """    <provider
                       android:name="androidx.core.content.FileProvider"
-                      android:authorities="\${applicationId}.fileprovider"
+                      android:authorities="${applicationId}.fileprovider"
                       android:exported="false"
                       android:grantUriPermissions="true">
                       <meta-data
@@ -75,7 +75,7 @@ jobs:
                           android:resource="@xml/file_paths" />
                   </provider>"""
           if "androidx.core.content.FileProvider" not in content:
-              content = content.replace("    </application>", provider + "\\n    </application>", 1)
+              content = content.replace("    </application>", provider + "\n    </application>", 1)
           manifest.write_text(content)
 
           main_activity = next(Path("android/app/src/main/java").rglob("MainActivity.java"))
@@ -83,9 +83,9 @@ jobs:
           if "ApkInstallerPlugin" not in source:
               source = source.replace(
                   "import com.getcapacitor.BridgeActivity;",
-                  "import com.getcapacitor.BridgeActivity;\\nimport android.os.Bundle;\\nimport com.husamalaql.adhkar.ApkInstallerPlugin;"
+                  "import com.getcapacitor.BridgeActivity;\nimport android.os.Bundle;\nimport com.husamalaql.adhkar.ApkInstallerPlugin;"
               )
-              empty_class = re.search(r"public\\s+class\\s+MainActivity\\s+extends\\s+BridgeActivity\\s*\\{\\s*\\}", source)
+              empty_class = re.search(r"public\s+class\s+MainActivity\s+extends\s+BridgeActivity\s*\{\s*\}", source)
               if empty_class:
                   replacement = """public class MainActivity extends BridgeActivity {
               @Override
