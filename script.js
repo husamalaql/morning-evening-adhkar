@@ -366,7 +366,7 @@
     `;
     document.getElementById("share-app-button").addEventListener("click", openShareDialog);
     document.getElementById("contact-developer-button").addEventListener("click", () => {
-      const message = "لدي مراجعة أو ملاحظة بخصوص تطبيق الأذكار";
+      const message = "السلام عليكم، لدي مراجعة أو ملاحظة بخصوص تطبيق الأذكار، وأرغب في التواصل معكم.";
       window.open("https://wa.me/967777273449?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
     });
     document.getElementById("continue-listening").addEventListener("change", event => { state.continueListening = event.target.checked; });
