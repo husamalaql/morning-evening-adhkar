@@ -1,2 +1,4 @@
 [build]
   publish = "."
+
+# Trigger a fresh Netlify production deploy after subscription renewal.
