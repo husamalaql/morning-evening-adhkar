@@ -969,3 +969,17 @@ h1 span { color: var(--pink-deep); }
 .share-dialog-actions .share-cancel-button {
   border-radius: 0 0 0 16px;
 }
+
+
+/* Keep the explanation card flush with the bottom of its scroll viewport. */
+.explanation-area {
+  margin-bottom: 0 !important;
+  padding: 1px 2px 0 !important;
+}
+.explanation-scroll {
+  padding: 1px 7px 0 2px !important;
+  scroll-padding-bottom: 0 !important;
+}
+.explanation-panel {
+  margin: 0 !important;
+}
