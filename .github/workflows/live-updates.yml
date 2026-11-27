@@ -14,6 +14,7 @@ on:
       - 'src/audio-cache.js'
       - 'src/notifications.js'
       - 'scripts/build.mjs'
+      - '.github/workflows/live-updates.yml'
       - 'package.json'
 
 permissions:
