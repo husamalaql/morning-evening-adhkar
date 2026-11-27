@@ -24,54 +24,68 @@
     layer.id = "apk-update-backdrop";
     layer.innerHTML =
       '<section class="share-dialog apk-update-dialog" role="dialog" aria-modal="true" aria-labelledby="apk-update-title">' +
-        '<div class="share-message-fields apk-update-content">' +
+        '<div class="share-message-fields apk-update-content" id="apk-update-content">' +
           '<h3 id="apk-update-title">يتوفر تحديث جديد للتطبيق</h3>' +
           '<p class="apk-update-version">الإصدار ' + escapeHtml(update.version) + '</p>' +
-          '<p>هذا التحديث يتطلب تنزيل ملف APK وتثبيته للحفاظ على عمل التطبيق بأحدث إصدار.</p>' +
-          (update.notes ? '<p>' + escapeHtml(update.notes) + '</p>' : '') +
-          '<p class="apk-update-status" id="apk-update-status">اضغط على «تحديث الآن» للمتابعة.</p>' +
+          '<p>هذا التحديث يتطلب تنزيل ملف التطبيق وتثبيته. سيتم اختيار النسخة المناسبة لجهازك تلقائياً.</p>' +
+          '<p class="apk-update-status" id="apk-update-status">هل تريد تنزيل التحديث الآن؟</p>' +
         '</div>' +
-        '<div class="share-dialog-actions">' +
+        '<div class="share-dialog-actions" id="apk-update-actions">' +
           '<button class="share-action-button" id="apk-update-install" type="button">تحديث الآن</button>' +
           '<button class="share-cancel-button" id="apk-update-later" type="button">لاحقاً</button>' +
         '</div>' +
       '</section>';
     document.body.appendChild(layer);
+    const content = document.getElementById("apk-update-content");
+    const actions = document.getElementById("apk-update-actions");
+    const originalContent = content.innerHTML;
     const installButton = document.getElementById("apk-update-install");
     const status = document.getElementById("apk-update-status");
+    window.updateAdhkarApkDownloadProgress = percent => {
+      const bar = document.getElementById("apk-download-progress-fill");
+      if (bar) bar.style.width = Math.max(0, Math.min(100, percent)) + "%";
+    };
     installButton.addEventListener("click", async () => {
-      if (typeof window.downloadAndInstallAdhkarApkUpdate !== "function") {
-        status.textContent = "ميزة تثبيت التحديث غير متاحة في هذه النسخة. افتح صفحة التنزيل وثبّت APK يدوياً.";
-        return;
-      }
       installButton.disabled = true;
-      installButton.textContent = "جارٍ تنزيل التحديث...";
-      status.textContent = "يتم تنزيل ملف التحديث المناسب لجهازك. لا تغلق التطبيق.";
       try {
         const result = await window.downloadAndInstallAdhkarApkUpdate();
-        if (result.status === "manual-install-required") {
-          status.innerHTML = '<a href="' + escapeHtml(result.url) + '" target="_blank" rel="noopener">فتح صفحة تنزيل ملف APK</a>';
-          installButton.textContent = "تنزيل يدوي";
-          installButton.disabled = false;
-          return;
-        }
         if (result.status === "permission-required") {
-          status.textContent = "فعّل السماح بتثبيت التطبيقات من هذا المصدر في إعدادات الهاتف، ثم ارجع واضغط متابعة التثبيت.";
+          content.innerHTML = originalContent;
+          document.getElementById("apk-update-status").textContent = "اسمح للتطبيق بتثبيت التطبيقات من هذا المصدر، ثم اضغط متابعة التثبيت.";
           installButton.textContent = "متابعة التثبيت";
           installButton.disabled = false;
           return;
         }
-        status.textContent = "تم فتح مثبت أندرويد. أكّد التثبيت من نافذة النظام.";
-        installButton.textContent = "إعادة فتح المثبت";
-        installButton.disabled = false;
+        if (result.status === "manual-install-required") {
+          content.innerHTML = originalContent;
+          document.getElementById("apk-update-status").innerHTML = '<a href="' + escapeHtml(result.url) + '" target="_blank" rel="noopener">فتح صفحة تنزيل ملف APK</a>';
+          installButton.textContent = "فتح التنزيل";
+          installButton.disabled = false;
+          return;
+        }
+        if (result.status === "installer-opened") {
+          layer.remove();
+          delete window.updateAdhkarApkDownloadProgress;
+          return;
+        }
       } catch (error) {
         console.error("APK update installation failed:", error);
-        status.textContent = "تعذر تنزيل التحديث أو فتح المثبت. تحقق من اتصال الإنترنت ثم أعد المحاولة.";
+        content.innerHTML = originalContent;
+        document.getElementById("apk-update-status").textContent = "تعذر تنزيل التحديث. تحقق من اتصال الإنترنت ثم أعد المحاولة.";
         installButton.textContent = "إعادة المحاولة";
         installButton.disabled = false;
+        actions.hidden = false;
       }
     });
-    document.getElementById("apk-update-later").addEventListener("click", () => layer.remove());
+    installButton.addEventListener("click", () => {
+      if (installButton.disabled) return;
+      content.innerHTML = '<div class="apk-download-progress" role="progressbar" aria-label="تقدم تنزيل التحديث"><div id="apk-download-progress-fill"></div></div>';
+      actions.hidden = true;
+    }, { once: true });
+    document.getElementById("apk-update-later").addEventListener("click", () => {
+      layer.remove();
+      delete window.updateAdhkarApkDownloadProgress;
+    });
   }
   window.showAdhkarApkUpdatePrompt = showApkUpdatePrompt;
 
@@ -410,7 +424,6 @@
         <label class="settings-switch" for="show-adhkar-explanation"><input id="show-adhkar-explanation" type="checkbox" ${state.explanationEnabled ? "checked" : ""}><span class="settings-checkmark" aria-hidden="true"></span></label>
       </section>
       <button class="settings-update-button" id="adhkar-update-button" type="button" ${isAndroidApp ? "" : 'hidden style="display:none!important"'}>التحقق من وجود تحديث</button>
-      <button class="settings-update-button" id="adhkar-apk-update-button" type="button">التحقق من تحديث التطبيق</button>
       <button class="settings-share" id="share-app-button" type="button"><span class="share-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.6 6.6-4.2M8.7 13.4l6.6 4.2"/></svg></span><span>مشاركة التطبيق</span><span class="contact-arrow">←</span></button>
       <button class="settings-contact" id="contact-developer-button" type="button"><span class="contact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20l.9-4.7a8.5 8.5 0 1 1 16.6-3.5Z"/><path d="M8.7 8.1c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.2 1.5 2.1 1.9.2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .3-.2 1.1-.7 1.5-.5.5-1.2.7-1.9.6-1-.1-2.2-.7-3.4-1.7-1-.9-1.8-2.1-2.1-3-.3-.9 0-1.7.4-2.2Z"/></svg></span><span>للمراجعة تواصل معنا عبر الواتس</span><span class="contact-arrow">←</span></button>
       <p class="app-version" id="app-version">الإصدار ${document.querySelector('meta[name="app-version"]')?.content || "1.0.2"}</p>
@@ -438,75 +451,38 @@
       }
     });
 
-    const apkUpdateButton = document.getElementById("adhkar-apk-update-button");
-    apkUpdateButton.hidden = !isAndroidApp;
-    apkUpdateButton.addEventListener("click", async () => {
-      apkUpdateButton.disabled = true;
-      apkUpdateButton.textContent = "جارٍ التحقق...";
-      try {
-        const result = await window.checkAdhkarApkUpdate?.({ silent: false });
-        apkUpdateButton.textContent = result?.status === "current" ? "لا يوجد تحديث للتطبيق" : "يتوفر تحديث جديد";
-      } catch (_) {
-        apkUpdateButton.textContent = "تعذر التحقق، حاول مرة أخرى";
-      } finally {
-        apkUpdateButton.disabled = false;
-      }
-    });
     const updateButton = document.getElementById("adhkar-update-button");
-    async function refreshUpdateButton() {
-      if (typeof window.getAdhkarUpdateState !== "function") {
-        updateButton.textContent = "التحديث متاح في تطبيق أندرويد فقط";
-        updateButton.disabled = true;
-        return;
-      }
-      try {
-        const updateState = await window.getAdhkarUpdateState();
-        updateButton.dataset.state = updateState.status;
-        updateButton.textContent = updateState.status === "pending"
-          ? "إعادة تثبيت التحديث الجديد"
-          : updateState.status === "current"
-            ? "لا يوجد تحديث جديد"
-            : "التحقق من وجود تحديث";
-      } catch (_) {
-        updateButton.textContent = "التحقق من وجود تحديث";
-      }
-    }
     updateButton.addEventListener("click", async () => {
-      if (updateButton.dataset.state === "pending") {
-        updateButton.disabled = true;
-        updateButton.textContent = "جارٍ تطبيق التحديث...";
-        try { await window.applyAdhkarUpdate(); }
-        catch (_) {
-          updateButton.disabled = false;
-          updateButton.textContent = "إعادة تثبيت التحديث الجديد";
-        }
-        return;
-      }
       updateButton.disabled = true;
-      updateButton.textContent = "جارٍ التحقق من التحديث...";
+      updateButton.textContent = "جارٍ البحث عن التحديث...";
       try {
-        const result = await window.checkAdhkarUpdate();
-        if (result.status === "pending") {
-          updateButton.dataset.state = "pending";
-          updateButton.textContent = "إعادة تثبيت التحديث الجديد";
-        } else if (result.status === "current") {
-          updateButton.dataset.state = "current";
-          updateButton.textContent = "لا يوجد تحديث جديد";
+        if (typeof window.checkAdhkarUpdate === "function") {
+          const liveResult = await window.checkAdhkarUpdate();
+          if (liveResult.status === "pending") {
+            updateButton.textContent = "جارٍ تثبيت التحديث...";
+            await window.applyAdhkarUpdate();
+            return;
+          }
+        }
+
+        if (typeof window.checkAdhkarApkUpdate === "function") {
+          const apkResult = await window.checkAdhkarApkUpdate({ silent: true });
+          if (apkResult.status === "available") {
+            window.showAdhkarApkUpdatePrompt?.(apkResult);
+            updateButton.textContent = "يتوفر تحديث جديد";
+          } else {
+            updateButton.textContent = "لا يوجد تحديث جديد";
+          }
         } else {
-          updateButton.textContent = "التحديث متاح في تطبيق أندرويد فقط";
+          updateButton.textContent = "لا يوجد تحديث جديد";
         }
       } catch (error) {
+        console.error("Unified update check failed:", error);
         updateButton.textContent = "تعذر التحقق، حاول مرة أخرى";
-        console.error("Update check failed:", error);
-      } finally { updateButton.disabled = false; }
+      } finally {
+        updateButton.disabled = false;
+      }
     });
-    if (sessionStorage.getItem("adhkar-update-applied") === "1") {
-      sessionStorage.removeItem("adhkar-update-applied");
-      updateButton.dataset.state = "current";
-      updateButton.textContent = "تم تثبيت التحديث الجديد";
-    } else {
-      void refreshUpdateButton();
-    }
 
     openDialog();
   });
