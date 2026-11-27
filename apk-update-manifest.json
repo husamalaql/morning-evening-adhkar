@@ -1,7 +1,7 @@
 {
   "version": "1.3.27",
   "required": true,
-  "notes": "فصل نافذة تنزيل APK عن نوافذ الرسائل، تثبيت نافذة التقدم حتى اكتمال التنزيل، ومنع تداخل تحديث APK مع OTA.",
+  "notes": "إصلاح نافذة تقدم التنزيل المستقلة، منع اختفائها قبل اكتمال الملف، إبقاء الإعدادات مفتوحة، وفصل تحديث APK عن OTA دون تكرار.",
   "apk": {
     "arm64-v8a": "https://github.com/husamalaql/morning-evening-adhkar/releases/download/v1.3.27/app-arm64-v8a-release.apk",
     "armeabi-v7a": "https://github.com/husamalaql/morning-evening-adhkar/releases/download/v1.3.27/app-armeabi-v7a-release.apk",
