@@ -49,6 +49,12 @@
       status.textContent = "يتم تنزيل ملف التحديث المناسب لجهازك. لا تغلق التطبيق.";
       try {
         const result = await window.downloadAndInstallAdhkarApkUpdate();
+        if (result.status === "manual-install-required") {
+          status.innerHTML = '<a href="' + escapeHtml(result.url) + '" target="_blank" rel="noopener">فتح صفحة تنزيل ملف APK</a>';
+          installButton.textContent = "تنزيل يدوي";
+          installButton.disabled = false;
+          return;
+        }
         if (result.status === "permission-required") {
           status.textContent = "فعّل السماح بتثبيت التطبيقات من هذا المصدر في إعدادات الهاتف، ثم ارجع واضغط متابعة التثبيت.";
           installButton.textContent = "متابعة التثبيت";
