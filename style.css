@@ -1339,3 +1339,82 @@ h1 span { color: var(--pink-deep); }
 }
 #share-app-button .share-icon { color: #286bb4 !important; }
 #contact-developer-button .contact-icon { color: #18834b !important; }
+
+
+/* Compact mobile dhikr reading layout */
+@media (max-width: 520px) {
+  .dhikr-dialog {
+    padding: 16px 11px 11px;
+  }
+  .dhikr-dialog .dialog-symbol {
+    margin-bottom: 2px;
+    font-size: 25px;
+  }
+  .dhikr-dialog h2 {
+    margin: 0 0 7px;
+    line-height: 1.25;
+  }
+  .dhikr-dialog .dialog-body {
+    padding: 0;
+  }
+  .dhikr-progress {
+    gap: 6px;
+    margin: 0 5px 7px;
+    font-size: 12px;
+  }
+  .dhikr-highlight {
+    min-height: clamp(190px, 27svh, 235px);
+    padding: 13px 9px;
+    border-radius: 18px;
+  }
+  .dhikr-highlight h3 {
+    margin: 0 0 6px;
+    font-size: 15px;
+  }
+  .dhikr-text {
+    width: 100%;
+    margin: 0;
+    padding: 0 2px;
+    font-size: clamp(33px, 8vw, 40px);
+    line-height: 1.82;
+    text-align: center;
+  }
+  .dhikr-actions {
+    gap: 6px;
+    margin: 8px 0;
+  }
+  .dhikr-actions .audio-toggle-button {
+    flex-basis: 46px;
+    width: 46px;
+    min-width: 46px;
+    min-height: 46px;
+    padding: 3px;
+  }
+  .dhikr-actions .counter-button,
+  .dhikr-actions .explanation-button {
+    min-height: 46px;
+    padding: 7px 8px;
+  }
+  .explanation-heading {
+    margin-bottom: 5px;
+    padding-bottom: 6px;
+    font-size: 14px;
+  }
+  .dhikr-dialog .explanation-area {
+    padding: 0 !important;
+  }
+  .dhikr-dialog .explanation-scroll {
+    padding: 0 4px 0 1px !important;
+  }
+  .explanation-panel {
+    padding: 11px 12px;
+    border-radius: 14px;
+  }
+  .explanation-panel h4 {
+    margin-bottom: 4px;
+  }
+  .explanation-content > p {
+    margin-bottom: 8px;
+    line-height: 1.75;
+  }
+}
