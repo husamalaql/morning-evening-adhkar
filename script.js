@@ -473,26 +473,15 @@
       updateButton.disabled = true;
       updateButton.textContent = "جارٍ البحث عن التحديث...";
       try {
-        // APK has priority. Never start OTA in the same check when an APK is available.
-        if (typeof window.checkAdhkarApkUpdate === "function") {
-          const apkResult = await window.checkAdhkarApkUpdate({ silent: true });
-          if (apkResult.status === "available") {
-            window.showAdhkarApkUpdatePrompt?.(apkResult);
-            updateButton.textContent = "يتوفر تحديث جديد";
-            return;
-          }
+        // APK-only test release: never check, download, or apply OTA updates.
+        if (typeof window.checkAdhkarApkUpdate !== "function") {
+          throw new Error("APK update checker is unavailable");
         }
-        if (typeof window.checkAdhkarUpdate === "function") {
-          const liveResult = await window.checkAdhkarUpdate();
-          if (liveResult.status === "apk-required") {
-            updateButton.textContent = "يتوفر تحديث يتطلب التثبيت";
-            return;
-          }
-          if (liveResult.status === "pending") {
-            updateButton.textContent = "جارٍ تطبيق تحديث الواجهة...";
-            await window.applyAdhkarUpdate();
-            return;
-          }
+        const apkResult = await window.checkAdhkarApkUpdate({ silent: true });
+        if (apkResult.status === "available") {
+          window.showAdhkarApkUpdatePrompt?.(apkResult);
+          updateButton.textContent = "يتوفر تحديث يتطلب التثبيت";
+          return;
         }
         updateButton.textContent = "لا يوجد تحديث جديد";
       } catch (error) {
