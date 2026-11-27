@@ -435,7 +435,6 @@
       void refreshUpdateButton();
     }
 
-    morningInput.addEventListener("change", saveNotificationSettings); eveningInput.addEventListener("change", saveNotificationSettings);
     openDialog();
   });
   function openContactConfirmation() {
