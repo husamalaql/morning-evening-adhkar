@@ -365,6 +365,8 @@
     `;
     document.getElementById("share-app-button").addEventListener("click", shareApp);
     document.getElementById("contact-developer-button").addEventListener("click", () => {
+      const confirmed = window.confirm("هل تريد الانتقال إلى واتساب للتواصل وإرسال ملاحظتك؟");
+      if (!confirmed) return;
       const message = "السلام عليكم، لدي مراجعة أو ملاحظة بخصوص تطبيق الأذكار، وأرغب في التواصل معكم.";
       window.open("https://wa.me/967777273449?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
     });
