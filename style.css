@@ -1182,3 +1182,36 @@ h1 span { color: var(--pink-deep); }
   display: grid;
   place-items: center;
 }
+
+
+/* Unified message dialogs: centered text, content-sized message fields, and fixed sharp lower edges. */
+.share-message-fields {
+  border-radius: 14px 14px 0 0;
+  text-align: center;
+}
+.share-message-fields input,
+.share-message-fields textarea {
+  text-align: center;
+  resize: none;
+}
+.share-message-fields textarea {
+  min-height: 0;
+  height: auto;
+  overflow: hidden;
+}
+.apk-update-content {
+  border-radius: 14px 14px 0 0;
+  text-align: center;
+}
+.apk-update-content h3 {
+  padding: 0 0 10px;
+  margin: 0 0 10px;
+  border-bottom: 1px solid #eed9e2;
+}
+.apk-update-content p {
+  text-align: center;
+}
+.apk-update-dialog .share-dialog-actions .share-action-button,
+.apk-update-dialog .share-dialog-actions .share-cancel-button {
+  border-radius: 0;
+}
