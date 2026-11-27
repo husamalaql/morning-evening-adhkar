@@ -88,10 +88,7 @@ export async function checkForUpdate() {
   if (apkManifest.version && compareVersions(apkManifest.version, appInfo.version) > 0) {
     return { status: 'apk-required', version: apkManifest.version };
   }
-  // OTA versions already included in the installed APK must never be applied again.
-  if (compareVersions(manifest.version, appInfo.version) <= 0) {
-    return { status: 'current', version: appInfo.version };
-  }
+  // APK compatibility is checked above; OTA bundle identity determines whether web assets need updating.
   const [current, next] = await Promise.all([
     LiveUpdate.getCurrentBundle(),
     LiveUpdate.getNextBundle()
