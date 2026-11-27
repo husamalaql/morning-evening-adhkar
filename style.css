@@ -983,3 +983,29 @@ h1 span { color: var(--pink-deep); }
 .explanation-panel {
   margin: 0 !important;
 }
+
+
+/* Let the explanation container occupy the remaining reading-window space. */
+.dhikr-dialog .dialog-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.dhikr-dialog .explanation-area {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  margin: 0 !important;
+  padding: 0 2px !important;
+}
+.dhikr-dialog .explanation-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  padding: 1px 7px 0 2px !important;
+}
+.dhikr-dialog .explanation-panel {
+  min-height: 100%;
+  margin: 0 !important;
+}
