@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f5ed">
+  <meta name="description" content="تنزيل تطبيق أذكار الصباح والمساء للأندرويد، اختر النسخة المناسبة لمعالج هاتفك.">
+  <title>تنزيل تطبيق أذكار الصباح والمساء</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f8f5ed;color:#26352d;font-family:Tajawal,Arial,sans-serif;min-height:100vh}
+    .wrap{width:min(920px,calc(100% - 28px));margin:0 auto;padding:34px 0 56px}
+    header{text-align:center;padding:30px 18px 26px;border:1px solid #d8c9a6;border-radius:24px;background:linear-gradient(145deg,#fffdf7,#f0eadb);box-shadow:0 12px 34px #26352d0c}
+    .mark{width:58px;height:58px;margin:0 auto 12px;display:grid;place-items:center;border:1px solid #c8ad72;border-radius:18px;color:#9a7b3e;font-size:31px}
+    h1{font-family:Amiri,serif;font-size:clamp(27px,5vw,40px);margin:0;color:#344c3d}
+    header p{margin:8px 0 0;color:#69766b;font-size:16px}
+    .hint{margin:20px 2px 24px;padding:13px 16px;border-right:3px solid #b59a5e;background:#f0eadb;border-radius:10px;color:#58675c;line-height:1.8}
+    #releases{display:grid;gap:18px}.release{background:#fffdf8;border:1px solid #ded5c2;border-radius:18px;padding:18px;box-shadow:0 8px 24px #26352d08}
+    .release-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:13px;border-bottom:1px solid #eee8dc}
+    .release h2{font-size:21px;margin:0;color:#344c3d}.date{font-size:13px;color:#879087;white-space:nowrap}
+    .files{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;padding-top:15px}
+    .file{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;border:1px solid #d9d0bd;border-radius:13px;text-decoration:none;color:#344c3d;background:#fff;transition:.18s}
+    .file:hover{border-color:#a98b4c;background:#fbf7eb;transform:translateY(-1px)}
+    .file strong{display:block;font-size:15px}.file small{display:block;color:#849087;margin-top:4px;font-size:12px}
+    .download{flex:none;background:#45644e;color:white;border-radius:9px;padding:8px 11px;font-size:13px}
+    .state{text-align:center;padding:30px 12px;color:#778278;background:#fffdf8;border:1px solid #ded5c2;border-radius:16px}
+    .error{color:#985044}.footer{text-align:center;color:#8b9288;font-size:13px;margin-top:28px}
+    @media(max-width:520px){.wrap{padding-top:16px}.release{padding:14px}.release-head{align-items:flex-start;flex-direction:column;gap:5px}.files{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="mark" aria-hidden="true">۞</div>
+      <h1>تنزيل أذكار الصباح والمساء</h1>
+      <p>اختر النسخة المناسبة لمعالج هاتفك</p>
+    </header>
+    <div class="hint">كل زر ينزّل ملف APK واحداً مستقلاً. لا تحتاج إلى تنزيل ملف ZIP أو تحميل بقية النسخ.</div>
+    <section id="releases" aria-live="polite"><div class="state">جارٍ تحميل الإصدارات المتاحة...</div></section>
+    <p class="footer">أذكار الصباح والمساء · تنزيلات أندرويد</p>
+  </main>
+  <script>
+    const variants = [
+      { suffix: 'armeabi-v7a', label: 'أجهزة ARM ‏32-bit', detail: 'للهواتف القديمة أو ذات المعالج 32 بت' },
+      { suffix: 'arm64-v8a', label: 'أجهزة ARM ‏64-bit', detail: 'لمعظم هواتف أندرويد الحديثة' },
+      { suffix: 'x86', label: 'أجهزة x86 ‏32-bit', detail: 'لأجهزة أندرويد بمعالج Intel 32 بت' },
+      { suffix: 'x86_64', label: 'أجهزة x86_64 ‏64-bit', detail: 'لأجهزة أندرويد بمعالج Intel 64 بت' }
+    ];
+    const host = document.getElementById('releases');
+    const size = bytes => bytes < 1048576 ? (bytes/1024).toFixed(0)+' KB' : (bytes/1048576).toFixed(1)+' MB';
+    const date = value => new Intl.DateTimeFormat('ar', {year:'numeric',month:'long',day:'numeric'}).format(new Date(value));
+    function escapeText(value){return String(value).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+    async function loadReleases(){
+      try{
+        const response = await fetch('https://api.github.com/repos/husamalaql/morning-evening-adhkar/releases?per_page=100', {headers:{Accept:'application/vnd.github+json'}});
+        if(!response.ok) throw new Error('تعذر الوصول إلى قائمة الإصدارات حالياً.');
+        const releases = await response.json();
+        const published = releases.filter(r=>!r.draft && r.assets.some(a=>a.name.endsWith('.apk')));
+        if(!published.length){host.innerHTML='<div class="state">لا توجد ملفات APK منشورة حتى الآن. ستظهر النسخ هنا بعد اكتمال أول عملية بناء ونشر.</div>';return;}
+        host.innerHTML = published.map(release=>{
+          const files = variants.map(v=>{
+            const asset = release.assets.find(a=>a.name.toLowerCase().includes(v.suffix.toLowerCase()) && a.name.endsWith('.apk'));
+            if(!asset) return '';
+            return '<a class="file" href="'+escapeText(asset.browser_download_url)+'"><span><strong>'+v.label+'</strong><small>'+v.detail+' · '+size(asset.size)+'</small></span><span class="download">تنزيل APK</span></a>';
+          }).join('');
+          return '<article class="release"><div class="release-head"><h2>الإصدار '+escapeText(release.tag_name.replace(/^v/,''))+'</h2><span class="date">'+date(release.published_at || release.created_at)+'</span></div><div class="files">'+files+'</div></article>';
+        }).join('');
+      }catch(error){host.innerHTML='<div class="state error">'+escapeText(error.message || 'حدث خطأ أثناء تحميل الإصدارات.')+'<br>حاول تحديث الصفحة بعد قليل.</div>';}
+    }
+    loadReleases();
+  </script>
+</body>
+</html>
