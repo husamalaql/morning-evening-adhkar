@@ -1569,3 +1569,38 @@ body::before {
   .dhikr-highlight { height: 43svh; min-height: 230px; }
   .dhikr-text { font-size: clamp(30px, 6vw, 40px); }
 }
+
+
+/* Slightly reduce the dhikr card and center short text vertically. */
+.dhikr-highlight {
+  height: auto;
+  min-height: clamp(270px, 38svh, 390px);
+  max-height: 44svh;
+  padding: 18px clamp(16px, 3.5vw, 28px);
+}
+.dhikr-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 100%;
+  text-align: center;
+}
+@media (max-width: 520px) {
+  .dhikr-highlight {
+    height: auto;
+    min-height: clamp(235px, 31svh, 275px);
+    max-height: 38svh;
+    padding: 15px 10px;
+  }
+  .dhikr-text {
+    font-size: clamp(37px, 9vw, 45px);
+    line-height: 1.9;
+  }
+}
+@media (max-height: 620px) {
+  .dhikr-highlight {
+    min-height: 220px;
+    max-height: 42svh;
+  }
+}
