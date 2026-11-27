@@ -66,7 +66,8 @@ jobs:
           if ! gh release view live-updates >/dev/null 2>&1; then
             gh release create live-updates --title "أحدث تحديثات تطبيق الأذكار" --notes "حزم تحديث واجهة التطبيق."
           fi
-          gh release upload live-updates "$ASSET_NAME" --clobber
+          ASSET_NAME="adhkar-live-update-${GITHUB_SHA}.zip"
+          gh release upload live-updates "$ASSET_NAME"
 
       - name: Publish update manifest
         env:
