@@ -31,10 +31,11 @@ function notificationFor(section, at) {
   return {
     id: IDS[section],
     title: morning ? 'حان وقت أذكار الصباح' : 'حان وقت أذكار المساء',
-    body: morning ? 'ابدأ يومك بذكر الله. افتح أذكار الصباح الآن.' : 'اختم يومك بذكر الله. افتح أذكار المساء الآن.',
+    body: morning ? '☀️ ✦ أذكار الصباح ✦ ابدأ يومك بذكر الله، وافتح الأذكار الآن.' : '🌙 ✧ أذكار المساء ✧ اختم يومك بذكر الله، وافتح الأذكار الآن.',
+    smallIcon: 'ic_stat_adhkar',
     schedule: { at, allowWhileIdle: true },
     extra: { section },
-    color: '#E9AFC7'
+    color: morning ? '#D9A441' : '#8064A2'
   };
 }
 
