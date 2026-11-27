@@ -1,0 +1,76 @@
+name: Publish Android live update bundle
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'script.js'
+      - 'style.css'
+      - 'data/**'
+      - 'assets/**'
+      - 'islamic-pattern-4096.svg'
+      - 'src/**'
+      - 'scripts/build.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: adhkar-live-update
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build web bundle
+        run: npm run build
+
+      - name: Package update
+        run: |
+          cd www
+          zip -r ../adhkar-live-update.zip .
+          cd ..
+          cat > update-manifest.json <<EOF
+          {
+            "bundleId": "${GITHUB_SHA}",
+            "url": "https://github.com/husamalaql/morning-evening-adhkar/releases/download/live-updates/adhkar-live-update.zip"
+          }
+          EOF
+
+      - name: Create or update stable GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if ! gh release view live-updates >/dev/null 2>&1; then
+            gh release create live-updates --title "أحدث تحديثات تطبيق الأذكار" --notes "حزم تحديث واجهة التطبيق."
+          fi
+          gh release upload live-updates adhkar-live-update.zip --clobber
+
+      - name: Publish update manifest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+users.noreply.github.com"
+          cp update-manifest.json live-update-manifest.json
+          git add live-update-manifest.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish live update manifest"
+            git push
+          fi
