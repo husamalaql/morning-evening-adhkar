@@ -1042,3 +1042,81 @@ h1 span { color: var(--pink-deep); }
     font-size: 13px;
   }
 }
+
+
+/* Explanation visibility is controlled from Settings; its heading collapses the panel. */
+.dhikr-dialog .explanation-area[hidden] {
+  display: none !important;
+}
+.explanation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0 0 8px;
+  padding: 0 0 9px;
+  color: #a85b7d;
+  border: 0;
+  border-bottom: 1px solid #f0dce5;
+  background: transparent;
+  font: 800 15px "Tajawal", sans-serif;
+  text-align: right;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.explanation-heading span {
+  color: #c17b9a;
+  font-size: 20px;
+  line-height: 1;
+}
+.explanation-setting-card {
+  margin: 8px 0 9px !important;
+}
+
+/* The next/count control takes all remaining horizontal space. */
+.dhikr-actions {
+  display: flex !important;
+  align-items: stretch;
+  direction: ltr;
+  gap: 10px;
+}
+.dhikr-actions .audio-toggle-button {
+  flex: 0 0 56px;
+  width: 56px;
+}
+.dhikr-actions .counter-button {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: auto;
+}
+
+/* Consistent app-colored interaction feedback; remove the native blue tap square. */
+#adhkar-update-button,
+#share-app-button,
+#contact-developer-button,
+.explanation-setting-card,
+.explanation-heading {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+#adhkar-update-button:focus,
+#share-app-button:focus,
+#contact-developer-button:focus,
+.explanation-heading:focus {
+  outline: none;
+}
+#adhkar-update-button:focus-visible,
+#share-app-button:focus-visible,
+#contact-developer-button:focus-visible,
+.explanation-heading:focus-visible {
+  outline: 2px solid rgba(185,93,134,.48);
+  outline-offset: 2px;
+  border-radius: 15px;
+}
+#adhkar-update-button:active,
+#share-app-button:active,
+#contact-developer-button:active {
+  transform: scale(.985);
+  filter: brightness(.97);
+  box-shadow: 0 3px 10px rgba(126,73,98,.08);
+}
