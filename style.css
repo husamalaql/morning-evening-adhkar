@@ -1418,3 +1418,52 @@ h1 span { color: var(--pink-deep); }
     line-height: 1.75;
   }
 }
+
+
+/* Latest home palette and dhikr card height refinements */
+@media (max-width: 520px) {
+  .dhikr-highlight {
+    min-height: clamp(245px, 36svh, 310px);
+    padding: 15px 9px;
+  }
+}
+
+/* Make the Islamic line pattern and decorative rules clearer on the home screen. */
+body::before {
+  opacity: .55;
+  filter: hue-rotate(285deg) saturate(1.02) blur(.35px);
+}
+.decorative-rule i {
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #d99ab5);
+}
+.hero::before,
+.hero::after {
+  color: #c77e9e;
+  opacity: 1;
+  text-shadow: 0 1px 5px rgba(185,93,134,.16);
+}
+
+/* Evening card: calm twilight plum-blue; morning card keeps its existing daylight look. */
+.evening-card {
+  color: #fffaff;
+  border-color: #77718f;
+  background: linear-gradient(135deg, #55536f 0%, #68647f 55%, #77708d 100%);
+  box-shadow: 0 9px 26px rgba(63,56,91,.19), inset 0 1px 0 rgba(255,255,255,.2);
+  outline-color: rgba(218,211,236,.22);
+}
+.evening-card:hover {
+  border-color: #9389ad;
+  box-shadow: 0 12px 28px rgba(63,56,91,.24);
+}
+.evening-card .moon-icon {
+  color: #e9dcff;
+  background: rgba(239,231,255,.15);
+  border: 1px solid rgba(239,231,255,.2);
+}
+.evening-card .card-copy strong { color: #fffaff; }
+.evening-card .card-copy small { color: #e0dbea; }
+.evening-card .card-arrow { color: #e6d8f5; }
+.evening-card:focus-visible {
+  outline-color: rgba(117,105,153,.65);
+}
