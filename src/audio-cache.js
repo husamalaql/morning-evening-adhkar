@@ -9,6 +9,7 @@ function filenameFor(url, index) {
 
 async function resolveNativeAudio(url, index) {
   const path = `adhkar-audio/${filenameFor(url, index)}`;
+  await Filesystem.mkdir({ directory: Directory.Data, path: 'adhkar-audio', recursive: true }).catch(() => {});
   const destination = await Filesystem.getUri({ directory: Directory.Data, path });
 
   try {
