@@ -74,5 +74,6 @@ jobs:
           git add live-update-manifest.json
           if ! git diff --cached --quiet; then
             git commit -m "Publish live update manifest"
+            git pull --rebase origin main
             git push
           fi
