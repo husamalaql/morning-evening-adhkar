@@ -1,7 +1,7 @@
 {
   "version": "1.3.26",
   "required": true,
-  "notes": "إصلاح ترتيب تحديث APK وOTA، وعرض إصدار APK المثبّت فقط، وتحسين زوايا نافذة التحديث.",
+  "notes": "منع تطبيق OTA قبل تثبيت APK الأحدث، وإظهار إصدار التطبيق المثبّت، وتحسين نافذة التحديث.",
   "apk": {
     "arm64-v8a": "https://github.com/husamalaql/morning-evening-adhkar/releases/download/v1.3.26/app-arm64-v8a-release.apk",
     "armeabi-v7a": "https://github.com/husamalaql/morning-evening-adhkar/releases/download/v1.3.26/app-armeabi-v7a-release.apk",
