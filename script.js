@@ -2,6 +2,7 @@
   "use strict";
 
   const DATA_URL = "data/adhkar.json";
+  const isAndroidApp = Boolean(window.Capacitor?.isNativePlatform?.() && window.Capacitor?.getPlatform?.() === "android");
   const sectionButtons = document.querySelectorAll("[data-section]");
   const settingsButton = document.getElementById("settings-button");
   const backdrop = document.getElementById("dialog-backdrop");
@@ -341,15 +342,15 @@
         <div class="settings-copy"><strong>مواصلة الاستماع</strong><span>يستمر بقراءة الأذكار تلقائياً دون توقف بين الأذكار</span></div>
         <label class="settings-switch" for="continue-listening"><input id="continue-listening" type="checkbox" ${state.continueListening ? "checked" : ""}><span class="settings-checkmark" aria-hidden="true"></span></label>
       </section>
-      <section class="settings-card">
+      <section class="settings-card" ${isAndroidApp ? "" : 'hidden style="display:none!important"'}>
         <div class="settings-copy"><strong>الإشعار بوقت الأذكار</strong><span>تذكير يومي يفتح أذكار الصباح أو المساء عند النقر عليه</span></div>
         <label class="settings-switch" for="adhkar-notifications"><input id="adhkar-notifications" type="checkbox" ${state.notificationsEnabled ? "checked" : ""}><span class="settings-checkmark" aria-hidden="true"></span></label>
       </section>
-      <div class="notification-times" id="notification-times" ${state.notificationsEnabled ? "" : "hidden"}>
+      <div class="notification-times" id="notification-times" ${isAndroidApp && state.notificationsEnabled ? "" : 'hidden style="display:none!important"'}>
         <label>وقت أذكار الصباح<input id="morning-time" type="time" value="${state.morningTime}"></label>
         <label>وقت أذكار المساء<input id="evening-time" type="time" value="${state.eveningTime}"></label>
       </div>
-      <button class="settings-update-button" id="adhkar-update-button" type="button">التحقق من وجود تحديث</button>
+      <button class="settings-update-button" id="adhkar-update-button" type="button" ${isAndroidApp ? "" : 'hidden style="display:none!important"'}>التحقق من وجود تحديث</button>
       <a class="settings-contact" href="https://wa.me/967777273449?text=%D9%84%D8%AF%D9%8A%20%D9%85%D8%B1%D8%A7%D8%AC%D8%B9%D8%A9%20%D8%A3%D9%88%20%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A9%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20%D8%A7%D9%84%D8%A3%D8%B0%D9%83%D8%A7%D8%B1" target="_blank" rel="noopener"><span class="contact-icon">◉</span><span>تواصل معنا للمراجعة والملاحظات</span><span class="contact-arrow">←</span></a>
     `;
     document.getElementById("continue-listening").addEventListener("change", event => { state.continueListening = event.target.checked; });
