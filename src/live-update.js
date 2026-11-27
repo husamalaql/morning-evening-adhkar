@@ -13,7 +13,7 @@ async function getManifest(force = false) {
   const response = await fetch(MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' });
   if (!response.ok) throw new Error('تعذر الاتصال بخادم التحديثات');
   const manifest = await response.json();
-  if (!manifest.bundleId || !manifest.url || !manifest.checksum) throw new Error('ملف التحديث غير صالح');
+  if (!manifest.bundleId || !manifest.url || !manifest.checksum || !manifest.version) throw new Error('ملف التحديث غير صالح');
   manifestCache = manifest;
   return manifest;
 }
@@ -33,21 +33,30 @@ export async function initializeLiveUpdates() {
 
 async function getUpdateState() {
   if (!isNativeAndroid()) return { status: 'unsupported' };
-  const next = await LiveUpdate.getNextBundle();
-  if (next.bundleId) return { status: 'pending', bundleId: next.bundleId };
-  return { status: 'idle' };
+  const [manifest, current, next] = await Promise.all([
+    getManifest(true),
+    LiveUpdate.getCurrentBundle(),
+    LiveUpdate.getNextBundle()
+  ]);
+  // The active bundle is authoritative; the plugin may retain the applied bundle as "next".
+  if (current.bundleId === manifest.bundleId) return { status: 'current', version: manifest.version };
+  if (next.bundleId === manifest.bundleId) return { status: 'pending', bundleId: next.bundleId, version: manifest.version };
+  return { status: 'idle', version: manifest.version };
 }
 
 export async function checkForUpdate() {
   if (!isNativeAndroid()) return { status: 'unsupported' };
-  const next = await LiveUpdate.getNextBundle();
-  if (next.bundleId) return { status: 'pending', bundleId: next.bundleId };
   const manifest = await getManifest(true);
-  const current = await LiveUpdate.getCurrentBundle();
-  if (current.bundleId === manifest.bundleId) return { status: 'current' };
+  const [current, next] = await Promise.all([
+    LiveUpdate.getCurrentBundle(),
+    LiveUpdate.getNextBundle()
+  ]);
+  // Check the active bundle before the staged bundle to avoid reinstalling an update.
+  if (current.bundleId === manifest.bundleId) return { status: 'current', version: manifest.version };
+  if (next.bundleId === manifest.bundleId) return { status: 'pending', bundleId: next.bundleId, version: manifest.version };
   await LiveUpdate.downloadBundle({ url: manifest.url, bundleId: manifest.bundleId, checksum: manifest.checksum });
   await LiveUpdate.setNextBundle({ bundleId: manifest.bundleId });
-  return { status: 'pending', bundleId: manifest.bundleId };
+  return { status: 'pending', bundleId: manifest.bundleId, version: manifest.version };
 }
 
 export async function applyUpdate() {
