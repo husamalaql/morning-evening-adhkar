@@ -352,6 +352,7 @@
       </div>
       <button class="settings-update-button" id="adhkar-update-button" type="button" ${isAndroidApp ? "" : 'hidden style="display:none!important"'}>التحقق من وجود تحديث</button>
       <a class="settings-contact" href="https://wa.me/967777273449?text=%D9%84%D8%AF%D9%8A%20%D9%85%D8%B1%D8%A7%D8%AC%D8%B9%D8%A9%20%D8%A3%D9%88%20%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A9%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20%D8%A7%D9%84%D8%A3%D8%B0%D9%83%D8%A7%D8%B1" target="_blank" rel="noopener"><span class="contact-icon">◉</span><span>تواصل معنا للمراجعة والملاحظات</span><span class="contact-arrow">←</span></a>
+      <p class="app-version" id="app-version">الإصدار ${document.querySelector('meta[name="app-version"]')?.content || "1.0.2"}</p>
     `;
     document.getElementById("continue-listening").addEventListener("change", event => { state.continueListening = event.target.checked; });
     const notificationToggle = document.getElementById("adhkar-notifications");
@@ -384,7 +385,9 @@
         updateButton.dataset.state = updateState.status;
         updateButton.textContent = updateState.status === "pending"
           ? "إعادة تثبيت التحديث الجديد"
-          : "التحقق من وجود تحديث";
+          : updateState.status === "current"
+            ? "لا يوجد تحديث جديد"
+            : "التحقق من وجود تحديث";
       } catch (_) {
         updateButton.textContent = "التحقق من وجود تحديث";
       }
