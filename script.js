@@ -349,6 +349,7 @@
         <label>وقت أذكار الصباح<input id="morning-time" type="time" value="${state.morningTime}"></label>
         <label>وقت أذكار المساء<input id="evening-time" type="time" value="${state.eveningTime}"></label>
       </div>
+      <button class="settings-update-button" id="adhkar-update-button" type="button">التحقق من وجود تحديث</button>
       <a class="settings-contact" href="https://wa.me/967777273449?text=%D9%84%D8%AF%D9%8A%20%D9%85%D8%B1%D8%A7%D8%AC%D8%B9%D8%A9%20%D8%A3%D9%88%20%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A9%20%D8%A8%D8%AE%D8%B5%D9%88%D8%B5%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20%D8%A7%D9%84%D8%A3%D8%B0%D9%83%D8%A7%D8%B1" target="_blank" rel="noopener"><span class="contact-icon">◉</span><span>تواصل معنا للمراجعة والملاحظات</span><span class="contact-arrow">←</span></a>
     `;
     document.getElementById("continue-listening").addEventListener("change", event => { state.continueListening = event.target.checked; });
@@ -369,6 +370,61 @@
         state.notificationsEnabled = enabled; localStorage.setItem("adhkar-notifications-enabled", String(enabled)); timesPanel.hidden = !enabled;
       } catch (_) { event.target.checked = false; state.notificationsEnabled = false; localStorage.setItem("adhkar-notifications-enabled", "false"); alert("لم يتم تفعيل الإشعارات. تحقق من السماح للتطبيق بإرسال الإشعارات من إعدادات الهاتف."); }
     });
+
+    const updateButton = document.getElementById("adhkar-update-button");
+    async function refreshUpdateButton() {
+      if (typeof window.getAdhkarUpdateState !== "function") {
+        updateButton.textContent = "التحديث متاح في تطبيق أندرويد فقط";
+        updateButton.disabled = true;
+        return;
+      }
+      try {
+        const updateState = await window.getAdhkarUpdateState();
+        updateButton.dataset.state = updateState.status;
+        updateButton.textContent = updateState.status === "pending"
+          ? "إعادة تثبيت التحديث الجديد"
+          : "التحقق من وجود تحديث";
+      } catch (_) {
+        updateButton.textContent = "التحقق من وجود تحديث";
+      }
+    }
+    updateButton.addEventListener("click", async () => {
+      if (updateButton.dataset.state === "pending") {
+        updateButton.disabled = true;
+        updateButton.textContent = "جارٍ تطبيق التحديث...";
+        try { await window.applyAdhkarUpdate(); }
+        catch (_) {
+          updateButton.disabled = false;
+          updateButton.textContent = "إعادة تثبيت التحديث الجديد";
+        }
+        return;
+      }
+      updateButton.disabled = true;
+      updateButton.textContent = "جارٍ التحقق من التحديث...";
+      try {
+        const result = await window.checkAdhkarUpdate();
+        if (result.status === "pending") {
+          updateButton.dataset.state = "pending";
+          updateButton.textContent = "إعادة تثبيت التحديث الجديد";
+        } else if (result.status === "current") {
+          updateButton.dataset.state = "current";
+          updateButton.textContent = "لا يوجد تحديث جديد";
+        } else {
+          updateButton.textContent = "التحديث متاح في تطبيق أندرويد فقط";
+        }
+      } catch (error) {
+        updateButton.textContent = "تعذر التحقق، حاول مرة أخرى";
+        console.error("Update check failed:", error);
+      } finally { updateButton.disabled = false; }
+    });
+    if (sessionStorage.getItem("adhkar-update-applied") === "1") {
+      sessionStorage.removeItem("adhkar-update-applied");
+      updateButton.dataset.state = "current";
+      updateButton.textContent = "تم تثبيت التحديث الجديد";
+    } else {
+      void refreshUpdateButton();
+    }
+
     morningInput.addEventListener("change", saveNotificationSettings); eveningInput.addEventListener("change", saveNotificationSettings);
     openDialog();
   });
