@@ -44,11 +44,11 @@ body::before {
   background-image: url("islamic-pattern-4096.svg");
   background-size: 310px 310px;
   background-repeat: repeat;
-  opacity: .48;
-  filter: hue-rotate(285deg) saturate(.9) blur(.45px);
+  opacity: .40;
+  filter: hue-rotate(285deg) saturate(.9) blur(1px);
   pointer-events: none;
-  -webkit-mask-image: radial-gradient(ellipse at center, transparent 36%, rgba(0,0,0,.3) 57%, #000 86%);
-  mask-image: radial-gradient(ellipse at center, transparent 36%, rgba(0,0,0,.3) 57%, #000 86%);
+  -webkit-mask-image: radial-gradient(ellipse at center, transparent 42%, rgba(0,0,0,.3) 60%, #000 90%);
+  mask-image: radial-gradient(ellipse at center, transparent 42%, rgba(0,0,0,.3) 60%, #000 90%);
 }
 .hero, .choice-area, .home-footer { position: relative; z-index: 1; }
 .hero, .home-footer { isolation: isolate; }
