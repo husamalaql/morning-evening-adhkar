@@ -13,9 +13,9 @@ void (async () => {
       directory: Directory.Cache,
       encoding: Encoding.UTF8
     });
+    if (!file?.uri) throw new Error('تعذر إنشاء ملف المشاركة.');
     return Share.share({
       title: options.title || 'أذكار الصباح والمساء',
-      text: options.text || '',
       files: [file.uri],
       dialogTitle: options.dialogTitle || 'مشاركة تطبيق الأذكار'
     });
