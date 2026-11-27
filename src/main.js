@@ -2,6 +2,7 @@ import { resolveAudioSources } from './audio-cache.js';
 import { initializeNotifications } from './notifications.js';
 import { initializeLiveUpdates } from './live-update.js';
 import { Share } from '@capacitor/share';
+import { App } from '@capacitor/app';
 
 void (async () => {
   window.resolveAdhkarAudioSources = resolveAudioSources;
@@ -15,6 +16,23 @@ void (async () => {
     });
   };
   await import('../script.js');
+  await App.addListener('backButton', () => {
+    const nestedDialog = document.getElementById('contact-confirm-backdrop')
+      || document.getElementById('share-confirm-backdrop');
+
+    if (nestedDialog) {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+      return;
+    }
+
+    const mainDialog = document.getElementById('dialog-backdrop');
+    if (mainDialog && !mainDialog.hidden) {
+      document.getElementById('dialog-close')?.click();
+      return;
+    }
+
+    void App.exitApp();
+  });
   await initializeLiveUpdates();
   await initializeNotifications();
 })();
