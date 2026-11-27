@@ -61,6 +61,12 @@ export async function downloadAndInstallApkUpdate() {
   const apkUrl = manifest.apk[abi] || manifest.apk['arm64-v8a'];
   if (!apkUrl) throw new Error('لا توجد نسخة APK مناسبة لهذا الجهاز');
 
+  const permission = await ApkInstaller.canInstallUnknownApps();
+  if (!permission.granted) {
+    await ApkInstaller.openInstallUnknownAppsSettings();
+    return { status: 'permission-required' };
+  }
+
   const directory = 'updates';
   await Filesystem.mkdir({ directory: Directory.Data, path: directory, recursive: true }).catch(() => {});
   const fileName = `adhkar-${manifest.version}.apk`;
@@ -69,7 +75,17 @@ export async function downloadAndInstallApkUpdate() {
 
   const existing = await Filesystem.stat({ directory: Directory.Data, path: filePath }).catch(() => null);
   if (!existing?.size) {
-    await FileTransfer.downloadFile({ url: apkUrl, path: fileInfo.uri, progress: false });
+    const progressListener = await FileTransfer.addListener('progress', event => {
+      const total = Number(event.contentLength || event.total || 0);
+      const received = Number(event.bytes || event.loaded || 0);
+      const percent = total > 0 ? Math.max(0, Math.min(100, received / total * 100)) : 0;
+      window.updateAdhkarApkDownloadProgress?.(percent);
+    });
+    try {
+      await FileTransfer.downloadFile({ url: apkUrl, path: fileInfo.uri, progress: true });
+    } finally {
+      await progressListener.remove();
+    }
   }
 
   const downloaded = await Filesystem.stat({ directory: Directory.Data, path: filePath });
@@ -78,12 +94,7 @@ export async function downloadAndInstallApkUpdate() {
     throw new Error('لم يكتمل تنزيل ملف التحديث');
   }
 
-  const permission = await ApkInstaller.canInstallUnknownApps();
-  if (!permission.granted) {
-    await ApkInstaller.openInstallUnknownAppsSettings();
-    return { status: 'permission-required' };
-  }
-
+  window.updateAdhkarApkDownloadProgress?.(100);
   await ApkInstaller.installApk({ filePath: fileInfo.uri });
   return { status: 'installer-opened', version: manifest.version };
 }
@@ -92,10 +103,5 @@ export async function initializeApkUpdates() {
   if (!isAndroidApp()) return;
   window.checkAdhkarApkUpdate = checkApkUpdate;
   window.downloadAndInstallAdhkarApkUpdate = downloadAndInstallApkUpdate;
-  try {
-    const result = await checkApkUpdate({ silent: true });
-    if (result.status === 'available') window.showAdhkarApkUpdatePrompt?.(result);
-  } catch (error) {
-    console.warn('APK update check failed:', error);
-  }
+  // APK updates are checked only when the user taps the unified update button.
 }
