@@ -1,10 +1,11 @@
 import { LiveUpdate } from '@capawesome/capacitor-live-update';
+import { Capacitor } from '@capacitor/core';
 
 const MANIFEST_URL = 'https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/live-update-manifest.json';
 let manifestCache = null;
 
 function isNativeAndroid() {
-  return window.Capacitor?.isNativePlatform?.() && window.Capacitor?.getPlatform?.() === 'android';
+  return Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android';
 }
 
 async function getManifest(force = false) {
