@@ -1124,3 +1124,36 @@ h1 span { color: var(--pink-deep); }
 .dhikr-dialog .explanation-content[hidden] {
   display: none !important;
 }
+
+
+/* APK update prompt */
+.apk-update-content {
+  padding: 20px 18px;
+  border-radius: 16px;
+}
+.apk-update-content h3 {
+  margin: 0 0 8px;
+  color: #89536d;
+  font: 800 19px/1.6 "Tajawal",sans-serif;
+  text-align: center;
+}
+.apk-update-content p {
+  margin: 8px 0 0;
+  color: #765b68;
+  font: 600 14px/1.8 "Tajawal",sans-serif;
+  text-align: center;
+}
+.apk-update-content .apk-update-version {
+  color: #b45f86;
+  font-weight: 800;
+}
+.apk-update-content .apk-update-status {
+  color: #9b7587;
+  font-size: 13px;
+}
+.apk-update-dialog .share-dialog-actions .share-action-button {
+  border-radius: 0 0 16px 0;
+}
+.apk-update-dialog .share-dialog-actions .share-cancel-button {
+  border-radius: 0 0 0 16px;
+}
