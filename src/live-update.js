@@ -1,7 +1,9 @@
 import { LiveUpdate } from '@capawesome/capacitor-live-update';
 import { Capacitor } from '@capacitor/core';
+import { App } from '@capacitor/app';
 
 const MANIFEST_URL = 'https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/live-update-manifest.json';
+const APK_MANIFEST_URL = 'https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/apk-update-manifest.json';
 let manifestCache = null;
 
 function isNativeAndroid() {
@@ -18,11 +20,41 @@ async function getManifest(force = false) {
   return manifest;
 }
 
+function compareVersions(left, right) {
+  const a = String(left).split('.').map(Number);
+  const b = String(right).split('.').map(Number);
+  for (let i = 0; i < Math.max(a.length, b.length); i++) {
+    const difference = (a[i] || 0) - (b[i] || 0);
+    if (difference) return difference > 0 ? 1 : -1;
+  }
+  return 0;
+}
+
+async function hasUninstalledApkUpdate() {
+  try {
+    const [appInfo, response] = await Promise.all([
+      App.getInfo(),
+      fetch(APK_MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' })
+    ]);
+    if (!response.ok) return true;
+    const manifest = await response.json();
+    return Boolean(manifest.version && compareVersions(manifest.version, appInfo.version) > 0);
+  } catch (error) {
+    // If update status cannot be verified, defer staged OTA activation until the next online check.
+    console.warn('APK version check unavailable; deferring live update activation:', error);
+    return true;
+  }
+}
+
 export async function initializeLiveUpdates() {
   if (!isNativeAndroid()) return;
   try {
-    const result = await LiveUpdate.ready();
-    if (result.rollback) sessionStorage.setItem('adhkar-update-rolled-back', '1');
+    if (await hasUninstalledApkUpdate()) {
+      console.info('A newer APK is available; staged OTA activation is deferred until APK installation.');
+    } else {
+      const result = await LiveUpdate.ready();
+      if (result.rollback) sessionStorage.setItem('adhkar-update-rolled-back', '1');
+    }
   } catch (error) {
     console.error('Live update readiness error:', error);
   }
