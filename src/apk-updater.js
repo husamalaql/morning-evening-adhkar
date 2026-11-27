@@ -58,7 +58,7 @@ export async function downloadAndInstallApkUpdate() {
       url: 'https://github.com/husamalaql/morning-evening-adhkar/releases/tag/v' + manifest.version
     };
   }
-  const apkUrl = manifest.apk[abi] || manifest.apk['arm64-v8a'];
+  const apkUrl = manifest.apk[abi];
   if (!apkUrl) throw new Error('لا توجد نسخة APK مناسبة لهذا الجهاز');
 
   const permission = await ApkInstaller.canInstallUnknownApps();
