@@ -122,7 +122,7 @@
     dialogBody.querySelectorAll("[data-dhikr-index]").forEach(button => {
       button.addEventListener("click", () => {
         state.index = Number(button.dataset.dhikrIndex);
-        state.explanationOpen = false;
+        state.explanationOpen = state.explanationEnabled;
         render();
         dialogBody.scrollTop = 0;
       });
@@ -537,9 +537,9 @@
       "",
       "رابط موقع الأذكار:",
       "https://adhkar-almuslim.netlify.app/"
-    ].join("\\n");
+    ].join("\n");
     const fileName = "adhkar-app-links.txt";
-    const file = new File(["\\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
+    const file = new File(["\uFEFF", messageText], fileName, { type: "text/plain;charset=utf-8" });
     const downloadFile = () => {
       const blobUrl = URL.createObjectURL(file);
       const link = document.createElement("a");
