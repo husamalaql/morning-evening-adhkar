@@ -1,20 +1,6 @@
 name: Publish Android live update bundle
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'index.html'
-      - 'script.js'
-      - 'style.css'
-      - 'data/**'
-      - 'assets/**'
-      - 'islamic-pattern-4096.svg'
-      - 'src/**'
-      - 'scripts/build.mjs'
-      - 'package.json'
-      - 'package-lock.json'
-      - '.github/workflows/live-updates.yml'
   workflow_dispatch:
 
 permissions:
