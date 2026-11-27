@@ -7,6 +7,7 @@ const ApkInstaller = registerPlugin('ApkInstaller');
 const MANIFEST_URL = 'https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/apk-update-manifest.json';
 let manifestCache = null;
 let activeManifest = null;
+let downloadInProgress = false;
 
 function isAndroidApp() {
   return Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android';
@@ -47,6 +48,9 @@ export async function checkApkUpdate({ silent = true } = {}) {
 }
 
 export async function downloadAndInstallApkUpdate() {
+  if (downloadInProgress) throw new Error('يوجد تنزيل تحديث جارٍ بالفعل');
+  downloadInProgress = true;
+  try {
   if (!isAndroidApp()) throw new Error('تحديث APK متاح على أندرويد فقط');
   const manifest = activeManifest || await getManifest(true);
   let abi;
@@ -78,7 +82,7 @@ export async function downloadAndInstallApkUpdate() {
     const progressListener = await FileTransfer.addListener('progress', event => {
       const total = Number(event.contentLength || event.total || 0);
       const received = Number(event.bytes || event.loaded || 0);
-      const percent = total > 0 ? Math.max(0, Math.min(100, received / total * 100)) : 0;
+      const percent = total > 0 ? Math.max(0, Math.min(99, received / total * 100)) : 0;
       window.updateAdhkarApkDownloadProgress?.(percent);
     });
     try {
@@ -97,6 +101,9 @@ export async function downloadAndInstallApkUpdate() {
   window.updateAdhkarApkDownloadProgress?.(100);
   await ApkInstaller.installApk({ filePath: fileInfo.uri });
   return { status: 'installer-opened', version: manifest.version };
+  } finally {
+    downloadInProgress = false;
+  }
 }
 
 export async function initializeApkUpdates() {
