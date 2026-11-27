@@ -20,51 +20,55 @@
   function showApkUpdatePrompt(update) {
     if (document.getElementById("apk-update-backdrop")) return;
     const layer = document.createElement("div");
-    layer.className = "share-dialog-backdrop";
+    layer.className = "apk-update-backdrop";
     layer.id = "apk-update-backdrop";
     layer.innerHTML =
-      '<section class="share-dialog apk-update-dialog" role="dialog" aria-modal="true" aria-labelledby="apk-update-title">' +
-        '<div class="share-message-fields apk-update-content" id="apk-update-content">' +
+      '<section class="apk-update-dialog" role="dialog" aria-modal="true" aria-labelledby="apk-update-title">' +
+        '<div class="apk-update-content" id="apk-update-content">' +
           '<h3 id="apk-update-title">يتوفر تحديث جديد للتطبيق</h3>' +
           '<p class="apk-update-version">الإصدار ' + escapeHtml(update.version) + '</p>' +
           '<p>هذا التحديث يتطلب تنزيل ملف التطبيق وتثبيته. سيتم اختيار النسخة المناسبة لجهازك تلقائياً.</p>' +
           '<p class="apk-update-status" id="apk-update-status">هل تريد تنزيل التحديث الآن؟</p>' +
         '</div>' +
-        '<div class="share-dialog-actions" id="apk-update-actions">' +
-          '<button class="share-action-button" id="apk-update-install" type="button">تحديث الآن</button>' +
-          '<button class="share-cancel-button" id="apk-update-later" type="button">لاحقاً</button>' +
+        '<div class="apk-update-actions" id="apk-update-actions">' +
+          '<button class="apk-update-install" id="apk-update-install" type="button">تحديث الآن</button>' +
+          '<button class="apk-update-later" id="apk-update-later" type="button">لاحقاً</button>' +
         '</div>' +
       '</section>';
     document.body.appendChild(layer);
     const content = document.getElementById("apk-update-content");
     const actions = document.getElementById("apk-update-actions");
     const originalContent = content.innerHTML;
-    const installButton = document.getElementById("apk-update-install");
-    const status = document.getElementById("apk-update-status");
     window.updateAdhkarApkDownloadProgress = percent => {
       const bar = document.getElementById("apk-download-progress-fill");
-      if (bar) bar.style.width = Math.max(0, Math.min(100, percent)) + "%";
+      if (!bar) return;
+      const value = Math.max(0, Math.min(100, Number(percent) || 0));
+      bar.style.width = value + "%";
+      bar.setAttribute("aria-valuenow", String(Math.round(value)));
     };
-    installButton.addEventListener("click", async () => {
-      content.innerHTML = '<div class="apk-download-progress" role="progressbar" aria-label="تقدم تنزيل التحديث"><div id="apk-download-progress-fill"></div></div>';
+    document.getElementById("apk-update-install").addEventListener("click", async () => {
+      if (layer.dataset.downloading === "true") return;
+      layer.dataset.downloading = "true";
+      layer.classList.add("is-downloading");
+      content.innerHTML = '<div class="apk-download-progress" role="progressbar" aria-label="تقدم تنزيل التحديث" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="apk-download-progress-fill"></div></div>';
       actions.hidden = true;
-      installButton.disabled = true;
       try {
         const result = await window.downloadAndInstallAdhkarApkUpdate();
-        if (result.status === "permission-required") {
+        if (result.status === "permission-required" || result.status === "manual-install-required") {
+          layer.dataset.downloading = "false";
+          layer.classList.remove("is-downloading");
           content.innerHTML = originalContent;
-          document.getElementById("apk-update-status").textContent = "اسمح للتطبيق بتثبيت التطبيقات من هذا المصدر، ثم اضغط متابعة التثبيت.";
+          const status = document.getElementById("apk-update-status");
+          const button = document.getElementById("apk-update-install");
+          if (result.status === "permission-required") {
+            status.textContent = "اسمح للتطبيق بتثبيت التطبيقات من هذا المصدر، ثم اضغط متابعة التثبيت.";
+            button.textContent = "متابعة التثبيت";
+          } else {
+            status.innerHTML = '<a href="' + escapeHtml(result.url) + '" target="_blank" rel="noopener">فتح صفحة تنزيل ملف APK</a>';
+            button.textContent = "فتح التنزيل";
+          }
           actions.hidden = false;
-          installButton.textContent = "متابعة التثبيت";
-          installButton.disabled = false;
-          return;
-        }
-        if (result.status === "manual-install-required") {
-          content.innerHTML = originalContent;
-          document.getElementById("apk-update-status").innerHTML = '<a href="' + escapeHtml(result.url) + '" target="_blank" rel="noopener">فتح صفحة تنزيل ملف APK</a>';
-          actions.hidden = false;
-          installButton.textContent = "فتح التنزيل";
-          installButton.disabled = false;
+          button.disabled = false;
           return;
         }
         if (result.status === "installer-opened") {
@@ -72,16 +76,21 @@
           delete window.updateAdhkarApkDownloadProgress;
           return;
         }
+        throw new Error("لم يكتمل إجراء تثبيت التحديث");
       } catch (error) {
         console.error("APK update installation failed:", error);
+        layer.dataset.downloading = "false";
+        layer.classList.remove("is-downloading");
         content.innerHTML = originalContent;
         document.getElementById("apk-update-status").textContent = "تعذر تنزيل التحديث. تحقق من اتصال الإنترنت ثم أعد المحاولة.";
         actions.hidden = false;
-        installButton.textContent = "إعادة المحاولة";
-        installButton.disabled = false;
+        const button = document.getElementById("apk-update-install");
+        button.textContent = "إعادة المحاولة";
+        button.disabled = false;
       }
     });
     document.getElementById("apk-update-later").addEventListener("click", () => {
+      if (layer.dataset.downloading === "true") return;
       layer.remove();
       delete window.updateAdhkarApkDownloadProgress;
     });
@@ -457,12 +466,14 @@
     });
 
     const updateButton = document.getElementById("adhkar-update-button");
+    let updateCheckInProgress = false;
     updateButton.addEventListener("click", async () => {
+      if (updateCheckInProgress) return;
+      updateCheckInProgress = true;
       updateButton.disabled = true;
       updateButton.textContent = "جارٍ البحث عن التحديث...";
       try {
-        // Offer a native APK update before applying any web-only OTA bundle.
-        // This keeps the displayed bundle version from getting ahead of the installed APK.
+        // APK has priority. Never start OTA in the same check when an APK is available.
         if (typeof window.checkAdhkarApkUpdate === "function") {
           const apkResult = await window.checkAdhkarApkUpdate({ silent: true });
           if (apkResult.status === "available") {
@@ -471,11 +482,14 @@
             return;
           }
         }
-
         if (typeof window.checkAdhkarUpdate === "function") {
           const liveResult = await window.checkAdhkarUpdate();
+          if (liveResult.status === "apk-required") {
+            updateButton.textContent = "يتوفر تحديث يتطلب التثبيت";
+            return;
+          }
           if (liveResult.status === "pending") {
-            updateButton.textContent = "جارٍ تثبيت التحديث...";
+            updateButton.textContent = "جارٍ تطبيق تحديث الواجهة...";
             await window.applyAdhkarUpdate();
             return;
           }
@@ -485,6 +499,7 @@
         console.error("Unified update check failed:", error);
         updateButton.textContent = "تعذر التحقق، حاول مرة أخرى";
       } finally {
+        updateCheckInProgress = false;
         updateButton.disabled = false;
       }
     });
