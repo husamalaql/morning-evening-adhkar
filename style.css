@@ -1281,11 +1281,15 @@ h1 span { color: var(--pink-deep); }
 .share-dialog .share-dialog-actions button:last-child { background:#f9edf2; color:#89536d; }
 
 
-/* WhatsApp continuation button uses WhatsApp green, without changing share buttons. */
-.contact-share-dialog .share-dialog-actions .share-action-button {
-  background: linear-gradient(145deg, #25d366, #128c4a);
-  color: #fff;
+/* Force WhatsApp green on the contact dialog's exact action button. */
+#contact-whatsapp-continue,
+.contact-share-dialog #contact-whatsapp-continue,
+.contact-share-dialog .share-dialog-actions #contact-whatsapp-continue {
+  background: #25d366 !important;
+  background-image: linear-gradient(145deg, #25d366, #128c4a) !important;
+  color: #fff !important;
 }
-.contact-share-dialog .share-dialog-actions .share-action-button:focus-visible {
-  outline-color: rgba(37, 211, 102, .65);
+#contact-whatsapp-continue:focus-visible {
+  outline: 2px solid rgba(37, 211, 102, .75);
+  outline-offset: 2px;
 }
