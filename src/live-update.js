@@ -78,7 +78,20 @@ async function getUpdateState() {
 
 export async function checkForUpdate() {
   if (!isNativeAndroid()) return { status: 'unsupported' };
-  const manifest = await getManifest(true);
+  const [manifest, appInfo, apkResponse] = await Promise.all([
+    getManifest(true),
+    App.getInfo(),
+    fetch(APK_MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' })
+  ]);
+  if (!apkResponse.ok) throw new Error('تعذر التحقق من إصدار APK');
+  const apkManifest = await apkResponse.json();
+  if (apkManifest.version && compareVersions(apkManifest.version, appInfo.version) > 0) {
+    return { status: 'apk-required', version: apkManifest.version };
+  }
+  // OTA versions already included in the installed APK must never be applied again.
+  if (compareVersions(manifest.version, appInfo.version) <= 0) {
+    return { status: 'current', version: appInfo.version };
+  }
   const [current, next] = await Promise.all([
     LiveUpdate.getCurrentBundle(),
     LiveUpdate.getNextBundle()
