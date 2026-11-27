@@ -11,7 +11,7 @@
   const title = document.getElementById("dialog-title");
   const symbol = document.getElementById("dialog-symbol");
   const dialogBody = document.getElementById("dialog-body");
-  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audioSourcesReady: false, audio: null, explanationOpen: false, explanationEnabled: localStorage.getItem("adhkar-explanation-enabled") !== "false", continueListening: true, notificationsEnabled: localStorage.getItem('adhkar-notifications-enabled') === 'true', morningTime: localStorage.getItem('adhkar-morning-time') || '07:00', eveningTime: localStorage.getItem('adhkar-evening-time') || '17:00' };
+  const state = { data: null, section: null, items: [], index: 0, count: 0, audioIndex: 0, audioSources: [], audioSourcesReady: false, audio: null, explanationOpen: false, explanationEnabled: localStorage.getItem("adhkar-explanation-enabled") !== "false", continueListening: true, notificationsEnabled: localStorage.getItem('adhkar-notifications-enabled') === 'true' };
 
   const toArabicNumber = (value) => String(value).replace(/\d/g, digit => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
   const formatRepeatCount = (value) => value === 2 ? "مرتان" : value === 1 ? "مرة" : `${toArabicNumber(value)} مرات`;
@@ -343,12 +343,8 @@
       </section>
       <section class="settings-card notification-settings-card" ${isAndroidApp ? "" : 'hidden style="display:none!important"'}>
         <div class="notification-settings-header">
-          <div class="settings-copy"><strong>الإشعار بوقت الأذكار</strong><span>تذكير يومي يفتح أذكار الصباح أو المساء عند النقر عليه</span></div>
+          <div class="settings-copy"><strong>الإشعار بوقت الأذكار</strong><span>تذكير يومي: أذكار الصباح 7:00 صباحاً، وأذكار المساء 5:00 عصراً</span></div>
           <label class="settings-switch" for="adhkar-notifications"><input id="adhkar-notifications" type="checkbox" ${state.notificationsEnabled ? "checked" : ""}><span class="settings-checkmark" aria-hidden="true"></span></label>
-        </div>
-        <div class="notification-times" id="notification-times" ${isAndroidApp && state.notificationsEnabled ? "" : 'hidden style="display:none!important"'}>
-          <label>وقت أذكار الصباح<input id="morning-time" type="time" value="${state.morningTime}"></label>
-          <label>وقت أذكار المساء<input id="evening-time" type="time" value="${state.eveningTime}"></label>
         </div>
       </section>
       <section class="settings-card explanation-setting-card">
@@ -368,21 +364,19 @@
     document.getElementById("contact-developer-button").addEventListener("click", openContactConfirmation);
     document.getElementById("continue-listening").addEventListener("change", event => { state.continueListening = event.target.checked; });
     const notificationToggle = document.getElementById("adhkar-notifications");
-    const timesPanel = document.getElementById("notification-times");
-    const morningInput = document.getElementById("morning-time");
-    const eveningInput = document.getElementById("evening-time");
-    async function saveNotificationSettings() {
-      state.morningTime = morningInput.value || "07:00"; state.eveningTime = eveningInput.value || "17:00";
-      localStorage.setItem("adhkar-morning-time", state.morningTime); localStorage.setItem("adhkar-evening-time", state.eveningTime);
-      if (state.notificationsEnabled) await window.configureAdhkarNotifications(true, state.morningTime, state.eveningTime);
-    }
     notificationToggle.addEventListener("change", async event => {
       const enabled = event.target.checked;
       if (enabled && typeof window.configureAdhkarNotifications !== "function") { event.target.checked = false; alert("الإشعارات متاحة في تطبيق أندرويد فقط."); return; }
       try {
-        await window.configureAdhkarNotifications(enabled, state.morningTime, state.eveningTime);
-        state.notificationsEnabled = enabled; localStorage.setItem("adhkar-notifications-enabled", String(enabled)); timesPanel.hidden = !enabled;
-      } catch (_) { event.target.checked = false; state.notificationsEnabled = false; localStorage.setItem("adhkar-notifications-enabled", "false"); alert("لم يتم تفعيل الإشعارات. تحقق من السماح للتطبيق بإرسال الإشعارات من إعدادات الهاتف."); }
+        await window.configureAdhkarNotifications(enabled);
+        state.notificationsEnabled = enabled;
+        localStorage.setItem("adhkar-notifications-enabled", String(enabled));
+      } catch (_) {
+        event.target.checked = false;
+        state.notificationsEnabled = false;
+        localStorage.setItem("adhkar-notifications-enabled", "false");
+        alert("لم يتم تفعيل الإشعارات. تحقق من السماح للتطبيق بإرسال الإشعارات من إعدادات الهاتف.");
+      }
     });
 
     const updateButton = document.getElementById("adhkar-update-button");
