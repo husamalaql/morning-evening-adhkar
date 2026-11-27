@@ -11,6 +11,8 @@ on:
       - 'data/**'
       - 'assets/**'
       - 'src/**'
+      - 'native/**'
+      - 'apk-update-manifest.json'
       - 'scripts/**'
       - 'package.json'
       - 'capacitor.config.json'
@@ -45,6 +47,58 @@ jobs:
 
       - name: Create Android project
         run: npx cap add android
+
+      - name: Configure native APK installer
+        shell: bash
+        run: |
+          set -euo pipefail
+          JAVA_DIR="android/app/src/main/java/com/husamalaql/adhkar"
+          mkdir -p "$JAVA_DIR" android/app/src/main/res/xml
+          cp native/android/ApkInstallerPlugin.java "$JAVA_DIR/ApkInstallerPlugin.java"
+          cp native/android/file_paths.xml android/app/src/main/res/xml/file_paths.xml
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          manifest = Path("android/app/src/main/AndroidManifest.xml")
+          content = manifest.read_text()
+          permission = '    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />'
+          if permission not in content:
+              content = content.replace("<application", permission + "\\n    <application", 1)
+          provider = """    <provider
+                      android:name="androidx.core.content.FileProvider"
+                      android:authorities="\${applicationId}.fileprovider"
+                      android:exported="false"
+                      android:grantUriPermissions="true">
+                      <meta-data
+                          android:name="android.support.FILE_PROVIDER_PATHS"
+                          android:resource="@xml/file_paths" />
+                  </provider>"""
+          if "androidx.core.content.FileProvider" not in content:
+              content = content.replace("    </application>", provider + "\\n    </application>", 1)
+          manifest.write_text(content)
+
+          main_activity = next(Path("android/app/src/main/java").rglob("MainActivity.java"))
+          source = main_activity.read_text()
+          if "ApkInstallerPlugin" not in source:
+              source = source.replace(
+                  "import com.getcapacitor.BridgeActivity;",
+                  "import com.getcapacitor.BridgeActivity;\\nimport android.os.Bundle;\\nimport com.husamalaql.adhkar.ApkInstallerPlugin;"
+              )
+              empty_class = re.search(r"public\\s+class\\s+MainActivity\\s+extends\\s+BridgeActivity\\s*\\{\\s*\\}", source)
+              if empty_class:
+                  replacement = """public class MainActivity extends BridgeActivity {
+              @Override
+              public void onCreate(Bundle savedInstanceState) {
+                  registerPlugin(ApkInstallerPlugin.class);
+                  super.onCreate(savedInstanceState);
+              }
+          }"""
+                  source = source[:empty_class.start()] + replacement + source[empty_class.end():]
+              else:
+                  raise SystemExit("Unexpected MainActivity template; cannot register ApkInstallerPlugin")
+              main_activity.write_text(source)
+          PY
 
       - name: Create notification status icon
         shell: bash
