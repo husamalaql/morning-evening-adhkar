@@ -43,16 +43,17 @@ jobs:
 
       - name: Package update
         run: |
+          ASSET_NAME="adhkar-live-update-${GITHUB_SHA}.zip"
           cd www
-          zip -r ../adhkar-live-update.zip .
+          zip -r "../${ASSET_NAME}" .
           cd ..
-          CHECKSUM=$(sha256sum adhkar-live-update.zip | cut -d " " -f 1)
+          CHECKSUM=$(sha256sum "${ASSET_NAME}" | cut -d " " -f 1)
           VERSION=$(node -p "require('./package.json').version")
           cat > update-manifest.json <<EOF
           {
             "bundleId": "${GITHUB_SHA}",
             "version": "${VERSION}",
-            "url": "https://github.com/husamalaql/morning-evening-adhkar/releases/download/live-updates/adhkar-live-update.zip",
+            "url": "https://github.com/husamalaql/morning-evening-adhkar/releases/download/live-updates/${ASSET_NAME}",
             "checksum": "${CHECKSUM}"
           }
           EOF
@@ -64,7 +65,7 @@ jobs:
           if ! gh release view live-updates >/dev/null 2>&1; then
             gh release create live-updates --title "أحدث تحديثات تطبيق الأذكار" --notes "حزم تحديث واجهة التطبيق."
           fi
-          gh release upload live-updates adhkar-live-update.zip --clobber
+          gh release upload live-updates "$ASSET_NAME" --clobber
 
       - name: Publish update manifest
         env:
