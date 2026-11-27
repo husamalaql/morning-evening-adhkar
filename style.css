@@ -692,3 +692,15 @@ h1 span { color: var(--pink-deep); }
   pointer-events: none;
   box-shadow: none;
 }
+
+
+.settings-copy { display:flex; flex-direction:column; gap:5px; min-width:0; }
+.settings-copy strong { color:#684657; font-size:15px; font-weight:800; }
+.settings-copy span { color:#9b7e8d; font-size:12px; line-height:1.7; }
+.notification-times { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px; }
+.notification-times[hidden] { display:none; }
+.notification-times label { display:flex; flex-direction:column; gap:7px; color:#8e6d7e; font-size:13px; font-weight:700; text-align:right; }
+.notification-times input { width:100%; min-width:0; padding:10px; color:#684657; border:1px solid #e5c2d2; border-radius:12px; background:#fff; font:inherit; direction:ltr; text-align:center; }
+.settings-contact { display:flex; align-items:center; gap:11px; margin-top:14px; padding:14px 15px; color:#8f4c6d; border:1px solid #e7bfd0; border-radius:16px; background:#fff0f6; text-decoration:none; font-size:14px; font-weight:800; }
+.contact-icon { display:grid; place-items:center; width:34px; height:34px; flex:0 0 34px; color:white; border-radius:11px; background:#25a86a; font-size:20px; }
+.contact-arrow { margin-right:auto; color:#c17b9a; font-size:20px; }
