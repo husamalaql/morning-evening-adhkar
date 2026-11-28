@@ -1,7 +1,7 @@
 {
-  "version": "1.3.44",
+  "version": "1.3.45",
   "required": true,
-  "notes": "إعادة ترتيب أذكار الصباح والمساء في مجموعتين: الآيات والسور القرآنية، ثم الأذكار والأدعية، مع الحفاظ على الأعداد والنصوص والتخريج.",
+  "notes": "إضافة آخر آيتين من سورة البقرة وأذكار «أعوذ بكلمات الله التامات» إلى أذكار الصباح بالترتيب المطلوب، مع إبقائهما ضمن أذكار المساء.",
   "apk": {
     "arm64-v8a": "https://github.com/husamalaql/morning-evening-adhkar/releases/download/v1.3.44/app-arm64-v8a-release.apk",
     "armeabi-v7a": "https://github.com/husamalaql/morning-evening-adhkar/releases/download/v1.3.44/app-armeabi-v7a-release.apk",
