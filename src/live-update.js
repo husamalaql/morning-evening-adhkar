@@ -10,9 +10,22 @@ function isNativeAndroid() {
   return Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android';
 }
 
+async function fetchWithTimeout(url, options = {}, timeoutMs = 12000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } catch (error) {
+    if (controller.signal.aborted) throw new Error('انتهت مهلة الاتصال بخادم التحديثات');
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 async function getManifest(force = false) {
   if (manifestCache && !force) return manifestCache;
-  const response = await fetch(MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' });
+  const response = await fetchWithTimeout(MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' });
   if (!response.ok) throw new Error('تعذر الاتصال بخادم التحديثات');
   const manifest = await response.json();
   if (!manifest.bundleId || !manifest.url || !manifest.checksum || !manifest.version) throw new Error('ملف التحديث غير صالح');
@@ -34,7 +47,7 @@ async function hasUninstalledApkUpdate() {
   try {
     const [appInfo, response] = await Promise.all([
       App.getInfo(),
-      fetch(APK_MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' })
+      fetchWithTimeout(APK_MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' })
     ]);
     if (!response.ok) return true;
     const manifest = await response.json();
@@ -81,7 +94,7 @@ export async function checkForUpdate() {
   const [manifest, appInfo, apkResponse] = await Promise.all([
     getManifest(true),
     App.getInfo(),
-    fetch(APK_MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' })
+    fetchWithTimeout(APK_MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' })
   ]);
   if (!apkResponse.ok) throw new Error('تعذر التحقق من إصدار APK');
   const apkManifest = await apkResponse.json();
@@ -96,7 +109,18 @@ export async function checkForUpdate() {
   // Check the active bundle before the staged bundle to avoid reinstalling an update.
   if (current.bundleId === manifest.bundleId) return { status: 'current', version: manifest.version };
   if (next.bundleId === manifest.bundleId) return { status: 'pending', bundleId: next.bundleId, version: manifest.version };
-  await LiveUpdate.downloadBundle({ url: manifest.url, bundleId: manifest.bundleId, checksum: manifest.checksum });
+  window.updateAdhkarUpdateStatus?.('جارٍ تنزيل تحديث الواجهة...');
+  let downloadTimeoutId;
+  try {
+    await Promise.race([
+      LiveUpdate.downloadBundle({ url: manifest.url, bundleId: manifest.bundleId, checksum: manifest.checksum }),
+      new Promise((_, reject) => {
+        downloadTimeoutId = setTimeout(() => reject(new Error('استغرق تنزيل تحديث الواجهة وقتاً أطول من المتوقع')), 120000);
+      })
+    ]);
+  } finally {
+    clearTimeout(downloadTimeoutId);
+  }
   await LiveUpdate.setNextBundle({ bundleId: manifest.bundleId });
   return { status: 'pending', bundleId: manifest.bundleId, version: manifest.version };
 }
