@@ -74,10 +74,8 @@
       "source": "البقرة: ٢٥٥؛ حديث الحاكم وابن حبان، وصححه الألباني في صحيح الترغيب (٦٦٢)، مع تنبيه الألباني على شذوذ زيادة التوقيت في السلسلة الصحيحة (٧/٧٤٣).",
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
-        "type": "playlist",
-        "sources": [
-          "https://everyayah.com/data/Alafasy_128kbps/002255.mp3"
-        ],
+        "type": "file",
+        "src": "assets/audio/alafasy/002255.mp3",
         "label": "تلاوة آية الكرسي – مشاري العفاسي"
       },
       "hadithGrade": "الآية قرآن قطعي الثبوت؛ أما حديث تخصيصها بالصباح والمساء فمختلف في ثبوته"
@@ -99,10 +97,10 @@
       "audio": {
         "type": "playlist",
         "sources": [
-          "https://everyayah.com/data/Alafasy_128kbps/002285.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/002286.mp3"
+          "assets/audio/alafasy/002285.mp3",
+          "assets/audio/alafasy/002286.mp3"
         ],
-        "label": "تلاوة آخر آيتين من البقرة – مشاري العفاسي"
+        "label": "آخر آيتين من البقرة – مشاري العفاسي"
       },
       "hadithGrade": "صحيح (متفق عليه)"
     },
@@ -121,13 +119,8 @@
       "source": "سورة الإخلاص: ١١٢:١–٤؛ أبو داود (٥٠٨٢)، والترمذي (٣٥٧٥)، حديث حسن صحيح.",
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
-        "type": "playlist",
-        "sources": [
-          "https://everyayah.com/data/Alafasy_128kbps/112001.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/112002.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/112003.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/112004.mp3"
-        ],
+        "type": "file",
+        "src": "assets/audio/alafasy/surah-112.mp3",
         "label": "سورة الإخلاص – مشاري العفاسي"
       },
       "hadithGrade": "حسن صحيح"
@@ -147,14 +140,8 @@
       "source": "سورة الفلق: ١١٣:١–٥؛ أبو داود (٥٠٨٢)، والترمذي (٣٥٧٥)، حديث حسن صحيح.",
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
-        "type": "playlist",
-        "sources": [
-          "https://everyayah.com/data/Alafasy_128kbps/113001.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/113002.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/113003.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/113004.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/113005.mp3"
-        ],
+        "type": "file",
+        "src": "assets/audio/alafasy/surah-113.mp3",
         "label": "سورة الفلق – مشاري العفاسي"
       },
       "hadithGrade": "حسن صحيح"
@@ -174,15 +161,8 @@
       "source": "سورة الناس: ١١٤:١–٦؛ أبو داود (٥٠٨٢)، والترمذي (٣٥٧٥)، حديث حسن صحيح.",
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
-        "type": "playlist",
-        "sources": [
-          "https://everyayah.com/data/Alafasy_128kbps/114001.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/114002.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/114003.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/114004.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/114005.mp3",
-          "https://everyayah.com/data/Alafasy_128kbps/114006.mp3"
-        ],
+        "type": "file",
+        "src": "assets/audio/alafasy/surah-114.mp3",
         "label": "سورة الناس – مشاري العفاسي"
       },
       "hadithGrade": "حسن صحيح"
@@ -203,8 +183,8 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/86.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/86.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "حسن صحيح"
     },
@@ -224,8 +204,8 @@
       "sourceUrl": "https://sh.mta.sa/adhkar/morning",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/87.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/87.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "مختلف فيه: ضعّف الألباني بعض طرقه، وحسّنه ابن باز"
     },
@@ -245,8 +225,8 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/97.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/97.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "صحيح"
     },
@@ -266,8 +246,8 @@
       "sourceUrl": "https://islamqa.info/ar/answers/217496",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/83.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/83.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "مختلف فيه: صحّح إسناده بعض المحققين، وضعّفه الألباني"
     },
@@ -286,8 +266,8 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/77.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/77.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "ضعيف عند الألباني في اللفظ الوارد؛ وحسّنه بعض المحققين"
     },
@@ -306,8 +286,8 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/81.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/81.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "مختلف فيه: ضعّفه الألباني وحسّنه ابن باز"
     },
@@ -327,8 +307,8 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/78.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/78.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -348,8 +328,8 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/79.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/79.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -368,8 +348,8 @@
       "hadithGrade": "مختلف فيه: ضعيف عند الألباني، وحسّنه ابن باز",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/80.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/80.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -389,8 +369,8 @@
       "hadithGrade": "حسن عند الألباني وابن باز",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/82.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/82.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -410,8 +390,8 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/84.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/84.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -428,7 +408,12 @@
       "virtue": "كان النبي ﷺ يكثر من هذا الدعاء؛ ولم يثبت في هذا الحديث عدد مخصوص لتكراره صباحًا أو مساءً، وأُدرج هنا في الموضع الذي طلبته ضمن الوردين.",
       "source": "صحيح البخاري (6369)، وصحيح مسلم (2706) بنحوه، من حديث أنس بن مالك رضي الله عنه.",
       "sourceUrl": "https://dorar.net/hadith/sharh/1034",
-      "hadithGrade": "صحيح"
+      "hadithGrade": "صحيح",
+      "audio": {
+        "type": "file",
+        "src": "assets/audio/hamad/121.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
+      }
     },
     {
       "id": "allahumma-alim-alghayb",
@@ -447,8 +432,8 @@
       "hadithGrade": "صحيح في أصله، مع تنبيه لاختلاف ألفاظ الروايات",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/85.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/85.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -468,8 +453,8 @@
       "hadithGrade": "صححه الحاكم والذهبي",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/88.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/88.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -488,8 +473,8 @@
       "hadithGrade": "حسّنه/صححه بعض أهل العلم، وفي درجته خلاف",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/90.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/90.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -508,8 +493,8 @@
       "hadithGrade": "مختلف فيه",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/90.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/90.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -526,7 +511,12 @@
       "virtue": "من قالها مائة مرة حين يصبح وحين يمسي لم يأت أحد يوم القيامة بأفضل مما جاء به إلا من قال مثل ذلك أو زاد عليه.",
       "source": "صحيح مسلم (2692) من حديث أبي هريرة رضي الله عنه.",
       "sourceUrl": "https://quran.tv/skr/adhkar/",
-      "hadithGrade": "صحيح"
+      "hadithGrade": "صحيح",
+      "audio": {
+        "type": "file",
+        "src": "assets/audio/hamad/91.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
+      }
     },
     {
       "id": "la-ilaha-illallah-10",
@@ -545,8 +535,8 @@
       "hadithGrade": "حسن/صحيح بمجموع طرقه عند عدد من أهل العلم",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/92.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/92.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -562,7 +552,12 @@
       "virtue": "قال النبي ﷺ إن هذه الكلمات أحب إليه مما طلعت عليه الشمس، وعلّمها لجويرية رضي الله عنها.",
       "source": "صحيح مسلم (2726) من حديث جويرية رضي الله عنها.",
       "sourceUrl": "https://quran.tv/skr/adhkar/",
-      "hadithGrade": "صحيح"
+      "hadithGrade": "صحيح",
+      "audio": {
+        "type": "file",
+        "src": "assets/audio/hamad/94.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
+      }
     },
     {
       "id": "allahumma-ilman-nafian",
@@ -580,8 +575,8 @@
       "hadithGrade": "حسن",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/95.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/95.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -598,7 +593,12 @@
       "virtue": "ثبت أن النبي ﷺ كان يستغفر الله ويتوب إليه في اليوم أكثر من سبعين مرة، وجاء في رواية مسلم مائة مرة.",
       "source": "صحيح البخاري (6307) بلفظ مائة مرة في اليوم، وصحيح مسلم (2702).",
       "sourceUrl": "https://quran.tv/skr/adhkar/",
-      "hadithGrade": "صحيح"
+      "hadithGrade": "صحيح",
+      "audio": {
+        "type": "file",
+        "src": "assets/audio/hamad/96.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
+      }
     },
     {
       "id": "salawat-10",
@@ -617,8 +617,8 @@
       "hadithGrade": "حسّنه بعض أهل العلم، وفي إسناده خلاف",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/98.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/98.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -637,8 +637,8 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/77.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/77.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -657,8 +657,8 @@
       "hadithGrade": "مختلف فيه: ضعّفه الألباني وحسّنه ابن باز",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/81.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/81.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
     {
@@ -677,8 +677,8 @@
       "hadithGrade": "مختلف فيه: ضعيف عند الألباني، وحسّنه ابن باز",
       "audio": {
         "type": "file",
-        "src": "https://www.hisnmuslim.com/audio/ar/80.mp3",
-        "label": "تسجيل الذكر – حصن المسلم"
+        "src": "assets/audio/hamad/80.mp3",
+        "label": "تسجيل الذكر – حمد الدريهم"
       }
     }
   ]
