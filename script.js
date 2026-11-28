@@ -467,6 +467,9 @@
       updateCheckInProgress = true;
       updateButton.disabled = true;
       updateButton.textContent = "جارٍ البحث عن التحديث...";
+      window.updateAdhkarUpdateStatus = message => {
+        updateButton.textContent = message;
+      };
       try {
         // APK has priority. OTA is checked only when the installed native shell is current.
         if (typeof window.checkAdhkarApkUpdate !== "function") {
@@ -494,6 +497,7 @@
       } finally {
         updateCheckInProgress = false;
         updateButton.disabled = false;
+        delete window.updateAdhkarUpdateStatus;
       }
     });
 
