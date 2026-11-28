@@ -27,7 +27,6 @@
       "subhanallah-adada-khalqih",
       "allahumma-ilman-nafian",
       "la-ilaha-illallah-10",
-      "la-ilaha-illallah-100",
       "astaghfirullah-100",
       "subhanallah-wa-bihamdih-100",
       "salawat-10"
@@ -531,21 +530,6 @@
         "src": "https://www.hisnmuslim.com/audio/ar/92.mp3",
         "label": "تسجيل الذكر – حصن المسلم"
       }
-    },
-    {
-      "id": "la-ilaha-illallah-100",
-      "title": "لا إله إلا الله وحده – مائة مرة",
-      "kind": "dua",
-      "count": 100,
-      "sections": [
-        "morning"
-      ],
-      "text": "لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ.",
-      "explanation": "تكرار كلمة التوحيد مائة مرة في اليوم، مع استحضار انفراد الله بالملك والحمد والقدرة.",
-      "virtue": "من قالها مائة مرة في يوم كُتب له مائة حسنة، ومُحيت عنه مائة سيئة، وكانت له حرزًا من الشيطان حتى يمسي، ولا يأتي أحد بأفضل مما جاء به إلا من عمل أكثر.",
-      "source": "صحيح البخاري (3293)، وصحيح مسلم (2691).",
-      "sourceUrl": "https://quran.tv/skr/adhkar/",
-      "hadithGrade": "صحيح"
     },
     {
       "id": "subhanallah-adada-khalqih",
