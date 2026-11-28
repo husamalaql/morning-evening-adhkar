@@ -77,19 +77,22 @@ export async function downloadAndInstallApkUpdate() {
   const filePath = `${directory}/${fileName}`;
   const fileInfo = await Filesystem.getUri({ directory: Directory.Data, path: filePath });
 
-  const existing = await Filesystem.stat({ directory: Directory.Data, path: filePath }).catch(() => null);
-  if (!existing?.size) {
-    const progressListener = await FileTransfer.addListener('progress', event => {
-      const total = Number(event.contentLength || event.total || 0);
-      const received = Number(event.bytes || event.loaded || 0);
-      const percent = total > 0 ? Math.max(0, Math.min(99, received / total * 100)) : 0;
-      window.updateAdhkarApkDownloadProgress?.(percent);
-    });
-    try {
-      await FileTransfer.downloadFile({ url: apkUrl, path: fileInfo.uri, progress: true });
-    } finally {
-      await progressListener.remove();
-    }
+  // Always remove a previously cached APK before downloading. Older versions
+  // reused any non-empty file with the same version name, even if it was stale.
+  await Filesystem.deleteFile({ directory: Directory.Data, path: filePath }).catch(() => {});
+  const progressListener = await FileTransfer.addListener('progress', event => {
+    const total = Number(event.contentLength || event.total || 0);
+    const received = Number(event.bytes || event.loaded || 0);
+    const percent = total > 0 ? Math.max(0, Math.min(99, received / total * 100)) : 0;
+    window.updateAdhkarApkDownloadProgress?.(percent);
+  });
+  try {
+    await FileTransfer.downloadFile({ url: apkUrl, path: fileInfo.uri, progress: true });
+  } catch (error) {
+    await Filesystem.deleteFile({ directory: Directory.Data, path: filePath }).catch(() => {});
+    throw error;
+  } finally {
+    await progressListener.remove();
   }
 
   const downloaded = await Filesystem.stat({ directory: Directory.Data, path: filePath });
