@@ -23,6 +23,7 @@
       "allahumma-alim-alghayb",
       "allahumma-afini",
       "allahumma-afw-afiyah",
+      "allahumma-ani-audhu-minal-hammi",
       "ya-hayyu-qayyum",
       "subhanallah-adada-khalqih",
       "allahumma-ilman-nafian",
@@ -49,6 +50,7 @@
       "allahumma-alim-alghayb",
       "allahumma-afini",
       "allahumma-afw-afiyah",
+      "allahumma-ani-audhu-minal-hammi",
       "ya-hayyu-qayyum",
       "la-ilaha-illallah-10",
       "astaghfirullah-100",
@@ -411,6 +413,22 @@
         "src": "https://www.hisnmuslim.com/audio/ar/84.mp3",
         "label": "تسجيل الذكر – حصن المسلم"
       }
+    },
+    {
+      "id": "allahumma-ani-audhu-minal-hammi",
+      "title": "اللهم إني أعوذ بك من الهم والحزن",
+      "kind": "dua",
+      "count": 1,
+      "sections": [
+        "morning",
+        "evening"
+      ],
+      "text": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ، وَغَلَبَةِ الرِّجَالِ.",
+      "explanation": "استعاذة بالله من الهم، وهو انشغال النفس بما يُتوقَّع من المكروه، والحزن على ما وقع في الماضي؛ ومن العجز عن فعل الخير، والكسل عن فعله مع القدرة عليه؛ ومن الجبن والبخل، ومن ثِقَل الدَّين ومشقته، ومن قهر الناس وغلبتهم. وهو دعاء جامع لطلب السلامة في النفس والعمل والمال والمعاملة.",
+      "virtue": "كان النبي ﷺ يكثر من هذا الدعاء؛ ولم يثبت في هذا الحديث عدد مخصوص لتكراره صباحًا أو مساءً، وأُدرج هنا في الموضع الذي طلبته ضمن الوردين.",
+      "source": "صحيح البخاري (6369)، وصحيح مسلم (2706) بنحوه، من حديث أنس بن مالك رضي الله عنه.",
+      "sourceUrl": "https://dorar.net/hadith/sharh/1034",
+      "hadithGrade": "صحيح"
     },
     {
       "id": "allahumma-alim-alghayb",
