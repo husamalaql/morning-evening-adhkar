@@ -5,6 +5,7 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 
 const ApkInstaller = registerPlugin('ApkInstaller');
 const MANIFEST_URL = 'https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/apk-update-manifest.json';
+const MANIFEST_TIMEOUT_MS = 12000;
 let manifestCache = null;
 let activeManifest = null;
 let downloadInProgress = false;
@@ -23,7 +24,7 @@ function compareVersions(left, right) {
   return 0;
 }
 
-async function fetchWithTimeout(url, options = {}, timeoutMs = 12000) {
+async function fetchWithTimeout(url, options = {}, timeoutMs = MANIFEST_TIMEOUT_MS) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
   try {
