@@ -23,9 +23,22 @@ function compareVersions(left, right) {
   return 0;
 }
 
+async function fetchWithTimeout(url, options = {}, timeoutMs = 12000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } catch (error) {
+    if (controller.signal.aborted) throw new Error('انتهت مهلة الاتصال بخادم التحديثات');
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 async function getManifest(force = false) {
   if (manifestCache && !force) return manifestCache;
-  const response = await fetch(MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' });
+  const response = await fetchWithTimeout(MANIFEST_URL + '?t=' + Date.now(), { cache: 'no-store' });
   if (!response.ok) throw new Error('تعذر الاتصال بخادم التحديثات');
   const manifest = await response.json();
   if (!manifest.version || !manifest.apk || !manifest.apk['arm64-v8a']) {
