@@ -18,6 +18,6 @@
 <rect width="1024" height="1024" fill="url(#glow)"/>
 <rect width="1024" height="1024" fill="url(#ornament)" opacity=".10"/>
 <rect width="1024" height="1024" fill="url(#fade)" opacity=".5"/>
-<text x="512" y="455" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Naskh Arabic, Noto Sans Arabic, Arial, sans-serif" font-size="104" font-weight="700" fill="#684657">أذكار الصباح</text>
-<text x="512" y="590" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Naskh Arabic, Noto Sans Arabic, Arial, sans-serif" font-size="104" font-weight="700" fill="#d77da2">والمساء</text>
+<text x="512" y="455" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Naskh Arabic, Noto Sans Arabic, Arial, sans-serif" font-size="144" font-weight="700" fill="#684657">أذكار الصباح</text>
+<text x="512" y="590" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-family="Noto Naskh Arabic, Noto Sans Arabic, Arial, sans-serif" font-size="144" font-weight="700" fill="#d77da2">والمساء</text>
 </svg>
