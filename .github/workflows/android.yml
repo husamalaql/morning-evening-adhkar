@@ -10,6 +10,7 @@ on:
       - 'src/main.js'
       - 'src/live-update.js'
       - 'src/apk-updater.js'
+      - 'scripts/build.mjs'
       - 'package-lock.json'
 
 permissions:

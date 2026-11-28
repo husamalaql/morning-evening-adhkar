@@ -2,6 +2,7 @@ import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { build } from 'esbuild';
 import sharp from 'sharp';
 import { fileURLToPath } from 'node:url';
+import { relative, sep } from 'node:path';
 
 // Keep the OTA publisher's bundle output deterministic across releases.
 const root = new URL('../', import.meta.url);
@@ -12,7 +13,14 @@ await mkdir(out, { recursive: true });
 
 for (const path of ['index.html', 'style.css', 'data', 'assets', 'islamic-pattern-4096.svg']) {
   try {
-    await cp(new URL(path, root), new URL(path, out), { recursive: true });
+    const options = { recursive: true };
+    if (path === 'assets') {
+      options.filter = (source) => {
+        const relativePath = relative(fileURLToPath(root), source).split(sep).join('/');
+        return relativePath !== 'assets/audio' && !relativePath.startsWith('assets/audio/');
+      };
+    }
+    await cp(new URL(path, root), new URL(path, out), options);
   } catch (error) {
     if (error.code !== 'ENOENT') throw error;
   }

@@ -2,7 +2,7 @@
   "version": 1,
   "language": "ar",
   "description": "أذكار الصباح والمساء بنصوصها وشرح معانيها وتخريجها ودرجات أحاديثها، مع تمييز الروايات المختلف فيها.",
-  "audioDirectory": "assets/audio/",
+  "audioDirectory": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/",
   "sections": {
     "morning": [
       "ayat-al-kursi",
@@ -75,7 +75,7 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "assets/audio/alafasy/002255.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/alafasy/002255.mp3",
         "label": "تلاوة آية الكرسي – مشاري العفاسي"
       },
       "hadithGrade": "الآية قرآن قطعي الثبوت؛ أما حديث تخصيصها بالصباح والمساء فمختلف في ثبوته"
@@ -97,8 +97,8 @@
       "audio": {
         "type": "playlist",
         "sources": [
-          "assets/audio/alafasy/002285.mp3",
-          "assets/audio/alafasy/002286.mp3"
+          "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/alafasy/002285.mp3",
+          "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/alafasy/002286.mp3"
         ],
         "label": "آخر آيتين من البقرة – مشاري العفاسي"
       },
@@ -120,7 +120,7 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "assets/audio/alafasy/surah-112.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/alafasy/surah-112.mp3",
         "label": "سورة الإخلاص – مشاري العفاسي"
       },
       "hadithGrade": "حسن صحيح"
@@ -141,7 +141,7 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "assets/audio/alafasy/surah-113.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/alafasy/surah-113.mp3",
         "label": "سورة الفلق – مشاري العفاسي"
       },
       "hadithGrade": "حسن صحيح"
@@ -162,7 +162,7 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "assets/audio/alafasy/surah-114.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/alafasy/surah-114.mp3",
         "label": "سورة الناس – مشاري العفاسي"
       },
       "hadithGrade": "حسن صحيح"
@@ -183,7 +183,7 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/86.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/86.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "حسن صحيح"
@@ -204,7 +204,7 @@
       "sourceUrl": "https://sh.mta.sa/adhkar/morning",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/87.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/87.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "مختلف فيه: ضعّف الألباني بعض طرقه، وحسّنه ابن باز"
@@ -225,7 +225,7 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/97.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/97.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "صحيح"
@@ -246,7 +246,7 @@
       "sourceUrl": "https://islamqa.info/ar/answers/217496",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/83.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/83.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "مختلف فيه: صحّح إسناده بعض المحققين، وضعّفه الألباني"
@@ -266,7 +266,7 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/77.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/77.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "ضعيف عند الألباني في اللفظ الوارد؛ وحسّنه بعض المحققين"
@@ -286,7 +286,7 @@
       "sourceUrl": "https://myathkar.app/ar/athkar/",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/81.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/81.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       },
       "hadithGrade": "مختلف فيه: ضعّفه الألباني وحسّنه ابن باز"
@@ -307,7 +307,7 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/78.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/78.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -328,7 +328,7 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/79.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/79.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -348,7 +348,7 @@
       "hadithGrade": "مختلف فيه: ضعيف عند الألباني، وحسّنه ابن باز",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/80.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/80.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -369,7 +369,7 @@
       "hadithGrade": "حسن عند الألباني وابن باز",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/82.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/82.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -390,7 +390,7 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/84.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/84.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -411,7 +411,7 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/121.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/121.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -432,7 +432,7 @@
       "hadithGrade": "صحيح في أصله، مع تنبيه لاختلاف ألفاظ الروايات",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/85.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/85.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -453,7 +453,7 @@
       "hadithGrade": "صححه الحاكم والذهبي",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/88.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/88.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -473,7 +473,7 @@
       "hadithGrade": "حسّنه/صححه بعض أهل العلم، وفي درجته خلاف",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/90.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/90.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -493,7 +493,7 @@
       "hadithGrade": "مختلف فيه",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/90.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/90.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -514,7 +514,7 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/91.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/91.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -535,7 +535,7 @@
       "hadithGrade": "حسن/صحيح بمجموع طرقه عند عدد من أهل العلم",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/92.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/92.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -555,7 +555,7 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/94.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/94.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -575,7 +575,7 @@
       "hadithGrade": "حسن",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/95.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/95.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -596,7 +596,7 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/96.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/96.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -617,7 +617,7 @@
       "hadithGrade": "حسّنه بعض أهل العلم، وفي إسناده خلاف",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/98.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/98.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -637,7 +637,7 @@
       "hadithGrade": "صحيح",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/89.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/89.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -657,7 +657,7 @@
       "hadithGrade": "مختلف فيه: ضعّفه الألباني وحسّنه ابن باز",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/81.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/81.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     },
@@ -677,7 +677,7 @@
       "hadithGrade": "مختلف فيه: ضعيف عند الألباني، وحسّنه ابن باز",
       "audio": {
         "type": "file",
-        "src": "assets/audio/hamad/80.mp3",
+        "src": "https://raw.githubusercontent.com/husamalaql/morning-evening-adhkar/main/assets/audio/hamad/80.mp3",
         "label": "تسجيل الذكر – حمد الدريهم"
       }
     }
